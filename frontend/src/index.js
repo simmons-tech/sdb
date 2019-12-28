@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import App from './App';
-import LoginPage from './LoginPage';
-import SignupPage from './SignupPage';
-import NoMatchPage from './NoMatchPage';
+import TodoPage from './pages/TodoPage';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import NoMatchPage from './pages/NoMatchPage';
 import * as serviceWorker from './serviceWorker';
 import { Route, Router, Switch } from 'react-router-dom';
 import { history } from './routing.js';
@@ -17,7 +17,7 @@ const routing = (
   <Router history={history}>
     <div>
       <Switch>
-        <Route exact path={ROUTES.LANDING} component={withAuthentication(App)} />
+        <Route exact path={ROUTES.LANDING} component={withAuthentication(TodoPage)} />
         <Route exact path={ROUTES.LOGIN} component={LoginPage} />
         <Route exact path={ROUTES.SIGN_UP} component={SignupPage} />
         <Route component={NoMatchPage} />

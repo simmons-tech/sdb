@@ -1,7 +1,7 @@
-import React from 'react'
-import Nav from './components/Nav';
-import axios from "./axiosInstance";
-import SignupForm from './components/SignupForm'
+import React from 'react';
+import BasePage from './BasePage';
+import axios from "../axiosInstance";
+import SignupForm from '../components/SignupForm';
 
 class SignupPage extends React.Component {
 
@@ -40,7 +40,6 @@ class SignupPage extends React.Component {
         this.saveToken(res.data.token);
       })
       .catch((e) => {
-        console.log(e);
         this.setState({
           errors: Object.values(e.response.data).reduce((a, element) => a.concat(element), [])
         });
@@ -49,11 +48,9 @@ class SignupPage extends React.Component {
 
   render() {
     return (
-      <main className="content">
-        <Nav {... this.props} />
-        <h1 className="text-white text-uppercase text-center my-4">Todo app</h1>
+      <BasePage header="Sign Up" {... this.props} >
         <SignupForm handle_signup={this.handle_signup} errors={this.state.errors} />
-      </main>
+      </BasePage>
     );
   }
 }

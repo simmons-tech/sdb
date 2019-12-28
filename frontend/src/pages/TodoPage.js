@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Nav from './components/Nav';
-import TodoList from './components/TodoList';
-import * as ROUTES from './constants/routes'
+import TodoList from '../components/TodoList';
+import BasePage from './BasePage';
+import * as ROUTES from '../constants/routes'
 
-class App extends Component {
+class TodoPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,12 +20,10 @@ class App extends Component {
 
   render() {
     return (
-      <main className="content">
-        <Nav {... this.props} />
-        <h1 className="text-white text-uppercase text-center my-4">Todo app</h1>
+      <BasePage header="Todo App" {... this.props} >
         <TodoList {... this.props} />
-      </main>
+      </BasePage>
     );
   }
 }
-export default App;
+export default TodoPage;

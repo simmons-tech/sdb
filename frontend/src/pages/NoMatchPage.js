@@ -1,8 +1,4 @@
 import React from 'react'
-import Nav from './components/Nav';
-import axios from "./axiosInstance";
-import LoginForm from './components/LoginForm';
-import * as ROUTES from './constants/routes';
 
 function NoMatchPage() {
   return (

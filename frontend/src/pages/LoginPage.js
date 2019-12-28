@@ -1,8 +1,8 @@
 import React from 'react'
-import Nav from './components/Nav';
-import axios from "./axiosInstance";
-import LoginForm from './components/LoginForm';
-import * as ROUTES from './constants/routes';
+import axios from "../axiosInstance";
+import BasePage from './BasePage';
+import LoginForm from '../components/LoginForm';
+import * as ROUTES from '../constants/routes';
 
 class LoginPage extends React.Component {
 
@@ -49,11 +49,9 @@ class LoginPage extends React.Component {
 
   render() {
     return (
-      <main className="content">
-        <Nav {... this.props} />
-        <h1 className="text-white text-uppercase text-center my-4">Todo app</h1>
+      <BasePage header="Login" {... this.props} >
         <LoginForm handle_login={this.handle_login} errors={this.state.errors} />
-      </main>
+      </BasePage>
     );
   }
 }

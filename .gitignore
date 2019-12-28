@@ -1,3 +1,6 @@
+# migrations
+backend/core/migrations/*
+
 # dependencies
 frontend/node_modules
 
