@@ -2,9 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import TodoPage from './pages/TodoPage';
+import { ThemeProvider } from "styled-components";
+import theme from "./theme.js";
+import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import SignoutPage from './pages/SignoutPage';
 import NoMatchPage from './pages/NoMatchPage';
 import * as serviceWorker from './serviceWorker';
 import { Route, Router, Switch } from 'react-router-dom';
@@ -16,12 +19,15 @@ import * as ROUTES from './constants/routes';
 const routing = (
   <Router history={history}>
     <div>
-      <Switch>
-        <Route exact path={ROUTES.LANDING} component={withAuthentication(TodoPage)} />
-        <Route exact path={ROUTES.LOGIN} component={LoginPage} />
-        <Route exact path={ROUTES.SIGN_UP} component={SignupPage} />
-        <Route component={NoMatchPage} />
-      </Switch>
+      <ThemeProvider theme={theme}>
+        <Switch>
+          <Route exact path={ROUTES.LANDING} component={withAuthentication(LandingPage)} />
+          <Route exact path={ROUTES.LOGIN} component={LoginPage} />
+          <Route exact path={ROUTES.SIGN_UP} component={SignupPage} />
+          <Route exact path={ROUTES.SIGN_OUT} component={SignoutPage} />
+          <Route component={NoMatchPage}/>
+        </Switch>
+      </ThemeProvider>
     </div>
   </Router>
 )

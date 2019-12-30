@@ -61,8 +61,8 @@ class SignupForm extends React.Component {
       <Container fluid>
         <Row>
           <Col md="6" sm="10" className="mx-auto p-0 text-white">
-            {this.props.errors.map(error => (
-              <Alert key={error} color="danger">
+            {this.props.errors.map((error, indx) => (
+              <Alert key={indx} color="danger">
                 {error}
               </Alert>
             ))}

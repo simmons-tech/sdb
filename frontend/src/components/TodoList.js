@@ -69,9 +69,9 @@ class TodoList extends Component {
     const newItems = this.state.todoList.filter(
       item => item.completed === viewCompleted
     );
-    return newItems.map(item => (
+    return newItems.map((item, indx) => (
       <ListGroupItem
-        key={item.id}
+        key={indx}
         className="d-flex justify-content-between align-items-center"
       >
         <span

@@ -1,0 +1,130 @@
+.sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  overflow-x: hidden;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  z-index: 9999;
+  transition: all 0.3s;
+  background-color: #CCCCCC;
+}
+
+/* Sidebar wrapper */
+
+#sidebar-wrapper {
+  min-height: 100vh;
+}
+
+#sidebar-wrapper.active {
+  margin-left: -250px;
+}
+
+@media (max-width: 768px) {
+  #sidebar-wrapper {
+      margin-left: -250px;
+  }
+  #sidebar-wrapper.active {
+      margin-left: 0;
+  }
+}
+
+
+/* Primary sidebar */
+
+#sidebar-primary {
+  margin-left: -250px;
+  transition: all 0.3s;
+}
+
+#sidebar-primary.active {
+  margin-left: 0;
+}
+
+.sidebar-primary-arrow {
+  position: absolute;
+  right: 20px;
+}
+
+
+/* Secondary sidebar */
+
+#sidebar-secondary {
+  margin-left: 250px;
+  transition: all 0.3s;
+}
+
+#sidebar-secondary.active {
+  margin-left: 0;
+}
+
+#sidebar-secondary > ul > li {
+  width: 100%;
+  height: 40px;
+  padding: 0px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+#sidebar-secondary > ul > li > a  {
+  padding: 8px 8px 8px 20px;
+  color: black;
+  transition: 0.1s;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+#sidebar-secondary a:hover {
+	background-color:#BBBBBB;
+}
+
+.sidebar-secondary-arrow {
+  position: absolute;
+  left: 20px;
+}
+
+/* Large Buttons */
+
+.sidebar-large-button li {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-large-button a {
+  font-size: 25px;
+  padding: 8px 8px 8px 20px;
+  color: white;
+  transition: 0.1s;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Seconday large buttons have centered text */
+#sidebar-secondary .sidebar-large-button a {
+  padding: 0px;
+  justify-content: center;
+}
+
+/* Let the div control hover cover */
+.sidebar-large-button a:hover {
+  background-color: transparent !important;
+}
+
+/* Misc */
+
+.foot {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
