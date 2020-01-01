@@ -27,3 +27,11 @@ body {
   background-color: #282c34;
   color: #ffffff;
 }
+
+.no-border {
+  border: none;
+}
+
+#topbar-title {
+  font-size: 32px;
+}

@@ -1,0 +1,72 @@
+html, body {
+	width:100%;
+	height: 100%;
+	overflow-x:hidden;
+	font-family: "Abel";
+}
+
+.noselect {
+	-webkit-user-select: none; /* Safari */        
+	user-select: none; /* Standard */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+}
+
+.nodecoration a {
+	text-decoration: none;
+}
+
+.vertical-align * {
+	display: flex;
+	align-items: center;
+}
+
+
+.top-bar {
+	display:block;
+	background-color: hsl(194, 100%, 43%, .7);
+	/*background: url("../img/windows_slice.jpg");*/
+	/*background-repeat: repeat-x;*/
+	/*background-size: 100% auto;*/
+	height:var(--sidebar-section-height);
+	line-height: 50px;
+}
+
+#openSidebar {
+	overflow: hidden;
+	white-space: nowrap;
+	display:none;
+	font-size: 25px;
+}
+
+#pageHeader {
+	display:inline;
+	justify-content: center;
+	align-items: center;
+	width:200px;
+}
+
+td {
+	height: 100%;
+}
+
+@media (max-width: 992px) {
+    #openSidebar {
+    	display: inline-block;
+    }
+
+    .col-fixed-250, #navbar-secondary {
+    	width: 0px;
+    }
+
+    .col-offset-250 {
+    	padding-left: 0px;
+    }
+
+}
+
+#main {
+	overflow-y: scroll;
+	height: calc(100% - var(--sidebar-section-height) - 20px);
+	padding-top: 20px;
+}

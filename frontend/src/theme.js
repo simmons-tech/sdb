@@ -6,6 +6,13 @@ const theme = {
     "yellow"
   ],
 
+  topbarColors: {
+    green: "#00b05d",
+    red: "#ca1c31",
+    blue: "#4cc4e3",
+    yellow: "#f2d24e"
+  },
+
   baseColors: {
     green: "#00924D",
     red: "#C41F33",

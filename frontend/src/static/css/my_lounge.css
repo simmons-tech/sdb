@@ -1,0 +1,20 @@
+#lounge-picture {
+	width:100px;
+	margin-right: 20px;
+	border: 1px solid gray;
+	border-radius: 5px;
+}
+
+#lounge-name {
+	font-size: 2rem;
+	width: 90%
+}
+
+#membersList {
+	list-style-type: circle;
+	padding-left: 25px;
+}
+
+#membersList li {
+	margin-bottom: 5px;
+}
