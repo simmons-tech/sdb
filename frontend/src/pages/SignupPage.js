@@ -12,18 +12,6 @@ class SignupPage extends React.Component {
     }
   }
 
-  componentDidMount() {
-    if (this.props.loginToken) {
-      this.props.history.push("/");
-    }
-  };
-
-  componentDidUpdate(nextProps) {
-    if (this.props.loginToken) {
-      this.props.history.push("/");
-    }
-  };
-
   saveToken = (data) => {
     localStorage.setItem('token', data);
     if (this.props.history.location.state && this.props.history.location.state.goBack) {

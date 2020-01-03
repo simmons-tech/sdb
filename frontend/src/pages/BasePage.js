@@ -50,7 +50,7 @@ class BasePage extends Component {
             <Container fluid>
               <Row>
                 <Col>
-                <h1 className="text-white text-uppercase text-center my-4">{ this.props.header }</h1>
+                <h1 className="text-uppercase text-center my-4">{ this.props.header }</h1>
               { this.props.children }
                 </Col>
               </Row>

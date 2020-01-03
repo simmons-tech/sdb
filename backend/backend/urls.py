@@ -17,16 +17,22 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from core import views
-from rest_framework_jwt.views import ObtainJSONWebToken
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 from core.serializers import CustomJWTSerializer
 
 router = routers.DefaultRouter()
 router.register(r'todos', views.TodoView, 'todo')
+router.register(r'users', views.UserList, 'user')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('token-auth/', ObtainJSONWebToken.as_view(serializer_class=CustomJWTSerializer)),
+    path('token_auth/', TokenObtainPairView.as_view()),
+    path('refresh_token/', TokenRefreshView.as_view()),
     path('current_user/', views.current_user),
-    path('users/', views.UserList.as_view())
+    # path('users/', views.UserList.as_view())
 ]
+

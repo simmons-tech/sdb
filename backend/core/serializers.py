@@ -62,7 +62,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'email',)
+        fields = ('username', 'email', 'first_name', 'last_name')
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):
@@ -79,7 +79,7 @@ class UserSerializerWithToken(serializers.ModelSerializer):
         return token
 
     def create(self, validated_data):
-        password = validated_data.pop('password', None)
+        password = validated_data.pop('password')
         instance = self.Meta.model(**validated_data)
         if password is not None:
             instance.set_password(password)
@@ -88,4 +88,14 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('token', 'username', 'password', 'email')
+        fields = ('token',
+          'first_name',
+          'last_name',
+          'year',
+          'room',
+          'resident_type',
+          'username',
+          'email',
+          'hidden',
+          'immortal'
+        )

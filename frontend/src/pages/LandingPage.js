@@ -20,7 +20,7 @@ class LandingPage extends Component {
 
   render() {
     return (
-      <BasePage color="red" header="Todo App" {... this.props} >
+      <BasePage header="Todo App" {... this.props} >
         <TodoList {... this.props} />
       </BasePage>
     );

@@ -4,57 +4,32 @@ import {
   Container,
   Row,
   Col,
-  Input,
-  FormFeedback,
   FormGroup,
   Label,
   Button
 } from "reactstrap";
 import { Formik, Form, Field } from 'formik';
+import {CustomInputForm} from '../components/CustomFormikInputs';
 import * as Yup from 'yup';
 
-const customInputForm = ({ field, form: { touched, errors }, ...props }) => (
-  <div>
-    <Input
-      invalid={!!(touched[field.name] && errors[field.name])}
-      {...field}
-      {...props} />
-    {touched[field.name] && errors[field.name] && <FormFeedback>{errors[field.name]}</FormFeedback>}
-  </div>
-);
+
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string()
     .min(2, "Too short!")
     .max(50, "Too long!")
     .required("Required"),
-  password: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
+  first_name: Yup.string()
     .required("Required"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match!')
-    .required("Required!"),
-  email: Yup.string()
-    .email("Invalid email")
+  last_name: Yup.string()
+    .required("Required"),
+  year: Yup.string()
+    .required("Required"),
+  room: Yup.string()
     .required("Required")
 });
 
 class SignupForm extends React.Component {
-  state = {
-    username: '',
-    password: ''
-  };
-
-  handle_change = e => {
-    const name = e.target.name;
-    const value = e.target.value;
-    this.setState(prevstate => {
-      const newState = { ...prevstate };
-      newState[name] = value;
-      return newState;
-    });
-  };
 
   render() {
     return (
@@ -68,31 +43,76 @@ class SignupForm extends React.Component {
             ))}
             <Formik
               initialValues={{
-                email: '',
                 username: '',
-                password: '',
-                confirmPassword: '',
+                first_name: '',
+                last_name: '',
+                year: '',
+                room: '',
+                resident_type: 'U',
+                immortal: false,
+                hidden: false
               }}
               validationSchema={SignupSchema}
               onSubmit={values => this.props.handle_signup(values)}
             >
               <Form>
-              <FormGroup>
-                  <Label for="exampleUsername">Username</Label>
-                  <Field name="username" type={'text'} component={customInputForm} />
+                <FormGroup>
+                  <Label for="username">Username</Label>
+                  <Field name="username" type={'text'} id="username" component={CustomInputForm} />
+                </FormGroup>
+                <Row form>
+                  <Col md="6">
+                    <FormGroup>
+                      <Label for="first_name">First name</Label>
+                      <Field type="text" name="first_name" id="first_name" component={CustomInputForm} />
+                    </FormGroup>
+                  </Col>
+                  <Col md="6">
+                    <FormGroup>
+                      <Label for="last_name">Last name</Label>
+                      <Field type="text" name="last_name" id="last_name" component={CustomInputForm} />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <FormGroup>
+                  <Label for="year">Year</Label>
+                  <Field name="year" type={'number'} id="year" component={CustomInputForm} />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail">Email</Label>
-                  <Field name="email" type={'email'} component={customInputForm} />
+                  <Label for="room">Room</Label>
+                  <Field name="room" type={'text'} id="room" component={CustomInputForm} />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="examplePassword">Password</Label>
-                  <Field name="password" type={'password'} component={customInputForm} />
+                  <Label for="resident_type">Resident Type</Label>
+                  <Field type="select" name="resident_type" id="resident_type" component={CustomInputForm}>
+                    <option value="AHOH">AHOH (Associate Head of House</option>
+                    <option value="GRA">GRA (Graduate Resident Advisor)</option>
+                    <option value="HOH">HOH (Head of House</option>
+                    <option value="MGR">MGR (House Manager)</option>
+                    <option value="OTHER">OTHER (Other)</option>
+                    <option value="RLA">RLA (RLA)</option>
+                    <option value="TEMP">TEMP (Temp)</option>
+                    <option value="U">U (Undergraduate)</option>
+                    <option value="VS">VS (Visiting Scholar)</option>
+                  </Field>
                 </FormGroup>
-                <FormGroup>
-                  <Label for="exampleConfirmPassword">Confirm Password</Label>
-                  <Field name="confirmPassword" type={'password'} component={customInputForm} />
-                </FormGroup>
+                <Row form>
+                  <Col md="6">
+                    <FormGroup check>
+                      <Label check for="immortal">
+                        <Field type="checkbox" name="immortal" id="immortal" component={CustomInputForm} />
+                        Immortal (rarely true)</Label>
+                    </FormGroup>
+                  </Col>
+                  <Col md="6">
+                    <FormGroup>
+                      <Label check for="hidden">
+                        <Field type="checkbox" name="hidden" id="hidden" component={CustomInputForm} /> 
+                        Hidden (rarely true)
+                      </Label>
+                    </FormGroup>
+                  </Col>
+                </Row>
                 <Button type="submit">Sign up</Button>
               </Form>
             </Formik>

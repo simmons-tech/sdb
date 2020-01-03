@@ -41,5 +41,6 @@ export const LINKS = [
     { url: ROUTES.MEDLINKS, name: "Medlinks" },
     { url: ROUTES.ADVISORS, name: "Associate Advisors" },
     { url: ROUTES.GRAS, name: "GRAs" },
+    { url: ROUTES.BULK_USER, name: "Bulk Update" },
   ]
 ]

@@ -26,15 +26,11 @@ const customInputForm = ({ field, form: { touched, errors }, ...props }) => (
 const LoginSchema = Yup.object().shape({
   password: Yup.string()
     .required("Required"),
-    username_or_email: Yup.string()
+  username: Yup.string()
     .required("Required")
 });
 
 class LoginForm extends React.Component {
-  state = {
-    username: '',
-    password: ''
-  };
 
   handle_change = e => {
     const name = e.target.name;
@@ -58,7 +54,7 @@ class LoginForm extends React.Component {
             ))}
             <Formik
               initialValues={{
-                username_or_email: '',
+                username: '',
                 password: '',
               }}
               validationSchema={LoginSchema}
@@ -66,8 +62,8 @@ class LoginForm extends React.Component {
             >
               <Form>
                 <FormGroup>
-                  <Label for="exampleEmail">Username or Email</Label>
-                  <Field name="username_or_email" type={''} component={customInputForm} />
+                  <Label for="username">Username or Email</Label>
+                  <Field name="username" type={''} component={customInputForm} />
                 </FormGroup>
                 <FormGroup>
                   <Label for="examplePassword">Password</Label>

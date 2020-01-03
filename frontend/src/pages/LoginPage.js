@@ -28,7 +28,8 @@ class LoginPage extends React.Component {
   };
 
   saveToken = (data) => {
-    localStorage.setItem('token', data);
+    localStorage.setItem('token', data.access);
+    localStorage.setItem('refresh_token', data.refresh)
     if (this.props.history.location.state && this.props.history.location.state.goBack) {
       this.props.history.goBack();
     } else {
@@ -38,9 +39,9 @@ class LoginPage extends React.Component {
 
   handle_login = (data) => {
     axios
-      .post('/token-auth/', data)
+      .post('/token_auth/', data)
       .then(res => {
-        this.saveToken(res.data.token);
+        this.saveToken(res.data);
       })
       .catch((e) => {
         this.setState({
