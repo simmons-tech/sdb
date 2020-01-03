@@ -70,7 +70,6 @@ class Sidebar extends React.Component {
 
   render() {
     const secondaryIndex = this.state.secondaryIndex;
-
     return (
       <div ref={this.setWrapperRef} id="sidebar-wrapper" className={`sidebar ${this.props.open ? "" : "active"}`}>
         <SidebarPrimary
@@ -82,7 +81,7 @@ class Sidebar extends React.Component {
           color={this.props.theme.sidebarColorsOrder[secondaryIndex]}
           header={CATEGORIES[secondaryIndex]}
           open={!this.state.primaryOpen}
-          items={LINKS[secondaryIndex]}
+          items={LINKS[secondaryIndex].filter(item => !item.hidden && (!item.adminOnly || item.adminOnly === this.props.isAdmin))}
           logged_in={this.props.loginToken ? true : false}
         />
       </div>

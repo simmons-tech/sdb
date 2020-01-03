@@ -92,10 +92,13 @@ class DirectoryAutocomplete extends Component {
   render() {
     const inputProps = {
       onChange: this.onChange,
-      value: this.props.value
+      onBlur: this.props.onBlur,
+      value: this.props.value,
+      invalid: this.props.invalid
     }
     return(
-      <Autosuggest 
+      <Autosuggest
+          className="is-invalid" 
           suggestions={this.state.suggestions}
           onSuggestionSelected={this.onSuggestionSelected}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -103,10 +106,9 @@ class DirectoryAutocomplete extends Component {
           getSuggestionValue={getSuggestionValue}
           renderSuggestion={renderSuggestion}
           inputProps={inputProps}
-          // onChange={this.onChange}
           renderInputComponent = {
             inputProps => (
-              <Input onChange={this.onChange} type="text" id="directory-autocomplete" {...inputProps}/>
+              <Input onChange={this.onChange} type="text" name={this.props.name} {...inputProps}/>
             )
           } 
           renderSuggestionsContainer = {

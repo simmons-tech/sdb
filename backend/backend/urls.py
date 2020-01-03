@@ -21,7 +21,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from core.serializers import CustomJWTSerializer
+from core.serializers import MyTokenObtainPairView
 
 router = routers.DefaultRouter()
 router.register(r'todos', views.TodoView, 'todo')
@@ -30,7 +30,7 @@ router.register(r'users', views.UserList, 'user')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('token_auth/', TokenObtainPairView.as_view()),
+    path('token_auth/', MyTokenObtainPairView.as_view()),
     path('refresh_token/', TokenRefreshView.as_view()),
     path('current_user/', views.current_user),
     # path('users/', views.UserList.as_view())

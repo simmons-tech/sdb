@@ -8,7 +8,7 @@ export function CustomDirectoryAutocomplete({ field, form: { touched, errors }, 
       invalid={!!(touched[field.name] && errors[field.name])}
       {...field}
       {...props} />
-    {touched[field.name] && errors[field.name] && <FormFeedback>{errors[field.name]}</FormFeedback>}
+    {touched[field.name] && errors[field.name] && <FormFeedback style={{display: "block"}}>{errors[field.name]}</FormFeedback>}
   </div>)
 }
 

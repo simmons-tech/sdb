@@ -40,7 +40,7 @@ export const LINKS = [
     { url: ROUTES.OFFICERS, name: "Student Officers" },
     { url: ROUTES.MEDLINKS, name: "Medlinks" },
     { url: ROUTES.ADVISORS, name: "Associate Advisors" },
-    { url: ROUTES.GRAS, name: "GRAs" },
-    { url: ROUTES.BULK_USER, name: "Bulk Update" },
+    { url: ROUTES.GRAS, name: "GRAs"},
+    { url: ROUTES.BULK_USER, name: "Bulk Update", adminOnly: true},
   ]
 ]
