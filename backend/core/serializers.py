@@ -9,34 +9,29 @@ from .models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
   @classmethod
   def get_token(cls, user):
-    print(user.username)
     token = super().get_token(user)
-
-    # Add custom claims
+    token['user'] = UserSerializer(user).data
     token['username'] = user.username
-
-    # TODO: fix this
-    token['is_admin'] = True
-
     return token
 
-
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
-
-class TodoSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = Todo
-    fields = ('id', 'title', 'description', 'completed')
-
 class UserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'first_name', 'last_name')
+  """
+  All information that can be returned to a user upon login and in
+  searches for other users. Assume that all this information can be
+  revealed publicly with no security risks.
+  """
+  class Meta:
+      model = User
+      fields = (
+        'username', 
+        'email', 
+        'first_name', 
+        'last_name',
+        'pk'
+        )
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):
@@ -73,3 +68,23 @@ class UserSerializerWithToken(serializers.ModelSerializer):
           'hidden',
           'immortal'
         )
+
+class DetailedUserSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = (
+      'first_name',
+      'last_name',
+      'title',
+      'year',
+      'room',
+      'home_city',
+      'state',
+      'country',
+      'quote',
+      'favorite_category',
+      'favorite_item',
+      'resident_type',
+      'homepage',
+      'cell_phone'
+    )

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import {
   Nav,
   NavItem,
@@ -10,13 +10,21 @@ import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import * as ROUTES from '../../constants/routes';
 
 export default function SidebarSecondary(props) {
+
   const loginLink = <NavItem>
     <NavLink href={ROUTES.LOGIN}>Login</NavLink>
   </NavItem>
 
-  const signoutLink = <NavItem>
-    <NavLink href={ROUTES.SIGN_OUT}>Sign out</NavLink>
-  </NavItem>
+  const signoutLink = <Fragment>
+      <NavItem>
+        <NavLink href="">
+          Logged in as {props.user && props.user.username}
+        </NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href={ROUTES.SIGN_OUT}>Sign out</NavLink>
+      </NavItem>
+    </Fragment>
 
   return (
     <div id="sidebar-secondary" className={`sidebar ${props.open ? "active" : ""}`}>
@@ -39,7 +47,7 @@ export default function SidebarSecondary(props) {
         }
       </Nav>
       <Nav className="foot">
-        {props.logged_in ? signoutLink : loginLink}
+        {props.user ? signoutLink : loginLink}
       </Nav>
     </div>
   );

@@ -32,16 +32,6 @@ const LoginSchema = Yup.object().shape({
 
 class LoginForm extends React.Component {
 
-  handle_change = e => {
-    const name = e.target.name;
-    const value = e.target.value;
-    this.setState(prevstate => {
-      const newState = { ...prevstate };
-      newState[name] = value;
-      return newState;
-    });
-  };
-
   render() {
     return (
       <Container fluid>

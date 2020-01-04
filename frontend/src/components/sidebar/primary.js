@@ -49,6 +49,17 @@ function SidebarPrimary(props) {
             </NavLink>
           </NavItem>
         </PrimaryButton>
+        { props.isAdmin &&
+          <PrimaryButton color={props.theme.sidebarColorsOrder[4]}>
+          <NavItem>
+            <NavLink onClick={(e) => props.onClick(e, 4)} href="#">
+              {props.headers[4]} <FontAwesomeIcon
+                className="sidebar-primary-arrow"
+                icon={faArrowCircleRight} />
+            </NavLink>
+          </NavItem>
+        </PrimaryButton>
+        }
       </Nav>
     </div>
   );

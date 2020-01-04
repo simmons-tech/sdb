@@ -4,7 +4,8 @@ export const CATEGORIES = [
   "Home",
   "House Gov",
   "Lounges",
-  "Directories"
+  "Directories",
+  "Admin"
 ]
 
 export const LINKS = [
@@ -20,6 +21,7 @@ export const LINKS = [
     { url: ROUTES.MOVIES, name: "Desk Movies List" },
     { url: ROUTES.LIBRARY, name: "Library Catalog" },
     { url: ROUTES.ABOUT, name: "About the DB" },
+    { url: ROUTES.LOGIN, name: "Login", hidden: true },
   ],
   [
     { url: ROUTES.HOUSE_FINANCES, name: "House Finances" },
@@ -42,5 +44,8 @@ export const LINKS = [
     { url: ROUTES.ADVISORS, name: "Associate Advisors" },
     { url: ROUTES.GRAS, name: "GRAs"},
     { url: ROUTES.BULK_USER, name: "Bulk Update", adminOnly: true},
+  ],
+  [
+    { url: ROUTES.IMPERSONATE, name: "Impersonate", adminOnly: true},
   ]
 ]

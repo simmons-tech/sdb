@@ -48,6 +48,13 @@ class User(AbstractUser):
 
   REQUIRED_FIELDS  = ['year', 'first_name', 'last_name']
 
+class HighlightedUser(models.Model):
+  """
+  The 15 Seconds of Fame resident to show on the home page. There
+  should only ever be one instance of this model.
+  """
+  user = models.ForeignKey(User,
+                              on_delete=models.CASCADE)
 
 class Todo(models.Model):
   title = models.CharField(max_length=120)

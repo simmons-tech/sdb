@@ -75,14 +75,16 @@ class Sidebar extends React.Component {
         <SidebarPrimary
           headers={CATEGORIES}
           onClick={this.openSecondary}
-          open={this.state.primaryOpen} />
+          open={this.state.primaryOpen}
+          isAdmin={this.props.isAdmin} />
         <SidebarSecondary
           onClick={this.openPrimary}
           color={this.props.theme.sidebarColorsOrder[secondaryIndex]}
           header={CATEGORIES[secondaryIndex]}
           open={!this.state.primaryOpen}
           items={LINKS[secondaryIndex].filter(item => !item.hidden && (!item.adminOnly || item.adminOnly === this.props.isAdmin))}
-          logged_in={this.props.loginToken ? true : false}
+          user={this.props.user}
+          isAdmin={true}
         />
       </div>
     );

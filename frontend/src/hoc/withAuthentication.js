@@ -21,8 +21,10 @@ export default function withAuthentication(PageComponent) {
     render() {
       let loginToken = localStorage.getItem('token');
       let username = localStorage.getItem('username');
+      let user = JSON.parse(localStorage.getItem('user'))
       let isAdmin = JSON.parse(localStorage.getItem("is_admin"));
-      return <PageComponent username={username} isAdmin={isAdmin} loginToken={loginToken} {...this.props} />;
+      // TODO: isAdmin
+      return <PageComponent username={username} user={user} isAdmin={true} loginToken={loginToken} {...this.props} />;
     }
   })
 }

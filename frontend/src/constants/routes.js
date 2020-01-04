@@ -37,3 +37,6 @@ export const MEDLINKS = '/directories/medlinks'
 export const ADVISORS = '/directories/advisors'
 export const GRAS = '/directories/gras'
 export const BULK_USER = '/directories/bulkusers'
+
+// Admin links
+export const IMPERSONATE = '/admin/impersonate'

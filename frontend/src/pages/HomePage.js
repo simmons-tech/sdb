@@ -1,53 +1,59 @@
 import React, { Component } from "react";
 import BasePage from './BasePage';
-import {FormGroup, Label, Button} from "reactstrap"
-import { Formik, Form, Field } from 'formik';
-import {CustomDirectoryAutocomplete} from '../components/CustomFormikInputs';
-import * as Yup from 'yup';
+import {Card, CardBody, CardTitle, CardText} from "reactstrap"
+import axios from '../axiosInstance';
 
-class LandingPage extends Component {
+const withHttp = url => !/^https?:\/\//i.test(url) ? `http://${url}` : url;
 
-  onSubmit = (values) => {
-    console.log(values)
+class HomePage extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {loading: true}
+  }
+
+  componentDidMount() {
+    axios
+      .get("/api/fame/")
+      .then(res => {
+        this.setState({ loading: false, user: res.data})
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
-    const Schema = Yup.object().shape({
-      kerb: Yup.string()
-        .min(2, "Too short!")
-        .required("Required"),
-      kerb2: Yup.string()
-        .min(2, "Too short!")
-        .required("Required")
-    });
-
-
+    let user = this.state.user
     return (
-      <BasePage header="Home" {... this.props} >
-        <Formik
-          initialValues={{
-            kerb: '',
-            kerb2: '',
-          }}
-          onSubmit={this.onSubmit}
-          validationSchema={Schema}
-        >
-          <Form>
-              <FormGroup>
-                <Label for="kerb">Username or Email</Label>
-                <Field name="kerb" id="kerb" component={CustomDirectoryAutocomplete} />
-                {/* <DirectoryAutocomplete value={this.state.value} onChange={this.onChange}/> */}
-              </FormGroup>
-              <FormGroup>
-                <Label for="kerb2">Username or Email</Label>
-                <Field name="kerb2" id="kerb2" component={CustomDirectoryAutocomplete} />
-                {/* <DirectoryAutocomplete value={this.state.value} onChange={this.onChange}/> */}
-              </FormGroup>
-              <Button type="submit">Submit</Button>
-            </Form>
-        </Formik>
+      <BasePage loading={this.state.loading} header="15 Seconds Of Fame" {... this.props} >
+        { user &&
+          <Card>
+            <CardBody>
+              <CardTitle className="h2 text-center">
+                {user.title} {user.first_name} {user.last_name}
+                {
+                  user.resident_type !== 'U' && <span><br /> {user.resident_type}</span>
+                }
+              </CardTitle>
+              <hr />
+              <CardText>
+                {user.year && <span>Year: {user.year}<br /></span> }
+                {(user.home_city || user.state || user.country) && <span>Hometown: {user.home_city && user.home_city + ","} {user.state && user.state} {user.country}<br /></span> }
+                {user.homepage && <span>URL: <a href={withHttp(user.homepage)}>{user.homepage}</a><br /></span> }
+                Favorite {user.favorite_category}: {user.favorite_item}
+              </CardText>
+              {
+                user.quote && <div>
+                  <hr />
+                  <CardText>
+                    "{user.quote}"
+                  </CardText>
+                </div>
+              }
+            </CardBody>
+          </Card>
+        }
       </BasePage>
     );
   }
 }
-export default LandingPage;
+export default HomePage;

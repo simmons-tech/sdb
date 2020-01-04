@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'core',
+    "django_cron",
 ]
 
 MIDDLEWARE = [
@@ -149,3 +150,5 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 AUTH_USER_MODEL = 'core.User'
+
+CRON_CLASSES = []
