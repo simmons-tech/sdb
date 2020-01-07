@@ -23,4 +23,4 @@ frontend/yarn-error.log*
 
 # DB
 backend/db.sqlite3
-backenddb_backup.sqlite3
+backend/db_backup.sqlite3
