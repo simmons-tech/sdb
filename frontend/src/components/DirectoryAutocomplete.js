@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {Input} from "reactstrap"
 import Autosuggest from 'react-autosuggest';
-import { connect } from 'formik';
 import axios from "../axiosInstance";
 import './common.css'
 
@@ -63,7 +62,7 @@ class DirectoryAutocomplete extends Component {
     
     this.lastRequestId = setTimeout(() => {
       this.queryEndpoint(value)
-    }, 300);
+    }, 1);
   }
 
     
@@ -78,21 +77,21 @@ class DirectoryAutocomplete extends Component {
     };
 
   onChange = (e, data) => {
-    const { name, formik: { setFieldValue } } = this.props;
-    setFieldValue(name, data.newValue)
-    this.props.onChange(e)
+    e.preventDefault()
+    e.target.value = data.newValue
+    const { name, formik } = this.props;
+    if (formik) {
+      formik.setFieldValue(name, data.newValue)
+    }
+    this.props.onChange(data.newValue)
   }
 
   onSuggestionSelected = (e, data) => {
-    e.preventDefault()
-    const { name, formik: { setFieldValue } } = this.props;
-    setFieldValue(name, data.suggestionValue)
-    this.props.onChange(data.suggestionValue)
+    e.preventDefault();
   }
   render() {
     const inputProps = {
       onChange: this.onChange,
-      onBlur: this.props.onBlur,
       value: this.props.value,
       invalid: this.props.invalid
     }
@@ -108,7 +107,7 @@ class DirectoryAutocomplete extends Component {
           inputProps={inputProps}
           renderInputComponent = {
             inputProps => (
-              <Input onChange={this.onChange} type="text" name={this.props.name} {...inputProps}/>
+              <Input type="text" name={this.props.name} {...inputProps}/>
             )
           } 
           renderSuggestionsContainer = {
@@ -124,4 +123,4 @@ class DirectoryAutocomplete extends Component {
   }
 }
 
-export default connect(DirectoryAutocomplete)
+export default DirectoryAutocomplete

@@ -3,7 +3,6 @@ import {
   Row,
   Col,
   Container,
-  Spinner
 } from "reactstrap"
 import Sidebar from '../components/sidebar/Sidebar';
 import Topbar from '../components/Topbar';
@@ -11,14 +10,8 @@ import './BasePage.css';
 import { withRouter } from 'react-router-dom';
 import { LINKS } from "../constants/nav";
 import {withTheme} from 'styled-components';
+import LoadingSpinner from "../components/LoadingSpinner"
 
-function renderSpinner(color) {
-  return (
-    <div className="d-flex justify-content-center align-items-center" style={{height: "100%"}}>
-      <Spinner style={{ color:color, width: '5rem', height: '5rem' }} />
-    </div>
-  )
-}
 class BasePage extends Component {
 
   constructor(props) {
@@ -30,7 +23,6 @@ class BasePage extends Component {
   
 
   toggleSidebar = () => {
-    console.log("toggle")
     this.setState({displaySidebar: !this.state.displaySidebar})
   }
 
@@ -70,7 +62,7 @@ class BasePage extends Component {
                 <Col>
                   <h1 className="text-uppercase text-center my-4">{ this.props.header }</h1>
                   {
-                    this.props.loading ? renderSpinner(spinnerColor) : this.props.children
+                    this.props.loading ? <LoadingSpinner color={spinnerColor} /> : this.props.children
                   }
                 </Col>
               </Row>

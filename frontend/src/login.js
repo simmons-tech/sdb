@@ -12,9 +12,11 @@ function parseJwt(token) {
 
 export default function saveToken(data, history) {
   let payload = parseJwt(data.access)
+  console.log(payload)
   localStorage.setItem('token', data.access);
   localStorage.setItem('refresh_token', data.refresh)
   localStorage.setItem('user', JSON.stringify(payload.user))
+  localStorage.setItem('is_admin', payload.is_admin)
   if (history.location.state && history.location.state.goBack) {
     history.goBack();
   } else {

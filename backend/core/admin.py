@@ -7,4 +7,6 @@ class TodoAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Todo, TodoAdmin)
 admin.site.register(User)
-admin.site.register(HighlightedUser)
+admin.site.register(Medlink)
+admin.site.register(Admin)
+admin.site.register(Officer)

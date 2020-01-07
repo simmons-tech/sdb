@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import BasePage from './BasePage';
-import { CustomDirectoryAutocomplete } from '../components/CustomFormikInputs'
-import axios from '../axiosInstance';
+import BasePage from '../BasePage';
+import { CustomDirectoryAutocomplete } from '../../components/CustomFormikInputs'
+import axios from '../../axiosInstance';
 import { Formik, Form, Field } from 'formik';
 import { FormGroup, Label, Button } from "reactstrap"
-import saveToken from '../login';
+import saveToken from '../../login';
 import * as Yup from 'yup';
 
 
@@ -37,7 +37,7 @@ class ImpersonatePage extends Component {
     });
 
     return (
-      <BasePage loading={this.state.loading} header="15 Seconds Of Fame" {... this.props} >
+      <BasePage loading={this.state.loading} header="" {... this.props} >
         <Formik
           initialValues={{
             kerb: '',

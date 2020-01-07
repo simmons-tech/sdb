@@ -3,9 +3,8 @@ from rest_framework_jwt.serializers import JSONWebTokenSerializer
 from rest_framework import serializers
 from django.contrib.auth import authenticate, get_user_model
 from django.utils.translation import ugettext as _
-from .models import Todo
 from rest_framework_jwt.settings import api_settings
-from .models import User
+from .models import User, Admin, Officer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -14,7 +13,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
   def get_token(cls, user):
     token = super().get_token(user)
     token['user'] = UserSerializer(user).data
-    token['username'] = user.username
+    token['is_admin'] = Admin.objects.filter(user = user).exists()
+
     return token
 
 class UserSerializer(serializers.ModelSerializer):
@@ -30,9 +30,29 @@ class UserSerializer(serializers.ModelSerializer):
         'email', 
         'first_name', 
         'last_name',
+        'display_name',
+        'title',
+        'room',
+        'year',
         'pk'
         )
 
+class OfficerSerializer(serializers.ModelSerializer):
+  username = serializers.CharField(source='user.username', read_only=True)
+  display_name = serializers.CharField(source='user.display_name', read_only=True)
+  room = serializers.CharField(source='user.room', read_only=True)
+  email = serializers.EmailField(source='user.email', read_only=True)
+
+  class Meta:
+    model = Officer
+    fields = (
+      'username',
+      'email',
+      'display_name',
+      'title',
+      'position',
+      'room',
+    )
 
 class UserSerializerWithToken(serializers.ModelSerializer):
 

@@ -23,7 +23,7 @@ class SignupPage extends React.Component {
 
   handle_signup = (data) => {
     axios
-      .post('/users/', data)
+      .post('/api/users/', data)
       .then(res => {
         this.saveToken(res.data.token);
       })
@@ -36,7 +36,7 @@ class SignupPage extends React.Component {
 
   render() {
     return (
-      <BasePage header="Sign Up" {... this.props} >
+      <BasePage header="" {... this.props} >
         <SignupForm handle_signup={this.handle_signup} errors={this.state.errors} />
       </BasePage>
     );

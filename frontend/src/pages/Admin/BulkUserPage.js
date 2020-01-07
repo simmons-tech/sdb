@@ -1,6 +1,6 @@
 import React from 'react';
-import BasePage from './BasePage';
-import axios from "../axiosInstance";
+import BasePage from '../BasePage';
+import axios from "../../axiosInstance";
 import { Alert, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 class SignupPage extends React.Component {
@@ -9,7 +9,8 @@ class SignupPage extends React.Component {
     super(props)
     this.state = {
       file: null,
-      errors: []
+      errors: [],
+      text: ""
     }
   }
 
@@ -20,13 +21,14 @@ class SignupPage extends React.Component {
 
   handleUpload = (e, data) => {
     e.preventDefault()
+    this.setState({text: "Saving..."})
     let formData = new FormData();
     formData.append("user_csv", this.state.file)
 
     axios
       .post('/api/users/csv_upload/', formData)
       .then(res => {
-        console.log("Uploaded")
+        this.setState({text: "Saved"})
       })
       .catch((e) => {
         console.log(e)
@@ -38,12 +40,41 @@ class SignupPage extends React.Component {
 
   render() {
     return (
-      <BasePage header="Bulk User Create" {... this.props} >
+      <BasePage header="" {... this.props} >
         {this.state.errors.map((error, indx) => (
               <Alert key={indx} color="danger">
                 {error}
               </Alert>
             ))}
+        <p>Use this form to bulk upload/create residents. Provide a CSV file with the following fields:</p>
+        <ul>
+          <li>username</li>
+          <li>firstname</li>
+          <li>lastname</li>
+          <li>year</li>
+          <li>room</li>
+          <li>email</li>
+          <li>type</li>
+        </ul>
+        <p>where type is one of</p>
+        <ul>
+          <li>AHOH</li>
+          <li>GRA</li>
+          <li>HOH</li>
+          <li>MGR</li>
+          <li>OTHER</li>
+          <li>RLA</li>
+          <li>TEMP</li>
+          <li>U</li>
+          <li>VS</li>
+        </ul>
+        <p>
+          If a username already exists on the DB, their information will be updated. 
+          Otherwise, a new account will be created for them, which they can log into with an MIT
+          certificate.
+          <br />
+          If no email is specified, a default email of "username@mit.edu" will be used.
+        </p>
         <Form onSubmit={this.handleUpload}>
           <FormGroup>
           <Label for="user_csv">File</Label>
@@ -53,7 +84,7 @@ class SignupPage extends React.Component {
             It's a bit lighter and easily wraps to a new line.
           </FormText>
         </FormGroup>
-        <Button type="submit">Upload</Button>
+        <Button type="submit">Upload</Button> {this.state.text}
         </Form>
       </BasePage>
     );

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import BasePage from './BasePage';
+import BasePage from '../BasePage';
 import {Input, Col} from "reactstrap"
 import { Formik, Form, Field } from 'formik';
-import {CustomInputForm} from '../components/CustomFormikInputs'
+import {CustomInputForm} from '../../components/CustomFormikInputs'
 import { FormGroup, Label, Button } from "reactstrap"
-import axios from '../axiosInstance';
+import axios from '../../axiosInstance';
 
 
 class ProfilePage extends Component {
@@ -39,7 +39,7 @@ class ProfilePage extends Component {
   render() {
     let data = this.state.data
     return (
-      <BasePage loading={this.state.loading} header="15 Seconds Of Fame" {... this.props} >
+      <BasePage loading={this.state.loading} header="" {... this.props} >
         { data &&
           <Formik
           initialValues={{

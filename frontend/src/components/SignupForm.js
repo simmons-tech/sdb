@@ -19,14 +19,15 @@ const SignupSchema = Yup.object().shape({
     .min(2, "Too short!")
     .max(50, "Too long!")
     .required("Required"),
+  email: Yup.string()
+    .email("Not a valid email!")
+    .required("Required"),
   first_name: Yup.string()
     .required("Required"),
   last_name: Yup.string()
     .required("Required"),
-  year: Yup.string()
-    .required("Required"),
-  room: Yup.string()
-    .required("Required")
+  year: Yup.string(),
+  room: Yup.string(),
 });
 
 class SignupForm extends React.Component {
@@ -35,7 +36,7 @@ class SignupForm extends React.Component {
     return (
       <Container fluid>
         <Row>
-          <Col md="6" sm="10" className="mx-auto p-0 text-white">
+          <Col md="6" sm="10" className="mx-auto p-0">
             {this.props.errors.map((error, indx) => (
               <Alert key={indx} color="danger">
                 {error}
@@ -44,6 +45,7 @@ class SignupForm extends React.Component {
             <Formik
               initialValues={{
                 username: '',
+                email: '',
                 first_name: '',
                 last_name: '',
                 year: '',
@@ -60,6 +62,10 @@ class SignupForm extends React.Component {
                   <Label for="username">Username</Label>
                   <Field name="username" type={'text'} id="username" component={CustomInputForm} />
                 </FormGroup>
+                <FormGroup>
+                  <Label for="email">Email</Label>
+                  <Field name="email" type={'text'} id="email" component={CustomInputForm} />
+                </FormGroup>
                 <Row form>
                   <Col md="6">
                     <FormGroup>
@@ -75,11 +81,11 @@ class SignupForm extends React.Component {
                   </Col>
                 </Row>
                 <FormGroup>
-                  <Label for="year">Year</Label>
+                  <Label for="year">Year*</Label>
                   <Field name="year" type={'number'} id="year" component={CustomInputForm} />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="room">Room</Label>
+                  <Label for="room">Room*</Label>
                   <Field name="room" type={'text'} id="room" component={CustomInputForm} />
                 </FormGroup>
                 <FormGroup>

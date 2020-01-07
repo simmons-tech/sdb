@@ -24,6 +24,11 @@ from rest_framework_simplejwt.views import (
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserList, 'user')
+router.register(r'medlinks', views.Medlinks, 'medlinks')
+router.register(r'associateadvisors', views.AssociateAdvisors, 'associateadvisors')
+router.register(r'residentpeermentors', views.ResidentPeerMentors, 'residentpeermentors')
+router.register(r'pleasureeducators', views.PleasureEducators, 'pleasureeducators')
+router.register(r'officers', views.Officers, 'officers')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

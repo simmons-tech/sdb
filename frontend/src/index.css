@@ -1,3 +1,7 @@
+html, body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -7,6 +11,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #d8d8d8;
+}
+
+.content {
 }
 
 
@@ -34,4 +41,8 @@ body {
 
 #topbar-title {
   font-size: 32px;
+}
+
+.input-group-autocomplete {
+  min-width: 75%;
 }

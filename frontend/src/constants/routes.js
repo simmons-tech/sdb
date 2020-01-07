@@ -1,5 +1,4 @@
 export const LANDING = '/'
-export const SIGN_UP = '/signup'
 export const SIGN_OUT = '/signout'
 export const LOGIN = '/login'
 
@@ -35,8 +34,13 @@ export const RESIDENT_DIRECTORY = '/directories/residents'
 export const OFFICERS = '/directories/officers'
 export const MEDLINKS = '/directories/medlinks'
 export const ADVISORS = '/directories/advisors'
+export const MENTORS = '/directories/residentpeermentors'
+export const PLEASURE = '/directories/pleasureeducators'
 export const GRAS = '/directories/gras'
-export const BULK_USER = '/directories/bulkusers'
 
 // Admin links
 export const IMPERSONATE = '/admin/impersonate'
+export const EDIT_GROUPS = '/admin/editgroups'
+export const EDIT_OFFICERS = '/admin/editofficers'
+export const SIGN_UP = '/admin/adduser'
+export const BULK_USER = '/admin/bulkusers'

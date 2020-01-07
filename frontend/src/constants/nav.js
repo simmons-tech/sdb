@@ -42,10 +42,15 @@ export const LINKS = [
     { url: ROUTES.OFFICERS, name: "Student Officers" },
     { url: ROUTES.MEDLINKS, name: "Medlinks" },
     { url: ROUTES.ADVISORS, name: "Associate Advisors" },
+    { url: ROUTES.MENTORS, name: "Resident Peer Mentors" },
+    { url: ROUTES.PLEASURE, name: "Pleasure Educators" },
     { url: ROUTES.GRAS, name: "GRAs"},
-    { url: ROUTES.BULK_USER, name: "Bulk Update", adminOnly: true},
   ],
   [
-    { url: ROUTES.IMPERSONATE, name: "Impersonate", adminOnly: true},
+    { url: ROUTES.IMPERSONATE, name: "Be Another User", adminOnly: true},
+    { url: ROUTES.EDIT_GROUPS, name: "Edit Student Groups", adminOnly: true},
+    { url: ROUTES.EDIT_OFFICERS, name: "Edit Student Officers", adminOnly: true},
+    { url: ROUTES.SIGN_UP, name: "Add User", adminOnly: true},
+    { url: ROUTES.BULK_USER, name: "Bulk Update DB", adminOnly: true},
   ]
 ]

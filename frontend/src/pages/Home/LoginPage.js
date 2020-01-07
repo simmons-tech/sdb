@@ -1,9 +1,9 @@
 import React from 'react'
-import axios from "../axiosInstance";
-import BasePage from './BasePage';
-import LoginForm from '../components/LoginForm';
-import saveToken from '../login';
-import * as ROUTES from '../constants/routes';
+import axios from "../../axiosInstance";
+import BasePage from '../BasePage';
+import LoginForm from '../../components/LoginForm';
+import saveToken from '../../login';
+import * as ROUTES from '../../constants/routes';
 
 class LoginPage extends React.Component {
 
@@ -17,6 +17,7 @@ class LoginPage extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props)
     if (this.props.loginToken) {
       this.props.history.push(ROUTES.HOME);
     }
@@ -35,7 +36,6 @@ class LoginPage extends React.Component {
         saveToken(res.data, this.props.history);
       })
       .catch((e) => {
-        console.log(e)
         this.setState({
           errors: Object.values(e.response.data).reduce((a, element) => a.concat(element), [])
         });
