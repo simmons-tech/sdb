@@ -20,3 +20,7 @@ frontend/.env.production.local
 frontend/npm-debug.log*
 frontend/yar-debug.log*
 frontend/yarn-error.log*
+
+# DB
+backend/db.sqlite3
+backenddb_backup.sqlite3
