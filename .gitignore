@@ -24,3 +24,9 @@ frontend/yarn-error.log*
 # DB
 backend/db.sqlite3
 backend/db_backup.sqlite3
+
+# Pycache
+backend/backend/__pycache__/
+
+# PyCharm
+.idea/
