@@ -93,7 +93,8 @@ class DirectoryAutocomplete extends Component {
     const inputProps = {
       onChange: this.onChange,
       value: this.props.value,
-      invalid: this.props.invalid
+      invalid: this.props.invalid,
+      placeholder: this.props.placeholder
     }
     return(
       <Autosuggest

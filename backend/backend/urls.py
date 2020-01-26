@@ -13,12 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from core import views
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from core import views
 from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
     TokenRefreshView,
 )
 
@@ -28,7 +27,9 @@ router.register(r'medlinks', views.Medlinks, 'medlinks')
 router.register(r'associateadvisors', views.AssociateAdvisors, 'associateadvisors')
 router.register(r'residentpeermentors', views.ResidentPeerMentors, 'residentpeermentors')
 router.register(r'pleasureeducators', views.PleasureEducators, 'pleasureeducators')
+router.register(r'administrators', views.Administrators, 'administrators')
 router.register(r'officers', views.Officers, 'officers')
+router.register(r'rooms', views.RoomList, 'rooms')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -39,4 +40,3 @@ urlpatterns = [
     path('impersonate/', views.impersonate)
     # path('users/', views.UserList.as_view())
 ]
-

@@ -8,6 +8,7 @@ import * as serviceWorker from './serviceWorker';
 import { Route, Router, Switch, Redirect } from 'react-router-dom';
 import { history } from './routing.js';
 import withAuthentication from './hoc/withAuthentication';
+import adminOnly from './hoc/adminOnly';
 import * as ROUTES from './constants/routes';
 
 
@@ -27,6 +28,7 @@ import ResidentPeerMentorsPage from './pages/Directory/ResidentPeerMentorsPage';
 import PleasureEducatorsPage from './pages/Directory/PleasureEducatorsPage';
 import EditStudentGroupsPage from './pages/Admin/EditStudentGroupsPage';
 import EditOfficersPage from './pages/Admin/EditOfficersPage';
+import RoomHistoryPage from './pages/Admin/RoomHistoryPage';
 import NoMatchPage from './pages/NoMatchPage';
 
 import withSession from "./hoc/withSession"
@@ -48,10 +50,11 @@ const routing = (
           <Route exact path={ROUTES.ADVISORS} component={withAuthentication(AssociateAdvisorPage)} />
           <Route exact path={ROUTES.MENTORS} component={withAuthentication(ResidentPeerMentorsPage)} />
           <Route exact path={ROUTES.PLEASURE} component={withAuthentication(PleasureEducatorsPage)} />
-          <Route exact path={ROUTES.BULK_USER} component={withAuthentication(BulkUserPage)} />
-          <Route exact path={ROUTES.IMPERSONATE} component={withAuthentication(ImpersonatePage)} />
-          <Route exact path={ROUTES.EDIT_GROUPS} component={withAuthentication(EditStudentGroupsPage)} />
-          <Route exact path={ROUTES.EDIT_OFFICERS} component={withAuthentication(EditOfficersPage)} />
+          <Route exact path={ROUTES.BULK_USER} component={adminOnly(BulkUserPage)} />
+          <Route exact path={ROUTES.IMPERSONATE} component={adminOnly(ImpersonatePage)} />
+          <Route exact path={ROUTES.EDIT_GROUPS} component={adminOnly(EditStudentGroupsPage)} />
+          <Route exact path={ROUTES.EDIT_OFFICERS} component={adminOnly(EditOfficersPage)} />
+          <Route exact path={ROUTES.ROOM_HISTORY} component={adminOnly(RoomHistoryPage)} />
           <Route component={NoMatchPage}/>
         </Switch>
       </ThemeProvider>

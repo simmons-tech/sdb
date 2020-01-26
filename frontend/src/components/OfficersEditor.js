@@ -1,18 +1,11 @@
-import React, { Component } from "react"
-import DirectoryAutocomplete from './DirectoryAutocomplete'
-import axios from '../axiosInstance';
-import LoadingSpinner from "./LoadingSpinner"
-import {
-  Form,
-  Input,
-  Button,
-  FormGroup,
-  Row,
-  Col
-} from "reactstrap"
+import React, { Component } from "react";
+import DirectoryAutocomplete from "./DirectoryAutocomplete";
+import axios from "../axiosInstance";
+import LoadingSpinner from "./LoadingSpinner";
+import { Form, Input, Button, FormGroup, Row, Col } from "reactstrap";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { faGripLines, faWindowClose } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -22,20 +15,19 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-
 export default class OfficersEditor extends Component {
   constructor(props) {
-    super(props)
-    this.state = { loading: true, text: "" }
+    super(props);
+    this.state = { loading: true, text: "" };
   }
 
   componentDidMount() {
     axios
       .get("/api/officers/")
-      .then(res => this.setState({ loading: false, items: res.data }))
+      .then(res => this.setState({ loading: false, items: res.data.map(item => ({title: item.title, position: item.title, username: item.user.username})) }));
   }
 
-  onDragEnd = (result) => {
+  onDragEnd = result => {
     // dropped outside the list
     if (!result.destination) {
       return;
@@ -50,52 +42,52 @@ export default class OfficersEditor extends Component {
     this.setState({
       items
     });
-  }
+  };
 
   onChange = (e, index) => {
-    let items = this.state.items
-    let prop = e.target.name
-    items[index][prop] = e.target.value
-    this.setState({ items })
-  }
+    let items = this.state.items;
+    let prop = e.target.name;
+    items[index][prop] = e.target.value;
+    this.setState({ items });
+  };
 
   updateUsername = (value, index) => {
     let items = this.state.items;
-    items[index].username = value
-    this.setState({ items })
-  }
+    items[index].username = value;
+    this.setState({ items });
+  };
 
   removeIndex = (e, index) => {
-    e.preventDefault()
-    const items = this.state.items
-    items.splice(index, 1)
-    this.setState({ items })
-  }
+    e.preventDefault();
+    const items = this.state.items;
+    items.splice(index, 1);
+    this.setState({ items });
+  };
 
   addElement = e => {
-    e.preventDefault()
-    const items = this.state.items
-    items.push({ title: '', username: '', position: '' })
-    this.setState({ items })
-  }
+    e.preventDefault();
+    const items = this.state.items;
+    items.push({ title: "", username: "", position: "" });
+    this.setState({ items });
+  };
 
   handleSubmit = e => {
-    e.preventDefault()
-    this.setState({ text: "Saving..." })
+    e.preventDefault();
+    this.setState({ text: "Saving..." });
     axios
       .post("/api/officers/", { positions: this.state.items })
       .then(res => {
-        this.setState({ text: "Saved" })
+        this.setState({ text: "Saved" });
       })
       .catch(e => {
-        console.log(e)
-        this.setState({ text: "error!" })
-      })
-  }
+        console.log(e);
+        this.setState({ text: "error!" });
+      });
+  };
 
   render() {
     if (this.state.loading) {
-      return (<LoadingSpinner />)
+      return <LoadingSpinner />;
     }
     return (
       <div className="p-3">
@@ -103,27 +95,22 @@ export default class OfficersEditor extends Component {
         <Row>
           <Col xs="auto" className="d-flex justify-content-center">
             #
-                            </Col>
-          <Col className="d-flex justify-content-center">
-            Title
-                            </Col>
-          <Col className="d-flex justify-content-center">
-            Position
-                            </Col>
-          <Col className="d-flex justify-content-center">
-            Username
-                            </Col>
+          </Col>
+          <Col className="d-flex justify-content-center">Title</Col>
+          <Col className="d-flex justify-content-center">Position</Col>
+          <Col className="d-flex justify-content-center">Username</Col>
         </Row>
         <Form>
           <DragDropContext onDragEnd={this.onDragEnd}>
             <Droppable droppableId="droppable">
               {(provided, snapshot) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
+                <div {...provided.droppableProps} ref={provided.innerRef}>
                   {this.state.items.map((item, index) => (
-                    <Draggable key={index} draggableId={index.toString()} index={index}>
+                    <Draggable
+                      key={index}
+                      draggableId={index.toString()}
+                      index={index}
+                    >
                       {(provided, snapshot) => (
                         <div
                           ref={provided.innerRef}
@@ -132,27 +119,59 @@ export default class OfficersEditor extends Component {
                           className="edit-group-box"
                         >
                           <Row>
-                            <Col xs="auto" className="d-flex align-items-center pr-0">
+                            <Col
+                              xs="auto"
+                              className="d-flex align-items-center pr-0"
+                            >
                               <FontAwesomeIcon icon={faGripLines} />
                             </Col>
                             <Col className="pr-0 pl-2">
                               <FormGroup className="pt-3">
-                                <Input index={index} name="title" type="text" onChange={e => this.onChange(e, index)} value={item.title} />
+                                <Input
+                                  index={index}
+                                  name="title"
+                                  type="text"
+                                  onChange={e => this.onChange(e, index)}
+                                  value={item.title}
+                                />
                               </FormGroup>
                             </Col>
                             <Col className="pr-0 pl-2">
                               <FormGroup className="pt-3">
-                                <Input index={index} name="position" type="text" onChange={e => this.onChange(e, index)} value={item.position} />
+                                <Input
+                                  index={index}
+                                  name="position"
+                                  type="text"
+                                  onChange={e => this.onChange(e, index)}
+                                  value={item.position}
+                                />
                               </FormGroup>
                             </Col>
                             <Col className="pr-0 pl-2">
                               <FormGroup className="pt-3">
-                                <DirectoryAutocomplete name="username" value={item.username} onChange={value => this.updateUsername(value, index)} />
+                                <DirectoryAutocomplete
+                                  name="username"
+                                  value={item.username}
+                                  onChange={value =>
+                                    this.updateUsername(value, index)
+                                  }
+                                />
                               </FormGroup>
                             </Col>
-                            <Col xs="auto" className="d-flex align-items-center pr-0">
-                              <Button size="sm" onClick={e => this.removeIndex(e, index)} color="danger">
-                                <FontAwesomeIcon size="sm" color="white" icon={faWindowClose} />
+                            <Col
+                              xs="auto"
+                              className="d-flex align-items-center pr-0"
+                            >
+                              <Button
+                                size="sm"
+                                onClick={e => this.removeIndex(e, index)}
+                                color="danger"
+                              >
+                                <FontAwesomeIcon
+                                  size="sm"
+                                  color="white"
+                                  icon={faWindowClose}
+                                />
                               </Button>
                             </Col>
                           </Row>
@@ -166,11 +185,20 @@ export default class OfficersEditor extends Component {
             </Droppable>
           </DragDropContext>
           <div className="d-flex justify-content-around">
-            <span><Button color="success" onClick={e => this.addElement(e)}>Add</Button><br /></span>
-            <span><Button onClick={this.handleSubmit}>Save</Button><br />{this.state.text}</span>
+            <span>
+              <Button color="success" onClick={e => this.addElement(e)}>
+                Add
+              </Button>
+              <br />
+            </span>
+            <span>
+              <Button onClick={this.handleSubmit}>Save</Button>
+              <br />
+              {this.state.text}
+            </span>
           </div>
         </Form>
       </div>
-    )
+    );
   }
 }

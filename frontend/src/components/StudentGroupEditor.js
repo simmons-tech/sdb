@@ -1,7 +1,7 @@
-import React, { Component } from "react"
-import DirectoryAutocomplete from '../components/DirectoryAutocomplete'
-import axios from '../axiosInstance';
-import LoadingSpinner from "../components/LoadingSpinner"
+import React, { Component } from "react";
+import DirectoryAutocomplete from "../components/DirectoryAutocomplete";
+import axios from "../axiosInstance";
+import LoadingSpinner from "../components/LoadingSpinner";
 import {
   Form,
   InputGroup,
@@ -10,10 +10,10 @@ import {
   FormGroup,
   Row,
   Col
-} from "reactstrap"
+} from "reactstrap";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { faGripLines } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -23,20 +23,25 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-
 export default class StudentGroupEditor extends Component {
   constructor(props) {
-    super(props)
-    this.state = { loading: true, text: "" }
+    super(props);
+    this.state = { loading: true, text: "" };
   }
 
   componentDidMount() {
     axios
       .get(this.props.endpoint)
-      .then(res => this.setState({ loading: false, items: res.data.map(user => user.username) }))
+      .then(res => {
+        console.log(res.data)
+        this.setState({
+          loading: false,
+          items: res.data.map(item => item.user.username)
+        })
+      });
   }
 
-  onDragEnd = (result) => {
+  onDragEnd = result => {
     // dropped outside the list
     if (!result.destination) {
       return;
@@ -51,45 +56,45 @@ export default class StudentGroupEditor extends Component {
     this.setState({
       items
     });
-  }
+  };
 
   onChange = (val, index) => {
-    const items = this.state.items
-    items[index] = val
-    this.setState({ items })
-  }
+    const items = this.state.items;
+    items[index] = val;
+    this.setState({ items });
+  };
 
   removeIndex = (e, index) => {
-    e.preventDefault()
-    const items = this.state.items
-    items.splice(index, 1)
-    this.setState({ items })
-  }
+    e.preventDefault();
+    const items = this.state.items;
+    items.splice(index, 1);
+    this.setState({ items });
+  };
 
   addElement = e => {
-    e.preventDefault()
-    const items = this.state.items
-    items.push('')
-    this.setState({ items })
-  }
+    e.preventDefault();
+    const items = this.state.items;
+    items.push("");
+    this.setState({ items });
+  };
 
   handleSubmit = e => {
-    e.preventDefault()
-    this.setState({ text: "Saving..." })
+    e.preventDefault();
+    this.setState({ text: "Saving..." });
     axios
       .post(this.props.endpoint, { usernames: this.state.items })
       .then(res => {
-        this.setState({ text: "Saved" })
+        this.setState({ text: "Saved" });
       })
       .catch(e => {
-        console.log(e)
-        this.setState({ text: "error!" })
-      })
-  }
+        console.log(e);
+        this.setState({ text: "error!" });
+      });
+  };
 
   render() {
     if (this.state.loading) {
-      return (<LoadingSpinner color="black" />)
+      return <LoadingSpinner color="black" />;
     }
     return (
       <div className="p-3">
@@ -98,12 +103,13 @@ export default class StudentGroupEditor extends Component {
           <DragDropContext onDragEnd={this.onDragEnd}>
             <Droppable droppableId="droppable">
               {(provided, snapshot) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
+                <div {...provided.droppableProps} ref={provided.innerRef}>
                   {this.state.items.map((item, index) => (
-                    <Draggable key={index} draggableId={index.toString()} index={index}>
+                    <Draggable
+                      key={index}
+                      draggableId={index.toString()}
+                      index={index}
+                    >
                       {(provided, snapshot) => (
                         <div
                           ref={provided.innerRef}
@@ -113,17 +119,26 @@ export default class StudentGroupEditor extends Component {
                         >
                           <Row>
                             <Col xs={1} className="d-flex align-items-center">
-                              <FontAwesomeIcon
-                                icon={faGripLines} />
+                              <FontAwesomeIcon icon={faGripLines} />
                             </Col>
                             <Col className="pt-3">
                               <FormGroup>
                                 <InputGroup>
                                   <InputGroupAddon addonType="prepend">
-                                    <Button onClick={e => this.removeIndex(e, index)} color="danger">Delete</Button>
+                                    <Button
+                                      onClick={e => this.removeIndex(e, index)}
+                                      color="danger"
+                                    >
+                                      Delete
+                                    </Button>
                                   </InputGroupAddon>
                                   <div className="input-group-autocomplete">
-                                    <DirectoryAutocomplete value={item} onChange={val => this.onChange(val, index)} />
+                                    <DirectoryAutocomplete
+                                      value={item}
+                                      onChange={val =>
+                                        this.onChange(val, index)
+                                      }
+                                    />
                                   </div>
                                 </InputGroup>
                               </FormGroup>
@@ -139,11 +154,20 @@ export default class StudentGroupEditor extends Component {
             </Droppable>
           </DragDropContext>
           <div className="d-flex justify-content-around">
-            <span><Button color="success" onClick={e => this.addElement(e)}>Add</Button><br /></span>
-            <span><Button onClick={this.handleSubmit}>Save</Button><br />{this.state.text}</span>
+            <span>
+              <Button color="success" onClick={e => this.addElement(e)}>
+                Add
+              </Button>
+              <br />
+            </span>
+            <span>
+              <Button onClick={this.handleSubmit}>Save</Button>
+              <br />
+              {this.state.text}
+            </span>
           </div>
         </Form>
       </div>
-    )
+    );
   }
 }

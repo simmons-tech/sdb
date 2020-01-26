@@ -10,20 +10,6 @@ import * as Yup from 'yup';
 
 class ImpersonatePage extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = { loading: true }
-  }
-
-  componentDidMount() {
-    axios
-      .get("/api/fame/")
-      .then(res => {
-        this.setState({ loading: false, user: res.data })
-      })
-      .catch(err => console.log(err));
-  }
-
   onSubmit = (values) => {
     axios
       .post('/impersonate/', values)
@@ -32,23 +18,23 @@ class ImpersonatePage extends Component {
 
   render() {
     const Schema = Yup.object().shape({
-      kerb: Yup.string()
+      username: Yup.string()
         .required("Required")
     });
 
     return (
-      <BasePage loading={this.state.loading} header="" {... this.props} >
+      <BasePage {... this.props} >
         <Formik
           initialValues={{
-            kerb: '',
+            username: '',
           }}
           validationSchema={Schema}
           onSubmit={values => this.onSubmit(values)}
         >
           <Form>
             <FormGroup>
-              <Label for="kerb">Kerberos</Label>
-              <Field name="kerb" type={'text'} id="kerb" component={CustomDirectoryAutocomplete} />
+              <Label for="username">Username</Label>
+              <Field name="username" type={'username'} id="username" component={CustomDirectoryAutocomplete} />
             </FormGroup>
             <Button type="submit">Impersonate</Button>
           </Form>
