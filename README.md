@@ -69,13 +69,12 @@ To get your environment set up for local development, perform for the following 
  venv paths cannot contain spaces. Make sure the Python version in this venv satisfies the requirements above.
 5. Run `pip install -r requirements.txt`. This installs the Python packages required for the backend server.
 6. Run `python manage.py makemigrations` and then `python manage.py migrate`. This initializes an empty sqlite3 
-database.76. Run `python manage.py createsuperuser` and follow the instructions. This creates an account with the 
+database. Run `python manage.py createsuperuser` and follow the instructions. This creates an account with the 
 given username and password that can be used to log into the site with.
 7. Run `python manage.py setadmin YOUR_USERNAME` where `YOUR_USERNAME` was the username you used in the previous 
 step. This adds your account to the `Administrator` group on the DB.
 8. Run `python manage.py initdb`. This does two things:
-    1. Creates all the `Room` and `Section` objects needed for the DB. This data comes from 
-    `backend/data/room_sections.csv`.
+    1. Creates all the `Room` and `Section` objects needed for the DB. This data comes from `backend/data/room_sections.csv`.
     2. Creates an account on the DB for every row (user) in `backend/data/sample_user_csv.csv`. This is all dummy data.
 
 Once you perform these actions, to get the development servers running you need to
