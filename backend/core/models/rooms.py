@@ -22,6 +22,9 @@ class CurrentRooms(models.Manager):
 class Section(models.Model):
     name = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.name
+
 
 class Room(models.Model):
     number = models.CharField(max_length=20)

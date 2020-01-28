@@ -76,7 +76,7 @@ class ProfilePage extends Component {
             <FormGroup row>
               <Label for="room" sm={2}>Room</Label>
               <Col sm={10}>
-                <Input disabled type="text" name="rom" value={data.room} />
+                <Input disabled type="text" name="rom" value={data.room.number} />
               </Col>
             </FormGroup>
             <FormGroup row>

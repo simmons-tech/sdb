@@ -61,27 +61,35 @@ class User(AbstractUser):
             return "{} {}".format(self.first_name, self.last_name)
 
     def room(self):
-        try:
-            user_room = UserRoom.current_objects.filter(user=self).get()
-            return user_room.room.number
-        except:
-            return "fdsf"
+        """
+        Each User should only have at most one active room at a time. If the current User has more than one active room,
+        this function will raise a MultipleObjectsReturned error. If the current User has no active room, this function
+        will return None. Otherwise, this function returns the Room object that represents the Room the current User
+        lives in.
+        """
+        user_rooms = self.userroom_set(manager="current_objects")
+        if not user_rooms.exists():
+            return None
+        else:
+            return self.userroom_set(manager="current_objects").get().room
 
 
-    def change_room(self, room_number):
-        # TODO: once we have a way to populate every room, we should check to see
-        # if the room number exists. If not, return an error probably
+    def change_room(self, new_room):
+        old_room = self.room()
 
-        if UserRoom.current_objects.filter(user=self).exists():
+        if old_room == new_room:
+            # Don't do anything since they haven't changed rooms
+            return
+
+        if old_room:
             # Mark that they moved out of previous room
-            old_entry = UserRoom.current_objects.filter(user=self).get()
-            old_entry.move_out_date = date.today()
-            old_entry.save()
+            old_user_room =  self.userroom_set(manager="current_objects").get()
+            old_user_room.move_out_date = date.today()
+            old_user_room.save()
 
-        if room_number:
+        if new_room:
             # Mark that they moved into new room
-            room, _ = Room.objects.get_or_create(number=room_number)
-            new_entry = UserRoom.objects.create(user=self, room=room)
+            UserRoom.objects.create(user=self, room=new_room)
 
 
     # Nickname

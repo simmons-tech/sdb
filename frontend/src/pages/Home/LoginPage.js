@@ -17,7 +17,6 @@ class LoginPage extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
     if (this.props.loginToken) {
       this.props.history.push(ROUTES.HOME);
     }

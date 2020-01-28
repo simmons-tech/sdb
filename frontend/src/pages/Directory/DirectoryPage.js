@@ -12,15 +12,24 @@ class ProfilePage extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { loading: false, results: []}
+    this.state = { loading: false, rows: []}
   }
 
   onSubmit = (values) => {
-    this.setState({ loading: true, results: [] });
+    this.setState({ loading: true, rows: [] });
     axios
       .get(`/api/users/advanced_search/`, {params: values})
       .then(res => {
-        this.setState({ loading: false, results: res.data })
+        this.setState({ loading: false, rows: res.data.map(item => 
+          [
+            item.last_name,
+            item.first_name,
+            item.title,
+            item.username,
+            item.room.number,
+            item.year,
+            <a href={"mailto:" + item.email}>{item.email}</a>
+          ]) })
       })
   }
 
@@ -28,7 +37,7 @@ class ProfilePage extends Component {
   // TODO: GRA section support
 
   render() {
-    let results = this.state.results
+    let rows = this.state.rows
     return (
       <BasePage header="" {... this.props} >
         <Formik
@@ -71,13 +80,12 @@ class ProfilePage extends Component {
           </Form>
         </Formik>
         { this.state.loading && <LoadingSpinner color="black" />}
-        { results.length > 0 &&
+        { rows.length > 0 &&
           <Fragment>
             <br />
             <UserTable
-              rows={results}
-              columns={['last_name', 'first_name', 'title', 'username', 'room', 'year']}
-              headers={['Last Name', 'First Name', 'Title', 'Username', 'Room', 'Year']}
+              rows={rows}
+              headers={['Last Name', 'First Name', 'Title', 'Username', 'Room', 'Year', 'Email']}
             />
           </Fragment>
         }

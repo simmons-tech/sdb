@@ -1,6 +1,7 @@
 import React from "react";
 import { withTheme } from 'styled-components';
 import { withRouter } from 'react-router-dom'
+import withSession from '../../hoc/withSession'
 import './Sidebar.css';
 import SidebarPrimary from './primary';
 import SidebarSecondary from './secondary';
@@ -84,11 +85,11 @@ class Sidebar extends React.Component {
           open={!this.state.primaryOpen}
           items={LINKS[secondaryIndex].filter(item => !item.hidden && (!item.adminOnly || item.adminOnly === this.props.isAdmin))}
           user={this.props.user}
-          isAdmin={true}
+          isAdmin={this.props.isAdmin}
         />
       </div>
     );
   }
 }
 
-export default withTheme(withRouter(Sidebar));
+export default withSession(withTheme(withRouter(Sidebar)));

@@ -1,14 +1,6 @@
 import React, { Fragment } from "react"
 import { Table } from "reactstrap"
 
-function renderCell(row, col) {
-  if (col === "email") {
-    return(<a href={`malto:${row[col]}`}>{row[col]}</a>)
-  } else {
-    return row[col]
-  }
-}
-
 export default function UserTable(props) {
   return (
     <Fragment>
@@ -28,8 +20,8 @@ export default function UserTable(props) {
             props.rows.map((row, index) => (
               <tr key={index}>
                 {
-                  props.columns.map((col, index) => (
-                    <td key={index}>{renderCell(row, col)}</td>
+                  row.map((cell, index) => (
+                    <td key={index}>{cell}</td>
                   ))
                 }
               </tr>

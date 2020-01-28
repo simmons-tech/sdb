@@ -6,35 +6,33 @@ import axios from "../../axiosInstance";
 class StudentOfficersPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { loading: true, results: [] };
+    this.state = { loading: true, rows: [] };
   }
 
   componentDidMount() {
     this.setState({ loading: true });
     axios.get("/api/officers/").then(res => {
-      console.log(res);
-      this.setState({ loading: false, results: res.data });
+      this.setState({
+        loading: false,
+        rows: res.data.map(item =>
+          // We show the "Title" of the position instead of the position
+          // name (which is for record keeping purpsoes)
+          [
+            item.title,
+            item.user.display_name,
+            item.user.room.number,
+            <a href={"mailto:" + item.user.email}>{item.user.email}</a>
+          ]
+        )
+      });
     });
   }
 
   render() {
-    // Need to do some flattening to work with the UserTable
-    // We show the "Title" of the position instead of the position
-    // name (which is for record keeping purpsoes)
-    let results = this.state.results.map(result => {
-      return {
-        position: result.title,
-        display_name: result.user.display_name,
-        room: result.user.room,
-        email: result.user.email
-      };
-    });
-
     return (
-      <BasePage loading={this.state.loading} header="" {...this.props}>
+      <BasePage loading={this.state.loading}>
         <UserTable
-          rows={results}
-          columns={["position", "display_name", "room", "email"]}
+          rows={this.state.rows}
           headers={["Position", "Name", "Room", "Email"]}
         />
       </BasePage>

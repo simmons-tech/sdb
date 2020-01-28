@@ -15,12 +15,27 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
 
+class SectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Section
+        fields = ('name',)
+
+
+class RoomSerializer(serializers.ModelSerializer):
+    section = SectionSerializer()
+
+    class Meta:
+        model = Room
+        fields = ('number', 'section')
+
+
 class UserSerializer(serializers.ModelSerializer):
     """
     All information that can be returned to a user upon login and in
     searches for other users. Assume that all this information can be
     revealed to all logged in users with no security risks.
     """
+    room = RoomSerializer()
 
     class Meta:
         model = User
@@ -56,20 +71,6 @@ class OfficerSerializer(serializers.ModelSerializer):
         )
 
 
-class SectionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Section
-        fields = ('name',)
-
-
-class RoomSerializer(serializers.ModelSerializer):
-    section = SectionSerializer()
-
-    class Meta:
-        model = Room
-        fields = ('number', 'section')
-
-
 class UserRoomSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     room = RoomSerializer()
@@ -100,10 +101,14 @@ class UserSerializerWithToken(serializers.ModelSerializer):
     def create(self, validated_data):
         password = validated_data.pop('password')
         room_number = validated_data.pop('room')
+
         instance = self.Meta.model(**validated_data)
         if password is not None:
             instance.set_password(password)
-        instance.change_room(room_number)
+
+        # TODO: handle if Room doesn't exist
+        room = Room.objects.get(number=room_number)
+        instance.change_room(room)
         instance.save()
         return instance
 
@@ -123,6 +128,8 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
 
 class DetailedUserSerializer(serializers.ModelSerializer):
+    room = RoomSerializer()
+
     class Meta:
         model = User
         fields = (

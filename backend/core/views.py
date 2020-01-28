@@ -21,6 +21,7 @@ from .serializers import *
 
 from django.conf import settings
 
+from .utils import process_user_csv
 
 def deactivateRecord(item):
     item.is_active = False
@@ -387,30 +388,14 @@ class UserList(viewsets.ModelViewSet):
         All User objects not included as a row in the CSV are marked as inactive
         """
 
+        # Read the CSV
         user_csv = request.FILES['user_csv']
         user_csv.seek(0)
         reader = csv.DictReader(io.StringIO(user_csv.read().decode('utf-8')))
-        given_usernames = []
-        for row in reader:
-            email = row['email'] if row['email'] else row['username'] + "@mit.edu"
-            given_usernames.append(row['username'])
-            user, created = User.objects.update_or_create(
-                username=row['username'],
-                defaults={
-                    'email': email,
-                    'first_name': row['firstname'],
-                    'last_name': row['lastname'],
-                    'year': row['year'] if row['year'] else None,
-                    'resident_type': ResidentType[row['type']],
-                    'immortal': False,
-                    'hidden': False,
-                }
-            )
-            user.change_room(row['room'])
-            user.is_active = True
-            user.save()
-        to_deactivate = User.objects.filter(is_active = True).exclude(username__in=given_usernames)
-        for user in to_deactivate:
-            user.is_active = False
-            user.save()
+
+        # TODO: handle room errors
+        # TODO: figure out if rooms are over/under capacity and report them
+        # TODO: make this atomic
+        process_user_csv(reader)
+
         return Response()
