@@ -57,7 +57,7 @@ class BasePage extends Component {
           <Col className="col-250-fixed" />
           <Col className="m-0 p-0">
             <Topbar title={pageTitle} toggleSidebar={this.toggleSidebar} colorIndex={colorIndex} />
-            <Container fluid>
+            <Container fluid className="mb-3">
               <Row>
                 <Col>
                   <h1 className="text-uppercase text-center my-4">{ this.props.header }</h1>

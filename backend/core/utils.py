@@ -2,14 +2,9 @@ from .serializers import UserSerializer
 from .models import User, Room, Section
 from .enums import ResidentType
 from os import path
+from .exceptions import RoomIntegerException, RoomSuffixException, RoomNotFoundException, InvalidUserCSVException
 import csv
 import re
-
-class RoomIntegerException(Exception):
-    pass
-
-class RoomSuffixException(Exception):
-    pass
 
 def my_jwt_response_handler(token, user=None, request=None):
     return {
@@ -19,6 +14,10 @@ def my_jwt_response_handler(token, user=None, request=None):
 
 
 def process_user_csv(reader):
+    # Stores all errors. If this is nonempty, this function will raise a InvalidUserCSV exception with
+    # every error
+    errors = []
+
     # Stores all of the usernames included in CSV
     given_usernames = []
 
@@ -41,12 +40,21 @@ def process_user_csv(reader):
         )
 
         # Move the User into their assigned room
-        room = Room.objects.get(number=row['room'])
+        try:
+            room = Room.objects.get(number=row['room'])
+        except Room.DoesNotExist as e:
+            errors.append(RoomNotFoundException(row['room']))
+            continue
+
         user.change_room(room)
 
         # Mark as active and save
         user.is_active = True
         user.save()
+
+    # At this point, if we had any errors, abort this transaction
+    if len(errors) > 0:
+        raise InvalidUserCSVException("User CSV contained %d errors" % len(errors), errors)
 
     # All User objects not included in the CSV get marked as inactive (assume they graduated/moved out)
     to_deactivate = User.objects.filter(is_active=True).exclude(username__in=given_usernames)

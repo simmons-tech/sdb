@@ -3,6 +3,7 @@ import io
 import random
 from datetime import datetime
 
+from django.db import transaction
 from django.db.models import Q
 from django.db.models.aggregates import Count
 from rest_framework import status
@@ -15,17 +16,11 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
 )
 
+from .exceptions import InvalidUserCSVException
 from .models import *
 from .permissions import *
 from .serializers import *
-
-from django.conf import settings
-
 from .utils import process_user_csv
-from datetime import date
-
-
-today = date.today()
 
 
 def deactivateRecord(item):
@@ -273,6 +268,7 @@ class RoomList(viewsets.ModelViewSet):
         rooms = Room.underfilled_objects
         return Response(RoomSerializer(rooms, many=True).data)
 
+
 class UserList(viewsets.ModelViewSet):
     queryset = User.objects.exclude(hidden=True).exclude(is_active=False)
     serializer_class = UserSerializer
@@ -408,9 +404,15 @@ class UserList(viewsets.ModelViewSet):
         user_csv.seek(0)
         reader = csv.DictReader(io.StringIO(user_csv.read().decode('utf-8')))
 
-        # TODO: handle room errors
-        # TODO: figure out if rooms are over/under capacity and report them
-        # TODO: make this atomic
-        process_user_csv(reader)
+        try:
+            with transaction.atomic():
+                process_user_csv(reader)
+        except InvalidUserCSVException as e:
+            return Response({"rooms": [
+                "Room %s does not exist. If it's supposed to, contact the tech chair." % str(item) for item in
+                e.errors]}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response()
+        underfilled = RoomSerializer(Room.underfilled_objects, many=True).data
+        overfilled = RoomSerializer(Room.overfilled_objects, many=True).data
+
+        return Response({"underfilled": underfilled, "overfilled": overfilled})
