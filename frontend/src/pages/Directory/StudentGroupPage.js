@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import BasePage from "../BasePage";
-import UserTable from "../../components/UserTable";
+import UserTable from "../../components/StripedTable";
 import axios from "../../axiosInstance";
 
 export default class StudentGroupPage extends Component {

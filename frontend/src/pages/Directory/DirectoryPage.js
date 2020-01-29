@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import BasePage from '../BasePage';
-import UserTable from "../../components/UserTable"
+import UserTable from "../../components/StripedTable"
 import { Formik, Form, Field } from 'formik';
 import { CustomInputForm } from '../../components/CustomFormikInputs'
 import { FormGroup, Label, Button } from "reactstrap"

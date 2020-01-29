@@ -29,6 +29,7 @@ import PleasureEducatorsPage from './pages/Directory/PleasureEducatorsPage';
 import EditStudentGroupsPage from './pages/Admin/EditStudentGroupsPage';
 import EditOfficersPage from './pages/Admin/EditOfficersPage';
 import RoomHistoryPage from './pages/Admin/RoomHistoryPage';
+import RoomStatusSummaryPage from './pages/Admin/RoomStatusSummaryPage';
 import NoMatchPage from './pages/NoMatchPage';
 
 import withSession from "./hoc/withSession"
@@ -54,6 +55,7 @@ const routing = (
           <Route exact path={ROUTES.IMPERSONATE} component={adminOnly(ImpersonatePage)} />
           <Route exact path={ROUTES.EDIT_GROUPS} component={adminOnly(EditStudentGroupsPage)} />
           <Route exact path={ROUTES.EDIT_OFFICERS} component={adminOnly(EditOfficersPage)} />
+          <Route exact path={ROUTES.ROOM_STATUS_SUMMARY} component={adminOnly(RoomStatusSummaryPage)} />
           <Route exact path={ROUTES.ROOM_HISTORY} component={adminOnly(RoomHistoryPage)} />
           <Route component={NoMatchPage}/>
         </Switch>

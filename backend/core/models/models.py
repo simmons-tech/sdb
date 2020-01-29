@@ -46,7 +46,6 @@ class User(AbstractUser):
                 "first_name": "nobody",
                 "last_name": "nobody",
                 "email": "simmons-request@mit.edu",
-                "room": "",
                 "hidden": True,
                 "immortal": True
             }
@@ -73,7 +72,6 @@ class User(AbstractUser):
         else:
             return self.userroom_set(manager="current_objects").get().room
 
-
     def change_room(self, new_room):
         old_room = self.room()
 
@@ -90,7 +88,6 @@ class User(AbstractUser):
         if new_room:
             # Mark that they moved into new room
             UserRoom.objects.create(user=self, room=new_room)
-
 
     # Nickname
     title = models.CharField(max_length=255, blank=True)

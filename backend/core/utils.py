@@ -3,6 +3,13 @@ from .models import User, Room, Section
 from .enums import ResidentType
 from os import path
 import csv
+import re
+
+class RoomIntegerException(Exception):
+    pass
+
+class RoomSuffixException(Exception):
+    pass
 
 def my_jwt_response_handler(token, user=None, request=None):
     return {
@@ -34,7 +41,7 @@ def process_user_csv(reader):
         )
 
         # Move the User into their assigned room
-        room = Room.objects.filter(number=row['room']).get()
+        room = Room.objects.get(number=row['room'])
         user.change_room(room)
 
         # Mark as active and save
@@ -57,9 +64,23 @@ def make_room_section_bindings():
         reader = csv.DictReader(csvfile)
         for row in reader:
             section, _ = Section.objects.get_or_create(name=row['section'])
+
+            # Get row number and suffix
+            match = re.match(r"(?P<number>\d+)(?P<suffix>.*)$", row['room'])
+            try:
+                number_integer = int(match.group("number"))
+                number_suffix = match.group("suffix")
+            except ValueError:
+                raise RoomIntegerException('Room "%s" does not have a valid numerical prefix!' % row['room'])
+
+            if len(number_suffix) > 0 and not number_suffix.isalpha():
+                raise RoomSuffixException('Room "%s" does not have a valid alphabetic suffix!' % row['room'])
+
             Room.objects.update_or_create(
-                number = row['room'],
+                number_integer=number_integer,
+                number_suffix=number_suffix,
                 defaults={
-                    'section': section
+                    'section': section,
+                    'capacity': row['capacity']
                 }
             )

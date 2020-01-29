@@ -22,6 +22,11 @@ from .serializers import *
 from django.conf import settings
 
 from .utils import process_user_csv
+from datetime import date
+
+
+today = date.today()
+
 
 def deactivateRecord(item):
     item.is_active = False
@@ -34,7 +39,7 @@ def updateList(request, objects):
     for i, username in enumerate(usernames):
         try:
             if username:
-                user = User.objects.filter(username=username).get()
+                user = User.objects.get(username=username)
                 objects.update_or_create(
                     user=user,
                     is_active=True,
@@ -196,7 +201,7 @@ class Officers(viewsets.ModelViewSet):
         for i, position in enumerate(positions):
             try:
                 if position['title'] and position['position']:
-                    user = User.objects.filter(username=position['username']).get()
+                    user = User.objects.get(username=position['username'])
                     Officer.objects.update_or_create(
                         user=user,
                         is_active=True,
@@ -257,6 +262,16 @@ class RoomList(viewsets.ModelViewSet):
             return Response(None, status=status.HTTP_400_BAD_REQUEST)
         query = UserRoom.objects.filter(user__username=username)
         return Response(UserRoomSerializer(query, many=True).data)
+
+    @action(detail=False, methods=['get'])
+    def get_overfilled_rooms(self, request):
+        rooms = Room.overfilled_objects
+        return Response(RoomSerializer(rooms, many=True).data)
+
+    @action(detail=False, methods=['get'])
+    def get_underfilled_rooms(self, request):
+        rooms = Room.underfilled_objects
+        return Response(RoomSerializer(rooms, many=True).data)
 
 class UserList(viewsets.ModelViewSet):
     queryset = User.objects.exclude(hidden=True).exclude(is_active=False)
@@ -335,8 +350,6 @@ class UserList(viewsets.ModelViewSet):
         room = request.query_params.get("room", None)
         year = request.query_params.get("year", None)
 
-        print(first_name)
-
         users = self.queryset
         if first_name:
             users = users.filter(first_name__istartswith=first_name)
@@ -347,7 +360,9 @@ class UserList(viewsets.ModelViewSet):
         if username:
             users = users.filter(username__istartswith=username)
         if room:
-            users = users.filter(room__iexact=room)
+            rooms = Room.objects.filter(number__istartswith=room)
+            user_room_ids = UserRoom.current_objects.filter(room__in=rooms).values_list('id')
+            users = users.filter(userroom__id__in=user_room_ids)
         if year:
             users = users.filter(year__iexact=year)
 

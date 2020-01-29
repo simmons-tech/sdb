@@ -4,7 +4,7 @@ from .models import *
 
 class UserRoomAdmin(admin.ModelAdmin):
     readonly_fields = ('move_in_date',)
-    fields = ('user', 'move_in_date', 'move_out_date')
+    fields = ('user', 'move_in_date', 'move_out_date', 'room')
 
 
 admin.site.register(User)

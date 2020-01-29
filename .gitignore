@@ -29,6 +29,7 @@ backend/db_backup.sqlite3
 backend/backend/__pycache__/
 backend/core/__pycache__/
 *.pyc
+backend/core/models/__pycache__/
 
 # PyCharm
 .idea/

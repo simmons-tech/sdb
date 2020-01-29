@@ -52,6 +52,7 @@ export const LINKS = [
     { url: ROUTES.EDIT_OFFICERS, name: "Edit Student Officers", adminOnly: true},
     { url: ROUTES.SIGN_UP, name: "Add User", adminOnly: true},
     { url: ROUTES.BULK_USER, name: "Bulk Update DB", adminOnly: true},
+    { url: ROUTES.ROOM_STATUS_SUMMARY, name: "Room Status Summary", adminOnly: true},
     { url: ROUTES.ROOM_HISTORY, name: "Room History", adminOnly: true},
   ]
 ]

@@ -23,10 +23,11 @@ class SectionSerializer(serializers.ModelSerializer):
 
 class RoomSerializer(serializers.ModelSerializer):
     section = SectionSerializer()
+    number = serializers.CharField()
 
     class Meta:
         model = Room
-        fields = ('number', 'section')
+        fields = ('number', 'section', 'capacity', 'num_occupants')
 
 
 class UserSerializer(serializers.ModelSerializer):
