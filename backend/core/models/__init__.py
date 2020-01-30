@@ -1,3 +1,4 @@
-from .models import *
+from .user import *
 from .groups import *
-from .rooms import *
+from .room import *
+from .section import *

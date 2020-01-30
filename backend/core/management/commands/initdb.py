@@ -1,7 +1,8 @@
-from django.core.management.base import BaseCommand, CommandError
-from os import path
 import csv
+from os import path
+
 from core import utils
+from django.core.management.base import BaseCommand, CommandError
 
 
 class Command(BaseCommand):

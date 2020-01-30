@@ -15,14 +15,14 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
 
-class SectionSerializer(serializers.ModelSerializer):
+class SectionNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Section
         fields = ('name',)
 
 
 class RoomSerializer(serializers.ModelSerializer):
-    section = SectionSerializer()
+    section = SectionNameSerializer()
     number = serializers.CharField()
 
     class Meta:
@@ -52,12 +52,21 @@ class UserSerializer(serializers.ModelSerializer):
             'pk'
         )
 
-class GroupSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+
+class SectionSerializer(serializers.ModelSerializer):
+    gras = UserSerializer(many=True)
 
     class Meta:
-        model = User
-        fields = ('user',)
+        model = Section
+        fields = ('name', 'gras')
+
+
+# class GroupSerializer(serializers.ModelSerializer):
+#     user = UserSerializer()
+#
+#     class Meta:
+#         model = User
+#         fields = ('user',)
 
 
 class OfficerSerializer(serializers.ModelSerializer):
@@ -75,6 +84,7 @@ class OfficerSerializer(serializers.ModelSerializer):
 class UserRoomSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     room = RoomSerializer()
+
     # move_in_date = serializers.DateField(format=)
 
     class Meta:

@@ -36,7 +36,7 @@ export default class StudentGroupEditor extends Component {
         console.log(res.data)
         this.setState({
           loading: false,
-          items: res.data.map(item => item.user.username)
+          items: res.data.map(item => item.username)
         })
       });
   }

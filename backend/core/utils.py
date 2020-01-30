@@ -1,10 +1,12 @@
-from .serializers import UserSerializer
-from .models import User, Room, Section
-from .enums import ResidentType
-from os import path
-from .exceptions import RoomIntegerException, RoomSuffixException, RoomNotFoundException, InvalidUserCSVException
 import csv
 import re
+from os import path
+
+from .enums import ResidentType
+from .exceptions import RoomIntegerException, RoomSuffixException, RoomNotFoundException, InvalidUserCSVException
+from .models import User, Room
+from .serializers import UserSerializer
+
 
 def my_jwt_response_handler(token, user=None, request=None):
     return {
@@ -65,13 +67,14 @@ def process_user_csv(reader):
         user.is_active = False
         user.save()
 
+
 def make_room_section_bindings():
     basepath = path.dirname(__file__)
-    filepath = path.abspath(path.join(basepath, '..',  'data', 'room_sections.csv'))
+    filepath = path.abspath(path.join(basepath, '..', 'data', 'room_sections.csv'))
     with open(filepath) as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            section, _ = Section.objects.get_or_create(name=row['section'])
+            section, _ = section.objects.get_or_create(name=row['section'])
 
             # Get row number and suffix
             match = re.match(r"(?P<number>\d+)(?P<suffix>.*)$", row['room'])

@@ -1,9 +1,11 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
+
 
 class ActiveGroup(models.Manager):
     def get_queryset(selfself):
-        return super().get_queryset().filter(is_active = True)
+        return super().get_queryset().filter(is_active=True)
+
 
 class Group(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -22,8 +24,10 @@ class Group(models.Model):
         abstract = True
         ordering = ['index']
 
+
 class Administrator(Group):
     pass
+
 
 class Officer(Group):
     position = models.CharField(max_length=255)
@@ -41,10 +45,8 @@ class AssociateAdvisor(Group):
     pass
 
 
-
 class ResidentPeerMentor(Group):
     pass
-
 
 
 class PleasureEducator(Group):

@@ -1,9 +1,9 @@
+from datetime import date
+
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from enumchoicefield import EnumChoiceField
-from django.conf import settings
-from .rooms import Room, Section, SectionGRA, UserRoom
-from datetime import date
 
 from ..enums import ResidentType
 
@@ -81,7 +81,7 @@ class User(AbstractUser):
 
         if old_room:
             # Mark that they moved out of previous room
-            old_user_room =  self.userroom_set(manager="current_objects").get()
+            old_user_room = self.userroom_set(manager="current_objects").get()
             old_user_room.move_out_date = date.today()
             old_user_room.save()
 
@@ -123,3 +123,4 @@ class User(AbstractUser):
 
     class Meta:
         ordering = ['username']
+        app_label = 'core'

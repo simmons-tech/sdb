@@ -23,6 +23,7 @@ import ImpersonatePage from './pages/Admin/ImpersonatePage';
 import DirectoryPage from './pages/Directory/DirectoryPage';
 import StudentOfficersPage from './pages/Directory/StudentOfficersPage';
 import MedlinkPage from './pages/Directory/MedlinkPage';
+import GraPage from './pages/Directory/GraPage';
 import AssociateAdvisorPage from './pages/Directory/AssociateAdvisorPage';
 import ResidentPeerMentorsPage from './pages/Directory/ResidentPeerMentorsPage';
 import PleasureEducatorsPage from './pages/Directory/PleasureEducatorsPage';
@@ -48,6 +49,7 @@ const routing = (
           <Route exact path={ROUTES.RESIDENT_DIRECTORY} component={withAuthentication(DirectoryPage)} />
           <Route exact path={ROUTES.OFFICERS} component={withAuthentication(StudentOfficersPage)} />
           <Route exact path={ROUTES.MEDLINKS} component={withAuthentication(MedlinkPage)} />
+          <Route exact path={ROUTES.GRAS} component={withAuthentication(GraPage)} />
           <Route exact path={ROUTES.ADVISORS} component={withAuthentication(AssociateAdvisorPage)} />
           <Route exact path={ROUTES.MENTORS} component={withAuthentication(ResidentPeerMentorsPage)} />
           <Route exact path={ROUTES.PLEASURE} component={withAuthentication(PleasureEducatorsPage)} />

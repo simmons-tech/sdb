@@ -98,8 +98,9 @@ class Medlinks(viewsets.ModelViewSet):
     POST requests add Medlinks and records the order of usernames
     given. Any usernames not in the POST request are set as inactive.
     """
-    queryset = Medlink.active_objects
-    serializer_class = GroupSerializer
+    ids = Medlink.active_objects.values_list('id')
+    queryset = User.objects.filter(medlink__id__in=ids).order_by("medlink__index")
+    serializer_class = UserSerializer
 
     @permission_classes([IsAdmin])
     def create(self, request):
@@ -112,8 +113,9 @@ class AssociateAdvisors(viewsets.ModelViewSet):
     POST requests add Associate Advisors and records the order of usernames
     given. Any usernames not in the POST request are set as inactive.
     """
-    queryset = AssociateAdvisor.active_objects
-    serializer_class = GroupSerializer
+    ids = AssociateAdvisor.active_objects.values_list('id')
+    queryset = User.objects.filter(associateadvisor__id__in=ids).order_by("associateadvisor__index")
+    serializer_class = UserSerializer
 
     @permission_classes([IsAdmin])
     def create(self, request):
@@ -126,8 +128,9 @@ class ResidentPeerMentors(viewsets.ModelViewSet):
     POST requests add Resident Peer Mentors and records the order of usernames
     given. Any usernames not in the POST request are set as inactive.
     """
-    queryset = ResidentPeerMentor.active_objects
-    serializer_class = GroupSerializer
+    ids = ResidentPeerMentor.active_objects.values_list('id')
+    queryset = User.objects.filter(residentpeermentor__id__in=ids).order_by("residentpeermentor__index")
+    serializer_class = UserSerializer
 
     @permission_classes([IsAdmin])
     def create(self, request):
@@ -140,8 +143,9 @@ class PleasureEducators(viewsets.ModelViewSet):
     POST requests add Pleasure Educators and records the order of usernames
     given. Any usernames not in the POST request are set as inactive.
     """
-    queryset = PleasureEducator.active_objects
-    serializer_class = GroupSerializer
+    ids = PleasureEducator.active_objects.values_list('id')
+    queryset = User.objects.filter(pleasureeducator__id__in=ids).order_by("pleasureeducator__index")
+    serializer_class = UserSerializer
 
     @permission_classes([IsAdmin])
     def create(self, request):
@@ -154,8 +158,9 @@ class Administrators(viewsets.ModelViewSet):
     POST requests add Pleasure Educators and records the order of usernames
     given. Any usernames not in the POST request are set as inactive.
     """
-    queryset = Administrator.active_objects
-    serializer_class = GroupSerializer
+    ids = Administrator.active_objects.values_list('id').order_by("administrator__index")
+    queryset = User.objects.filter(administrator__id__in=ids)
+    serializer_class = UserSerializer
 
     @permission_classes([IsAdmin])
     def create(self, request):
@@ -269,6 +274,11 @@ class RoomList(viewsets.ModelViewSet):
         return Response(RoomSerializer(rooms, many=True).data)
 
 
+class SectionList(viewsets.ModelViewSet):
+    queryset = Section.objects.all()
+    serializer_class = SectionNameSerializer
+
+
 class UserList(viewsets.ModelViewSet):
     queryset = User.objects.exclude(hidden=True).exclude(is_active=False)
     serializer_class = UserSerializer
@@ -345,6 +355,7 @@ class UserList(viewsets.ModelViewSet):
         username = request.query_params.get("username", None)
         room = request.query_params.get("room", None)
         year = request.query_params.get("year", None)
+        section = request.query_params.get("section", None)
 
         users = self.queryset
         if first_name:
@@ -361,8 +372,21 @@ class UserList(viewsets.ModelViewSet):
             users = users.filter(userroom__id__in=user_room_ids)
         if year:
             users = users.filter(year__iexact=year)
+        if section:
+            rooms = Room.objects.filter(section__name__istartswith=section)
+            user_room_ids = UserRoom.current_objects.filter(room__in=rooms).values_list('id')
+            users = users.filter(userroom__id__in=user_room_ids)
 
         serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def gras(self, request):
+        """
+        Returns a list of Users who are GRAs
+        """
+        gras = self.queryset.filter(resident_type=ResidentType.GRA)
+        serializer = UserSerializer(gras, many=True)
         return Response(serializer.data)
 
     def list(self, request):
