@@ -4,7 +4,7 @@ from os import path
 
 from .enums import ResidentType
 from .exceptions import RoomIntegerException, RoomSuffixException, RoomNotFoundException, InvalidUserCSVException
-from .models import User, Room
+from .models import User, Room, Section
 from .serializers import UserSerializer
 
 
@@ -74,7 +74,7 @@ def make_room_section_bindings():
     with open(filepath) as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            section, _ = section.objects.get_or_create(name=row['section'])
+            section, _ = Section.objects.get_or_create(name=row['section'])
 
             # Get row number and suffix
             match = re.match(r"(?P<number>\d+)(?P<suffix>.*)$", row['room'])
