@@ -82,3 +82,31 @@ Once you perform these actions, to get the development servers running you need 
 2. In a separate terminal, run `python manage.py runserver` from the `backend` directory to get the backend server 
 (Django) started.
 3. Navigate to http://localhost:3000/ in your browser.
+
+## TODOS
+* Add ability to login with MIT Certificates. This should use the same middleware pipeline and work in
+tandem with the regular username/password login.
+* Figure out how to send emails.
+* Add ability to set your display name (instead of the registered name).
+* Add Guest List functionality.
+* Add packages functionality.
+* Figure out how to authenticate front desk. One way is to look at the request IP address. Another way
+is to create a separate desk user that has to be logged in. Are there other ways though?
+* Add mailing lists functionality.
+* Add votes and polls functionality.
+* Add lotteries functionality.
+* Add desk movies database list functionality.
+* Add library catalogue link.
+* Create an About page.
+* Create house meetings flow
+    - Ability to register an upcoming meeting
+    - Ability to submit proposals/other things
+    - Ability to close an upcoming meeting from new proposals + send out email with schedule
+        * Ability to arrange proposal + announcement order
+    - Ability run house meeting
+        * Display list, in the given order
+        * Keep track + allow amendments, and ability to approve, reject, or table
+        * Close house meeting
+* Everything to do with lounges.
+* Create a frontend and backend hierarchical authorization scheme.
+* Figure out how to keep track of account balances.
