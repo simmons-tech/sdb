@@ -46,3 +46,6 @@ export const SIGN_UP = '/admin/adduser'
 export const BULK_USER = '/admin/bulkusers'
 export const ROOM_HISTORY = '/admin/roomhistory'
 export const ROOM_STATUS_SUMMARY = '/admin/roomstatussummary'
+
+export const TREASURY_HOME = '/admin/treasury'
+export const TREASURY_ACCOUNT = TREASURY_HOME + '/account/:account?'

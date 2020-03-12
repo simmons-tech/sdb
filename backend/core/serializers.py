@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import User, Administrator, Officer, Room, Section, UserRoom
+from .models import User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -158,4 +158,24 @@ class DetailedUserSerializer(serializers.ModelSerializer):
             'resident_type',
             'homepage',
             'cell_phone'
+        )
+
+
+class AccountSerializerBasic(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = (
+            'name',
+            'balance'
+        )
+
+
+class AccountGroupSerializer(serializers.ModelSerializer):
+    accounts = AccountSerializerBasic(many=True)
+
+    class Meta:
+        model = AccountGroup
+        fields = (
+            'name',
+            'accounts'
         )

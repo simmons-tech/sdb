@@ -1,39 +1,40 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
+import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { ThemeProvider } from "styled-components";
-import theme from "./theme.js";
-import * as serviceWorker from './serviceWorker';
-import { Route, Router, Switch, Redirect } from 'react-router-dom';
-import { history } from './routing.js';
-import withAuthentication from './hoc/withAuthentication';
-import adminOnly from './hoc/adminOnly';
 import * as ROUTES from './constants/routes';
-
-
-// Pages
-import HomePage from './pages/Home/HomePage';
-import ProfilePage from './pages/Home/ProfilePage';
-import LoginPage from './pages/Home/LoginPage';
-import SignupPage from './pages/SignupPage';
-import SignoutPage from './pages/SignoutPage';
+import adminOnly from './hoc/adminOnly';
+import withAuthentication from './hoc/withAuthentication';
+import withSession from "./hoc/withSession";
+import './index.css';
 import BulkUserPage from './pages/Admin/BulkUserPage';
-import ImpersonatePage from './pages/Admin/ImpersonatePage';
-import DirectoryPage from './pages/Directory/DirectoryPage';
-import StudentOfficersPage from './pages/Directory/StudentOfficersPage';
-import MedlinkPage from './pages/Directory/MedlinkPage';
-import GraPage from './pages/Directory/GraPage';
-import AssociateAdvisorPage from './pages/Directory/AssociateAdvisorPage';
-import ResidentPeerMentorsPage from './pages/Directory/ResidentPeerMentorsPage';
-import PleasureEducatorsPage from './pages/Directory/PleasureEducatorsPage';
-import EditStudentGroupsPage from './pages/Admin/EditStudentGroupsPage';
 import EditOfficersPage from './pages/Admin/EditOfficersPage';
+import EditStudentGroupsPage from './pages/Admin/EditStudentGroupsPage';
+import ImpersonatePage from './pages/Admin/ImpersonatePage';
 import RoomHistoryPage from './pages/Admin/RoomHistoryPage';
 import RoomStatusSummaryPage from './pages/Admin/RoomStatusSummaryPage';
+import TreasuryPage from './pages/Admin/Treasury/TreasuryPage';
+import AssociateAdvisorPage from './pages/Directory/AssociateAdvisorPage';
+import DirectoryPage from './pages/Directory/DirectoryPage';
+import GraPage from './pages/Directory/GraPage';
+import MedlinkPage from './pages/Directory/MedlinkPage';
+import PleasureEducatorsPage from './pages/Directory/PleasureEducatorsPage';
+import ResidentPeerMentorsPage from './pages/Directory/ResidentPeerMentorsPage';
+import StudentOfficersPage from './pages/Directory/StudentOfficersPage';
+import HomePage from './pages/Home/HomePage';
+import LoginPage from './pages/Home/LoginPage';
+import ProfilePage from './pages/Home/ProfilePage';
 import NoMatchPage from './pages/NoMatchPage';
+import SignoutPage from './pages/SignoutPage';
+import SignupPage from './pages/SignupPage';
+import { history } from './routing.js';
+import * as serviceWorker from './serviceWorker';
+import theme from "./theme.js";
 
-import withSession from "./hoc/withSession"
+
+
+
 
 const routing = (
   <Router history={history}>
@@ -59,6 +60,8 @@ const routing = (
           <Route exact path={ROUTES.EDIT_OFFICERS} component={adminOnly(EditOfficersPage)} />
           <Route exact path={ROUTES.ROOM_STATUS_SUMMARY} component={adminOnly(RoomStatusSummaryPage)} />
           <Route exact path={ROUTES.ROOM_HISTORY} component={adminOnly(RoomHistoryPage)} />
+          <Route exact path={ROUTES.TREASURY_HOME} component={adminOnly(TreasuryPage)} />
+          <Route exact path={ROUTES.TREASURY_ACCOUNT} component={adminOnly(TreasuryPage)} />
           <Route component={NoMatchPage}/>
         </Switch>
       </ThemeProvider>

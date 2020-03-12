@@ -54,5 +54,6 @@ export const LINKS = [
     { url: ROUTES.BULK_USER, name: "Bulk Update DB", adminOnly: true},
     { url: ROUTES.ROOM_STATUS_SUMMARY, name: "Room Status Summary", adminOnly: true},
     { url: ROUTES.ROOM_HISTORY, name: "Room History", adminOnly: true},
+    { url: ROUTES.TREASURY_HOME, name: "Treasury", adminOnly: true},
   ]
 ]

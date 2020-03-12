@@ -4,7 +4,7 @@ from os import path
 
 from .enums import ResidentType
 from .exceptions import RoomIntegerException, RoomSuffixException, RoomNotFoundException, InvalidUserCSVException
-from .models import User, Room, Section
+from .models import User, Room, Section, UserRoom
 from .serializers import UserSerializer
 
 

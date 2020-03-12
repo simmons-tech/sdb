@@ -279,6 +279,14 @@ class SectionList(viewsets.ModelViewSet):
     serializer_class = SectionNameSerializer
 
 
+class AccountsList(viewsets.ReadOnlyModelViewSet):
+    """
+    GET requests return a list of AccountGroups which contain the Name and Balance of every Account in the group.
+    """
+    queryset = AccountGroup.objects.all().prefetch_related("accounts")
+    serializer_class = AccountGroupSerializer
+
+
 class UserList(viewsets.ModelViewSet):
     queryset = User.objects.exclude(hidden=True).exclude(is_active=False)
     serializer_class = UserSerializer
