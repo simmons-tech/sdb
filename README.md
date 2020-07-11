@@ -68,7 +68,7 @@ To get your environment set up for local development, perform for the following 
  followed by `source PATH_TO_YOUR_VENV/bin/activate`. `PATH_TO_YOUR_VENV` can be anywhere on your machine; note that
  venv paths cannot contain spaces. Make sure the Python version in this venv satisfies the requirements above.
 5. Run `pip install -r requirements.txt`. This installs the Python packages required for the backend server.
-6. Run `python manage.py makemigrations` and then `python manage.py migrate`. This initializes an empty sqlite3 
+6. Run `python manage.py makemigrations` and then `python manage.py migrate --run-sync`. This initializes an empty sqlite3 
 database. Run `python manage.py createsuperuser` and follow the instructions. This creates an account with the 
 given username and password that can be used to log into the site with.
 7. Run `python manage.py setadmin YOUR_USERNAME` where `YOUR_USERNAME` was the username you used in the previous 
