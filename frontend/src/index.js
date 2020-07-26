@@ -28,6 +28,7 @@ import ProfilePage from './pages/Home/ProfilePage';
 import NoMatchPage from './pages/NoMatchPage';
 import SignoutPage from './pages/SignoutPage';
 import SignupPage from './pages/SignupPage';
+import FaqPage from "./pages/Home/FaqPage";
 import { history } from './routing.js';
 import * as serviceWorker from './serviceWorker';
 import theme from "./theme.js";
@@ -62,6 +63,7 @@ const routing = (
           <Route exact path={ROUTES.ROOM_HISTORY} component={adminOnly(RoomHistoryPage)} />
           <Route exact path={ROUTES.TREASURY_HOME} component={adminOnly(TreasuryPage)} />
           <Route exact path={ROUTES.TREASURY_ACCOUNT} component={adminOnly(TreasuryPage)} />
+          <Route exact path={ROUTES.FAQ} component={withAuthentication(FaqPage)} />
           <Route component={NoMatchPage}/>
         </Switch>
       </ThemeProvider>
