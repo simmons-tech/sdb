@@ -5,7 +5,7 @@ import BasePage from '../BasePage';
 class MailingListsPage extends Component {
     constructor(props) {
         super(props);
-        this.state = {loading: false, data: {is_user: false}}
+        this.state = {loading: false}
     }
 
     render() {
