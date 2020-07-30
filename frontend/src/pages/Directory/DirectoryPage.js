@@ -34,7 +34,7 @@ class ProfilePage extends Component {
             item.first_name,
             item.title,
             item.username,
-            item.room.number,
+            item.room ? item.room.number: undefined,
             item.year,
             <a href={"mailto:" + item.email}>{item.email}</a>
           ]) })
