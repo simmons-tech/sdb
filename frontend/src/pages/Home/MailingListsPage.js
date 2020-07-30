@@ -12,174 +12,179 @@ class MailingListsPage extends Component {
         return (
             <BasePage loading={this.state.loading} header="Mailing Lists" {... this.props} >
                 <Table striped>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/aprils-test-list"><strong>Aprils-test-list</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                    <thead><tr><th>List</th>
+                        <th>Description</th>
+                        <th>Who&#39;s on the list</th>
+                    </tr></thead>
+                    <tbody><tr>
+                        <td>sponge-talk@mit.edu</td>
+                        <td>dorm spam</td>
+                        <td>everyone</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/athletics"><strong>athletics</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-announce@mit.edu</td>
+                        <td>moderated list for Simmons-wide announcements</td>
+                        <td>everyone</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/cheese-please"><strong>Cheese-please</strong></a></td>
-                        <td><em>[no description available]</em></td>
-                    </tr>
-                    <td><a href="https://simmons.mit.edu/mailman/listinfo/cheese-please"><strong>Cheese-please</strong></a></td>
-                    <td><em>[no description available]</em></td>
-                    <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/cheese-please"><strong>Cheese-please</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-events@mit.edu</td>
+                        <td>moderated list for Simmons-wide events</td>
+                        <td>everyone</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/gra4w"><strong>Gra4w</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-official@mit.edu</td>
+                        <td>moderated list for official Simmons announcements</td>
+                        <td>everyone</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/grt-comments"><strong>grt-comments</strong></a></td>
-                        <td>This is the list where people send their comments for GRT interview feedback!</td>
+                        <td>sim-desk@mit.edu</td>
+                        <td>contact Simmons desk</td>
+                        <td>desk workers</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-7bang"><strong>Lounge-7bang</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-athletics@mit.edu</td>
+                        <td>contact the athletic chairs</td>
+                        <td>athletic chairs</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-adventuretime"><strong>Lounge-adventuretime</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-chair@mit.edu</td>
+                        <td>contact the housing chair</td>
+                        <td>housing chair</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-bellacrisis"><strong>Lounge-bellacrisis</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-cpw-volunteers@mit.edu</td>
+                        <td>cpw planning</td>
+                        <td>frosh chairs, cpw volunteers</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-bgaphl"><strong>Lounge-bgaphl</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-eelab-chair@mit.edu</td>
+                        <td>contact the EE lab chair</td>
+                        <td>EE lab chair</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-bikepack"><strong>Lounge-bikepack</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-entertainment@mit.edu</td>
+                        <td>contact the entertainment chair</td>
+                        <td>entertainment chair</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-breadbox"><strong>Lounge-breadbox</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-exec@mit.edu</td>
+                        <td>contact Simmons exec officers</td>
+                        <td>president, house chair, treasurer, secretary</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-cakke"><strong>Lounge-cakke</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-facilities@mit.edu</td>
+                        <td>contact facilities chair</td>
+                        <td>facilities chair</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-deltachai"><strong>Lounge-deltachai</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-frosh-chair@mit.edu</td>
+                        <td>contact the frosh chairs</td>
+                        <td>frosh chairs</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-flush"><strong>Lounge-flush</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-gras@mit.edu</td>
+                        <td>contact all GRAs</td>
+                        <td>GRAs</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-gargolapatrol7c"><strong>Lounge-gargolapatrol7c</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-house-manager@mit.edu</td>
+                        <td>contact the house manager</td>
+                        <td>house manager</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-glutencult"><strong>Lounge-glutencult</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-houseteam@mit.edu</td>
+                        <td>contact the house team</td>
+                        <td>HoH, associate HoH, house manager, area director, GRAs</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-icy"><strong>Lounge-icy</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-i3@mit.edu</td>
+                        <td>for i3-related questions</td>
+                        <td>publicity chair</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-mindcraft"><strong>Lounge-mindcraft</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-library@mit.edu</td>
+                        <td>contact the library chair</td>
+                        <td>library chair</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-modakfellows"><strong>Lounge-modakfellows</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-lounge-chair@mit.edu</td>
+                        <td>contact the lounge chairs</td>
+                        <td>lounge chairs</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-mt"><strong>Lounge-mt</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-medlinks@mit.edu</td>
+                        <td>contact Simmons Medlinks</td>
+                        <td>Medlinks</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-ochochi"><strong>Lounge-ochochi</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-publicity@mit.edu</td>
+                        <td>contact the publicity chair</td>
+                        <td>publicity chair</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-peppers"><strong>Lounge-peppers</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-officers@mit.edu</td>
+                        <td>contact all student officers</td>
+                        <td>all student officers</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-poc"><strong>Lounge-poc</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-president@mit.edu</td>
+                        <td>contact the president</td>
+                        <td>president </td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-redacted"><strong>Lounge-redacted</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-reservations@mit.edu</td>
+                        <td>reserve a common room</td>
+                        <td>reservations chair</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-secretham"><strong>Lounge-secretham</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-rooming@mit.edu</td>
+                        <td>contact the rooming chairs</td>
+                        <td>rooming chairs</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-soccoc"><strong>Lounge-soccoc</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-ror@mit.edu</td>
+                        <td>RoR access list</td>
+                        <td>people with RoR access</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-tacocat"><strong>Lounge-tacocat</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-scholars@mit.edu</td>
+                        <td>contact the residential scholars</td>
+                        <td>residential scholars</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-tbd"><strong>Lounge-tbd</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-secretary@mit.edu</td>
+                        <td>contact the secretary</td>
+                        <td>secretary</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-test"><strong>Lounge-test</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-social@mit.edu</td>
+                        <td>contact the social chairs</td>
+                        <td>social chairs</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-thibbbbbb"><strong>Lounge-thibbbbbb</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-tech@mit.edu</td>
+                        <td>for tech questions, DB issues, etc</td>
+                        <td>tech chairs</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/lounge-thicccc"><strong>Lounge-thicccc</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-tours@mit.edu</td>
+                        <td>Simmons tour guides</td>
+                        <td>tour guides</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/mailman"><strong>Mailman</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-treasurer@mit.edu</td>
+                        <td>contact the treasurer</td>
+                        <td>treasurer</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/raccooncello"><strong>Raccooncello</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>simmons-workshop-chair@mit.edu</td>
+                        <td>contact the woodshop chair</td>
+                        <td>woodshop chair</td>
                     </tr>
                     <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/simjapanese"><strong>simjapanese</strong></a></td>
-                        <td>A list to help everyone studying Japanese in Simmons or anyone who just wants to shoot the breeze in Japanese.</td>
-                    </tr>
-                    <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/storage"><strong>Storage</strong></a></td>
-                        <td>keepers of the storage room</td>
-                    </tr>
-                    <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/terrace-approve"><strong>Terrace-approve</strong></a></td>
-                        <td>people who can approve terrace events.</td>
-                    </tr>
-                    <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/terrace-info"><strong>Terrace-info</strong></a></td>
-                        <td>People interested in 8th floor terrace events</td>
-                    </tr>
-                    <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/test-with-capitals"><strong>Test-with-capitals</strong></a></td>
-                        <td><em>[no description available]</em></td>
-                    </tr>
-                    <tr>
-                        <td><a href="https://simmons.mit.edu/mailman/listinfo/whitneys-favorite-frosh"><strong>Whitneys-favorite-frosh</strong></a></td>
-                        <td><em>[no description available]</em></td>
+                        <td>help-its-too-heavy@mit.edu</td>
+                        <td>for help moving furniture</td>
+                        <td>Sims who volunteered to help :)</td>
                     </tr>
                     </tbody>
                 </Table>
