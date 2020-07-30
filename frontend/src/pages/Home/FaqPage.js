@@ -1,21 +1,11 @@
 import React, { Component } from "react";
 import BasePage from '../BasePage';
-import axios from "../../axiosInstance";
 
 class FaqPage extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {loading: true, data: {is_user: false}}
-    }
-
-    componentDidMount() {
-        axios
-            .get("/api/fame/")
-            .then(res => {
-                this.setState({ loading: false, data: res.data})
-            })
-            .catch(err => console.log(err));
+        this.state = {loading: false}
     }
 
     render() {
