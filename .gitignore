@@ -33,3 +33,9 @@ backend/core/models/__pycache__/
 
 # PyCharm
 .idea/
+
+# VSCode
+.vscode/
+
+# Virtual Environments
+backend/venv
