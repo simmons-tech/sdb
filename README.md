@@ -27,6 +27,9 @@ This project has several goals, which are, in order of importance:
 6. Add, where appropriate and sensible, new features to the old DB that improves the 
 user experience
 
+There is a temporary deployed version at https://temp-sdb-2020.herokuapp.com/. 
+This app will eventually be migrated to the Simmons server.
+
 Before attempting to make any changes to this project, **please read this, and the entirety of
 `/docs` very carefully**.
 
