@@ -39,3 +39,6 @@ backend/core/models/__pycache__/
 
 # Virtual Environments
 backend/venv
+
+# Heroku
+local_settings.py
