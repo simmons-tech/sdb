@@ -1,2 +1,1 @@
 django: gunicorn backend.backend.wsgi --log-file -
-react: cd frontend && yarn start
