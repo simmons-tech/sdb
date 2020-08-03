@@ -3,8 +3,7 @@
     "module": "commonjs",
     "target": "es2020",
     "jsx": "preserve",
-    // "baseUrl": "./frontend/src",
-    "baseUrl": "./src",
+    "baseUrl": "./frontend/src",
   },
   "exclude": [
     "node_modules",
