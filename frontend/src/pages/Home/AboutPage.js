@@ -7,22 +7,22 @@ class AboutPage extends Component {
   render() {
     return (
       <BasePage>
-      <Jumbotron>
-        <Table striped>
-          <thead>
-            <h2>DB Administrators</h2>
-          </thead>
-          <tbody>
-            <tr>April Xie</tr>
-            <tr>Arek Balata</tr>
-            <tr>Jared Scott</tr>
-            <tr>Jerry Zhang</tr>
-            <tr>Jordan Wilke</tr>
-            <tr>Luke Bordonaro</tr>
-            <tr>Ronak Roy</tr>
-            <tr>Samantha York</tr>
-          </tbody>
-        </Table>
+        <Jumbotron>
+          <Table striped>
+            <thead>
+              <h2>DB Administrators</h2>
+            </thead>
+            <tbody>
+              <tr>April Xie</tr>
+              <tr>Arek Balata</tr>
+              <tr>Jared Scott</tr>
+              <tr>Jerry Zhang</tr>
+              <tr>Jordan Wilke</tr>
+              <tr>Luke Bordonaro</tr>
+              <tr>Ronak Roy</tr>
+              <tr>Samantha York</tr>
+            </tbody>
+          </Table>
         </Jumbotron>
         <footer>
           <hr></hr>
