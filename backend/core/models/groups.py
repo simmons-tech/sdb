@@ -51,3 +51,7 @@ class ResidentPeerMentor(Group):
 
 class PleasureEducator(Group):
     pass
+
+
+class DeskWorker(Group):
+    pass
