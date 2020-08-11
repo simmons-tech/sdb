@@ -12,5 +12,5 @@ class DeskItem(models.Model):
     time_out = models.DateTimeField()
     time_due = models.DateTimeField()
     checked_out = models.BooleanField(default=False)
-    resident = models.ForeignKey(User, on_delete=models.CASCADE)
+    resident = models.ForeignKey(User, on_delete=models.CASCADE, related_name="item_loaned")
     desk_worker = models.ForeignKey(User, on_delete=models.CASCADE)

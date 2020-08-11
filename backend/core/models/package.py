@@ -10,9 +10,9 @@ class Package(models.Model):
     """
 
     log_time = models.DateTimeField(auto_now_add=True)
-    location = models.CharField()
+    location = models.CharField(max_length=255)
     quantity = models.IntegerField()
     perishable = models.BooleanField(default=False)
-    recipient = models.ForeignKey(User, on_delete=models.CASCADE)
-    desk_worker = models.CharField()  # TODO: Should this be linked to the User model? Or should it just be a CharField?
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="received_package")
+    desk_worker = models.ForeignKey(User, on_delete=models.CASCADE)
     picked_up = models.DateTimeField(blank=True)
