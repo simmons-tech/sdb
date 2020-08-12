@@ -152,6 +152,21 @@ class PleasureEducators(viewsets.ModelViewSet):
         return updateList(request, PleasureEducator.objects)
 
 
+class DeskWorkers(viewsets.ModelViewSet):
+    """
+    GET requests return a list of Users that are active Medlinks.
+    POST requests add Medlinks and records the order of usernames
+    given. Any usernames not in the POST request are set as inactive.
+    """
+    ids = DeskWorker.active_objects.values_list('id')
+    queryset = User.objects.filter(deskworker__id__in=ids).order_by("deskworker__index")
+    serializer_class = UserSerializer
+
+    @permission_classes([IsAdmin])
+    def create(self, request):
+        return updateList(request, DeskWorker.objects)
+
+
 class Administrators(viewsets.ModelViewSet):
     """
     GET requests return a list of Users that are active Pleasure Educators.

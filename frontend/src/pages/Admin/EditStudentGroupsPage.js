@@ -25,6 +25,9 @@ class EditStudentGroupsPage extends Component {
           <Col lg={6} xl={4}>
             <StudentGroupEditor header="DB Administrators" endpoint="/api/administrators/" />
           </Col>
+          <Col lg={6} xl={4}>
+            <StudentGroupEditor header="Desk Workers" endpoint="/api/deskworkers/" />
+          </Col>
         </Row>
       </BasePage>
     );
