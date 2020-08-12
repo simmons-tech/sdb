@@ -14,7 +14,7 @@ const theme = {
     blue: "#4cc4e3",
     yellow: "#f2d24e",
     gray: "#807e7e",
-    purple: "#CC8899",
+    purple: "#7100a6",
   },
 
   baseColors: {
@@ -23,7 +23,7 @@ const theme = {
     blue: "#00AADD",
     yellow: "#E6C53C",
     gray: "#696969",
-    purple: "#CC8899",
+    purple: "#7100a6",
   },
 
   hoverColors: {
@@ -32,7 +32,7 @@ const theme = {
     blue: "#0097C4",
     yellow: "#CCAF35",
     gray: "#595959",
-    purple: "#800080",
+    purple: "#61008f",
   },
 
   navbarHeight: "100px",
