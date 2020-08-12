@@ -3,6 +3,7 @@ import BasePage from "../BasePage";
 import { Jumbotron, Row, Col } from "reactstrap";
 import UserTable from "../../components/StripedTable";
 import NotesComponent from "./NotesComponent";
+import AddNotes from "./AddNotes";
 import axios from "../../axiosInstance";
 
 class DeskHome extends Component {
@@ -40,6 +41,8 @@ class DeskHome extends Component {
                     <Col>
                         <Jumbotron>
                             Notes
+                            <AddNotes/>
+                            <p></p> {/* used for the extra space. could find a better way to do this. */}
                             <NotesComponent notes={this.state.notes}/>
                         </Jumbotron>                   
                     </Col>
