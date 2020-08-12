@@ -448,3 +448,31 @@ class UserList(viewsets.ModelViewSet):
         overfilled = RoomSerializer(Room.overfilled_objects, many=True).data
 
         return Response({"underfilled": underfilled, "overfilled": overfilled})
+
+
+class Packages(viewsets.ModelViewSet):
+    permission_classes = [IsDeskWorker]
+
+    queryset = Package.current_objects
+    serializer_class = PackageSerializer
+
+
+class DeskItems(viewsets.ModelViewSet):
+    permission_classes = [IsDeskWorker]
+
+    queryset = DeskItem.objects.all()
+    serializer_class = DeskItemSerializer
+
+
+class DeskNotes(viewsets.ModelViewSet):
+    permission_classes = [IsDeskWorker]
+
+    queryset = DeskNote.current_objects
+    serializer_class = DeskNoteSerializer
+
+
+class DeskShifts(viewsets.ModelViewSet):
+    permission_classes = [IsDeskWorker]
+
+    queryset = DeskShift.current_objects
+    serializer_class = DeskShiftSerializer
