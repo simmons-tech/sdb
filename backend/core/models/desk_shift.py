@@ -11,7 +11,7 @@ class RemainingDeskShifts(models.Manager):
 
     def get_queryset(self):
         return super().get_queryset() \
-            .filter(deskshift__start_time__lte=date.today())
+            .filter(start_time__lte=date.today())
 
 
 class DeskShift(models.Model):
