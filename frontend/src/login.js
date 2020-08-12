@@ -8,7 +8,7 @@ function parseJwt(token) {
   }).join(''));
 
   return JSON.parse(jsonPayload);
-};
+}
 
 export default function saveToken(data, history) {
   let payload = parseJwt(data.access)
@@ -17,6 +17,7 @@ export default function saveToken(data, history) {
   localStorage.setItem('refresh_token', data.refresh)
   localStorage.setItem('user', JSON.stringify(payload.user))
   localStorage.setItem('is_admin', payload.is_admin)
+  localStorage.setItem('is_desk_worker', payload.is_desk_worker)
   if (history.location.state && history.location.state.goBack) {
     history.goBack();
   } else {

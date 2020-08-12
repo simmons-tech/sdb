@@ -49,3 +49,6 @@ export const ROOM_STATUS_SUMMARY = '/admin/roomstatussummary'
 
 export const TREASURY_HOME = '/admin/treasury'
 export const TREASURY_ACCOUNT = TREASURY_HOME + '/account/:account?'
+
+// Desk Links
+export const DESK_HOME = '/desk/welcome'

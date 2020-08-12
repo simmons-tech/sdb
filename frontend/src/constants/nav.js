@@ -5,7 +5,8 @@ export const CATEGORIES = [
   "House Gov",
   "Lounges",
   "Directories",
-  "Admin"
+  "Admin",
+  "Desk",
 ]
 
 export const LINKS = [
@@ -55,5 +56,8 @@ export const LINKS = [
     { url: ROUTES.ROOM_STATUS_SUMMARY, name: "Room Status Summary", adminOnly: true},
     { url: ROUTES.ROOM_HISTORY, name: "Room History", adminOnly: true},
     { url: ROUTES.TREASURY_HOME, name: "Treasury", adminOnly: true},
+  ],
+  [
+    {url: ROUTES.DESK_HOME, name: "Desk Home", deskOnly: true}
   ]
 ]

@@ -60,6 +60,17 @@ function SidebarPrimary(props) {
           </NavItem>
         </PrimaryButton>
         }
+        { props.isDeskWorker &&
+          <PrimaryButton color={props.theme.sidebarColorsOrder[5]}>
+            <NavItem>
+              <NavLink onClick={(e) => props.onClick(e, 5)} href="#">
+                {props.headers[5]} <FontAwesomeIcon
+                  className="sidebar-primary-arrow"
+                  icon={faArrowCircleRight} />
+              </NavLink>
+            </NavItem>
+          </PrimaryButton>
+        }
       </Nav>
     </div>
   );

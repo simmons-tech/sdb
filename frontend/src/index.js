@@ -5,6 +5,7 @@ import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { ThemeProvider } from "styled-components";
 import * as ROUTES from './constants/routes';
 import adminOnly from './hoc/adminOnly';
+import deskOnly from "./hoc/deskOnly";
 import withAuthentication from './hoc/withAuthentication';
 import withSession from "./hoc/withSession";
 import './index.css';
@@ -22,6 +23,7 @@ import MedlinkPage from './pages/Directory/MedlinkPage';
 import PleasureEducatorsPage from './pages/Directory/PleasureEducatorsPage';
 import ResidentPeerMentorsPage from './pages/Directory/ResidentPeerMentorsPage';
 import StudentOfficersPage from './pages/Directory/StudentOfficersPage';
+import DeskHome from "./pages/Desk/DeskHome";
 import HomePage from './pages/Home/HomePage';
 import LoginPage from './pages/Home/LoginPage';
 import ProfilePage from './pages/Home/ProfilePage';
@@ -66,6 +68,7 @@ const routing = (
           <Route exact path={ROUTES.ROOM_HISTORY} component={adminOnly(RoomHistoryPage)} />
           <Route exact path={ROUTES.TREASURY_HOME} component={adminOnly(TreasuryPage)} />
           <Route exact path={ROUTES.TREASURY_ACCOUNT} component={adminOnly(TreasuryPage)} />
+          <Route exact path={ROUTES.DESK_HOME} component={deskOnly(DeskHome)} />
           <Route component={NoMatchPage}/>
         </Switch>
       </ThemeProvider>

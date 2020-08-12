@@ -4,7 +4,8 @@ const theme = {
     "red",
     "blue",
     "yellow",
-    "gray"
+    "gray",
+    "purple",
   ],
 
   topbarColors: {
@@ -12,7 +13,8 @@ const theme = {
     red: "#ca1c31",
     blue: "#4cc4e3",
     yellow: "#f2d24e",
-    gray: "#807e7e"
+    gray: "#807e7e",
+    purple: "#CC8899",
   },
 
   baseColors: {
@@ -21,6 +23,7 @@ const theme = {
     blue: "#00AADD",
     yellow: "#E6C53C",
     gray: "#696969",
+    purple: "#CC8899",
   },
 
   hoverColors: {
@@ -28,7 +31,8 @@ const theme = {
     red: "#AB1B2C",
     blue: "#0097C4",
     yellow: "#CCAF35",
-    gray: "#595959"
+    gray: "#595959",
+    purple: "#800080",
   },
 
   navbarHeight: "100px",

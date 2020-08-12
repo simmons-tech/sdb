@@ -8,7 +8,17 @@ export default function withSession(PageComponent) {
       let username = localStorage.getItem('username');
       let user = JSON.parse(localStorage.getItem('user'))
       let isAdmin = JSON.parse(localStorage.getItem("is_admin"));
-      return <PageComponent username={username} user={user} isAdmin={isAdmin} loginToken={loginToken} {...this.props} />;
+      let isDeskWorker = JSON.parse(localStorage.getItem("is_desk_worker"));
+      return (
+          <PageComponent
+              username={username}
+              user={user}
+              isAdmin={isAdmin}
+              isDeskWorker={isDeskWorker}
+              loginToken={loginToken}
+              {...this.props}
+          />
+      );
     }
   }
 }
