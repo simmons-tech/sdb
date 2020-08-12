@@ -2,7 +2,8 @@ from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup
+from .models import (User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup, DeskWorker,
+    Package, DeskItem, DeskNotes, DeskShift)
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -11,6 +12,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
         token['user'] = UserSerializer(user).data
         token['is_admin'] = Administrator.objects.filter(user=user).exists()
+        token['is_desk_worker'] = DeskWorker.objects.filter(user=user).exists()
 
         return token
 
@@ -178,4 +180,62 @@ class AccountGroupSerializer(serializers.ModelSerializer):
         fields = (
             'name',
             'accounts'
+        )
+
+
+class PackageSerializer(serializers.ModelSerializer):
+    recipient = UserSerializer()
+    desk_worker = UserSerializer()
+
+    class Meta:
+        model = Package
+        fields = (
+            "recipient",
+            "location",
+            "quantity",
+            "perishable",
+            "log_time",
+            "desk_worker",
+            "picked_up"
+        )
+
+
+class DeskItemSerializer(serializers.ModelSerializer):
+    resident = UserSerializer()
+    desk_worker = UserSerializer()
+
+    class Meta:
+        model = DeskItem
+        fields = (
+            "item",
+            "time_out",
+            "time_due",
+            "checked_out",
+            "resident",
+            "desk_worker"
+        )
+
+
+class DeskNotesSerializer(serializers.ModelSerializer):
+    desk_worker = UserSerializer()
+
+    class Meta:
+        model = DeskNotes
+        fields = (
+            "time",
+            "content",
+            "desk_worker",
+            "completed"
+        )
+
+
+class DeskShiftSerializer(serializers.ModelSerializer):
+    desk_worker = UserSerializer()
+
+    class Meta:
+        model = DeskShift
+        fields = (
+            "start_time",
+            "end_time",
+            "desk_worker"
         )
