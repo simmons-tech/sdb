@@ -1,38 +1,58 @@
-import React, {Component} from "react";
-import {InputGroup, Input, InputGroupAddon, Button} from "reactstrap";
- 
+import React, { Component } from "react";
+import { InputGroup, Input, InputGroupAddon, Button } from "reactstrap";
+import axios from "../../../axiosInstance";
+import saveToken from '../../../login';
+
 
 
 
 class AddNotes extends Component {
     constructor(props) {
         super(props);
+        this.state = { input: "" }
     }
 
     // Input bo for the notes section. Should refresh the react component to get notes again from the db
 
-    //TODO button press or enter to add the note
 
-    // handle_login = (data) => {
-    //     axios
-    //       .post('/token_auth/', data)
-    //       .then(res => {
-    //         saveToken(res.data, this.props.history);
-    //       })
-    //       .catch((e) => {
-    //         this.setState({
-    //           errors: Object.values(e.response.data).reduce((a, element) => a.concat(element), [])
-    //         });
-    //       })
-    //   };
+    handle_change = (e) => {
+        this.setState({input: e.target.value});
+    }
+
+    handle_enter = (e) => {
+        if (e.key === 'Enter') {
+            this.handle_button();
+        }
+    }
+
+    handle_button = () => {
+        // TODO connect it to the backend
+        // TODO make the message show up on after the post.
+        // axios
+        //     .post('/desk_notes/', this.state.input)
+        //     .then(res => {
+        //         saveToken(res.data, this.props.history);
+        //     })
+        // console.log(this.state.input);
+        this.clear_input();
+    };
+
+    clear_input = () => {
+        this.setState({ input: "" });
+    }
 
     render() {
         return (
             <div>
                 <InputGroup>
-                    <Input />   
+                    <Input
+                        placeholder="Add Note"
+                        onKeyPress={this.handle_enter}
+                        onChange={this.handle_change}
+                        value={this.state.input}
+                    />
                     <InputGroupAddon addonType="append">
-                        <Button>Post</Button>
+                        <Button onClick={this.handle_button} >Post</Button>
                     </InputGroupAddon>
                 </InputGroup>
             </div>
