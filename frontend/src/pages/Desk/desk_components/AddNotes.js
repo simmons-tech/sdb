@@ -32,7 +32,7 @@ class AddNotes extends Component {
                 <InputGroup>
                     <Input />   
                     <InputGroupAddon addonType="append">
-                        <Button>I'm a button</Button>
+                        <Button>Post</Button>
                     </InputGroupAddon>
                 </InputGroup>
             </div>
