@@ -60,3 +60,4 @@ venv
 
 # Heroku
 local_settings.py
+.env

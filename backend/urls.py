@@ -17,6 +17,7 @@ from core import views
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
+from django.views.decorators.cache import never_cache
 from rest_framework import routers
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
@@ -37,7 +38,7 @@ router.register(r'accounts', views.AccountsList, 'accounts')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    re_path('.*', TemplateView.as_view(template_name='index.html')),
+    path('', never_cache(TemplateView.as_view(template_name='index.html'))),
     path('api/fame/', views.highlighted_user),
     path('token_auth/', views.CustomTokenObtainPairView.as_view()),
     path('refresh_token/', TokenRefreshView.as_view()),
