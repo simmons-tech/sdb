@@ -16,6 +16,8 @@ import ImpersonatePage from './pages/Admin/ImpersonatePage';
 import RoomHistoryPage from './pages/Admin/RoomHistoryPage';
 import RoomStatusSummaryPage from './pages/Admin/RoomStatusSummaryPage';
 import TreasuryPage from './pages/Admin/Treasury/TreasuryPage';
+
+// Directory Imports
 import AssociateAdvisorPage from './pages/Directory/AssociateAdvisorPage';
 import DirectoryPage from './pages/Directory/DirectoryPage';
 import GraPage from './pages/Directory/GraPage';
@@ -23,7 +25,14 @@ import MedlinkPage from './pages/Directory/MedlinkPage';
 import PleasureEducatorsPage from './pages/Directory/PleasureEducatorsPage';
 import ResidentPeerMentorsPage from './pages/Directory/ResidentPeerMentorsPage';
 import StudentOfficersPage from './pages/Directory/StudentOfficersPage';
-import DeskHome from "./pages/Desk/DeskHome";
+
+// Desk Imports
+import DeskHome from './pages/Desk/DeskHome';
+import AllPackages from './pages/Desk/AllPackages';
+import SearchPackages from './pages/Desk/SearchPackages';
+import DeskCheckout from './pages/Desk/DeskCheckout';
+import DeskGuestList from './pages/Desk/GuestList';
+
 import HomePage from './pages/Home/HomePage';
 import LoginPage from './pages/Home/LoginPage';
 import ProfilePage from './pages/Home/ProfilePage';
@@ -69,6 +78,10 @@ const routing = (
           <Route exact path={ROUTES.TREASURY_HOME} component={adminOnly(TreasuryPage)} />
           <Route exact path={ROUTES.TREASURY_ACCOUNT} component={adminOnly(TreasuryPage)} />
           <Route exact path={ROUTES.DESK_HOME} component={deskOnly(DeskHome)} />
+          <Route exact path={ROUTES.ALL_PACKAGES} component={deskOnly(AllPackages)} />
+          <Route exact path={ROUTES.SEARCH_PACKAGES} component={deskOnly(SearchPackages)} />
+          <Route exact path={ROUTES.DESK_CHECKOUT} component={deskOnly(DeskCheckout)} />
+          <Route exact path={ROUTES.DESK_GUEST_LIST} component={deskOnly(DeskGuestList)} />
           <Route component={NoMatchPage}/>
         </Switch>
       </ThemeProvider>

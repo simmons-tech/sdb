@@ -58,6 +58,10 @@ export const LINKS = [
     { url: ROUTES.TREASURY_HOME, name: "Treasury", adminOnly: true},
   ],
   [
-    {url: ROUTES.DESK_HOME, name: "Desk Home", deskOnly: true}
+    {url: ROUTES.DESK_HOME, name: "Dashboard", deskOnly: true},
+    {url: ROUTES.ALL_PACKAGES, name: "All Waiting Packages", deskOnly: true},
+    {url: ROUTES.SEARCH_PACKAGES, name: "Package Pickup", deskOnly: true},
+    {url: ROUTES.DESK_CHECKOUT, name: "Item Checkout", deskOnly: true},
+    {url: ROUTES.DESK_GUEST_LIST, name: "Search Guest List", deskOnly: true}
   ]
 ]
