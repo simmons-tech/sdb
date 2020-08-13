@@ -9,27 +9,62 @@ import axios from "../../axiosInstance";
 class DeskHome extends Component {
     constructor(props) {
         super(props);
-        this.state = { loading: false, rows: [], notes: []};
+        this.state = { loading: false, items: [], notes: [], notes_refresh: false };
     }
 
-    // async componentDidMount() {
-    //     axios.get("/api/packages/").then(res => {
-    //         this.setState({
-    //             loading: false,
-    //             rows: res.data.map(item =>
-    //                 [
-    //                     item.location,
-    //                     item.recipient
-    //                 ]
-    //             )
-    //         });
-    //     });
-    // } 
+    load_notes = () => {
+        // polls the server to update the new notes
+        // do a request here. 
+        //     axios.get("/api/desk_notes/").then(res => {
+        //         this.setState({
+        //             loading: false,
+        //             rows: res.data.map(item =>
+        //                 [
+        //                     item.location,
+        //                     item.recipient
+        //                 ]
+        //             )
+        //         });
+        //     });
+        this.setState({ notes_refresh: false })
+    }
+
+    load_items = () =>{
+        // polls the server for the status of checked out items
+        // do a request here. 
+        //     axios.get("/api/desk_items/").then(res => {
+        //         this.setState({
+        //             loading: false,
+        //             rows: res.data.map(item =>
+        //                 [
+        //                     item.location,
+        //                     item.recipient
+        //                 ]
+        //             )
+        //         });
+        //     });
+    }
+
+    update_notes = () => {
+        this.setState({ notes_refresh: true })
+    }
+
+
+    async componentDidMount() {
+        this.load_notes();
+    }
+
+    componentWillUpdate() {
+        if (this.state.notes_refresh) {
+            this.load_notes();
+        }
+    }
+
 
     render() {
         return (
             <BasePage loading={this.state.loading} header="Dashboard">
-                
+
                 <Jumbotron>
                     Test Dashboard
                 </Jumbotron>
@@ -38,20 +73,20 @@ class DeskHome extends Component {
                     <Col xs="4">
                         <Jumbotron>
                             Notes
-                            <AddNotes/>
+                            <AddNotes update_notes={this.update_notes} />
                             <p></p> {/* used for the extra space. */}
-                            <NotesComponent notes={this.state.notes}/>
-                        </Jumbotron>                   
+                            <NotesComponent notes={this.state.notes} />
+                        </Jumbotron>
                     </Col>
                     <Col>
                         <Jumbotron>
                             Checked out items
                             <p></p>
                             <UserTable
-                                rows={this.state.rows}
+                                rows={this.state.items}
                                 headers={["Name", "Item", "Return Date"]}
-                            /> 
-                        </Jumbotron> 
+                            />
+                        </Jumbotron>
                     </Col>
                 </Row>
             </BasePage>

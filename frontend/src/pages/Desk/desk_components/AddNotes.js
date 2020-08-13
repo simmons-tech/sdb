@@ -16,7 +16,7 @@ class AddNotes extends Component {
 
 
     handle_change = (e) => {
-        this.setState({input: e.target.value});
+        this.setState({ input: e.target.value });
     }
 
     handle_enter = (e) => {
@@ -27,13 +27,14 @@ class AddNotes extends Component {
 
     handle_button = () => {
         // TODO connect it to the backend
-        // TODO make the message show up on after the post.
+        // TODO make the message show up on after the post. This might be part of notes component
         // axios
         //     .post('/desk_notes/', this.state.input)
         //     .then(res => {
         //         saveToken(res.data, this.props.history);
         //     })
         // console.log(this.state.input);
+        this.props.update_notes(); // tells dashboard to update the notes
         this.clear_input();
     };
 
