@@ -33,7 +33,7 @@ SECRET_KEY = 'wbeu_4f-oumj0^12@0p4#$wa!6t1ukawc5h8_0x%qg1&l&(u0c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'temp-sdb-2020.herokuapp.com']
 
 # Application definition
 
