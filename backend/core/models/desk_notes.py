@@ -9,7 +9,7 @@ class OpenDeskNote(models.Manager):
     """
 
     def get_queryset(self):
-        return super().get_queryset().filter(completed=True)
+        return super().get_queryset().filter(completed=False)
 
 
 class DeskNote(models.Model):
