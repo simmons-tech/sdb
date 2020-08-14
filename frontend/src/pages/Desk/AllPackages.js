@@ -10,24 +10,41 @@ class AllPackages extends Component {
         this.state = { loading: false, rows: []};
     }
 
-    // async componentDidMount() {
-    //     axios.get("/api/packages/").then(res => {
-    //         this.setState({
-    //             loading: false,
-    //             rows: res.data.map(item =>
-    //                 [
-    //                     item.location,
-    //                     item.recipient
-    //                 ]
-    //             )
-    //         });
-    //     });
-    // } 
+    // once a user is found, clicking on them should go to the user's pacakges page
+
+    async componentDidMount() {
+        // TODO connect all packages backend
+        axios.get("/api/packages/").then(res => {
+            this.setState({
+                loading: false,
+                rows: res.data.map(item =>
+                    [
+                        item.recipient,
+                        item.location,
+                        item.quantity,
+                        item.perishable,
+                        item.log_time,
+                        item.desk_worker
+                    ]
+                )
+            });
+        });
+    } 
 
     render() {
         return (
             <BasePage loading={this.state.loading} header="All Waiting Packages">
-                Under Construction
+                <UserTable 
+                    rows = {this.state.rows}
+                    headings = {
+                        ["Recipient",
+                         "Bin",
+                         "# of Packages",
+                         "Perishable?",
+                         "Last Registrationn",
+                         "Registered By"
+                    ]}
+                />
             </BasePage>
         );
     }
