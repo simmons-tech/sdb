@@ -15,7 +15,7 @@ class NotesComponent extends Component {
                 this.props.notes.map(note => 
                     <Toast>
                         <ToastHeader>
-                            {note.user}
+                            {note.user.username}
                         </ToastHeader>
                         <ToastBody>
                             {note.body}

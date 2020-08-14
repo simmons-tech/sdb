@@ -28,14 +28,17 @@ class AddNotes extends Component {
     handle_button = () => {
         // TODO connect it to the backend
         // TODO make the message show up on after the post. This might be part of notes component
-        // axios
-        //     .post('/desk_notes/', this.state.input)
-        //     .then(res => {
-        //         saveToken(res.data, this.props.history);
-        //     })
-        // console.log(this.state.input);
-        this.props.update_notes(); // tells dashboard to update the notes
-        this.clear_input();
+        axios
+            .post('/api/desknotes/',
+                {
+                    desk_worker: this.props.user,
+                    content: this.state.input,
+                })
+            .then(res => {
+                this.clear_input();
+                this.props.update_notes();
+            });
+        console.log(this.state.input);
     };
 
     clear_input = () => {

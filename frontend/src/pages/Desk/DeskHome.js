@@ -14,19 +14,19 @@ class DeskHome extends Component {
 
     load_notes = () => {
         // polls the server to update the new notes
-        // do a request here. 
-        //     axios.get("/api/desk_notes/").then(res => {
-        //         this.setState({
-        //             loading: false,
-        //             rows: res.data.map(item =>
-        //                 [
-        //                     item.location,
-        //                     item.recipient
-        //                 ]
-        //             )
-        //         });
-        //     });
-        this.setState({ notes_refresh: false })
+        // do a request here.
+        axios.get("/api/desknotes/").then(res => {
+            this.setState({
+                loading: false,
+                notes: res.data.map(item => {
+                    return {
+                        user: item.desk_worker,
+                        body: item.content
+                    }
+                }),
+                notes_refresh: false,
+            });
+        });
     }
 
     load_items = () =>{
@@ -73,7 +73,7 @@ class DeskHome extends Component {
                     <Col xs="4">
                         <Jumbotron>
                             Notes
-                            <AddNotes update_notes={this.update_notes} />
+                            <AddNotes update_notes={this.update_notes} {... this.props} />
                             <p></p> {/* used for the extra space. */}
                             <NotesComponent notes={this.state.notes} />
                         </Jumbotron>
