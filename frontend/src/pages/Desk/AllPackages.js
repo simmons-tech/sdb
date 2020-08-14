@@ -14,21 +14,21 @@ class AllPackages extends Component {
 
     async componentDidMount() {
         // TODO connect all packages backend
-        axios.get("/api/packages/").then(res => {
-            this.setState({
-                loading: false,
-                rows: res.data.map(item =>
-                    [
-                        item.recipient,
-                        item.location,
-                        item.quantity,
-                        item.perishable,
-                        item.log_time,
-                        item.desk_worker
-                    ]
-                )
-            });
-        });
+        // axios.get("/api/packages/").then(res => {
+        //     this.setState({
+        //         loading: false,
+        //         rows: res.data.map(item =>
+        //             [
+        //                 item.recipient,
+        //                 item.location,
+        //                 item.quantity,
+        //                 item.perishable,
+        //                 item.log_time,
+        //                 item.desk_worker
+        //             ]
+        //         )
+        //     });
+        // });
     } 
 
     render() {
@@ -36,10 +36,10 @@ class AllPackages extends Component {
             <BasePage loading={this.state.loading} header="All Waiting Packages">
                 <UserTable 
                     rows = {this.state.rows}
-                    headings = {
+                    headers = {
                         ["Recipient",
                          "Bin",
-                         "# of Packages",
+                         "# Pkgs",
                          "Perishable?",
                          "Last Registrationn",
                          "Registered By"
