@@ -13,8 +13,6 @@ class DeskHome extends Component {
     }
 
     load_notes = () => {
-        // polls the server to update the new notes
-        // do a request here.
         axios.get("/api/desknotes/").then(res => {
             this.setState({
                 loading: false,
@@ -30,19 +28,18 @@ class DeskHome extends Component {
     }
 
     load_items = () =>{
-        // polls the server for the status of checked out items
-        // do a request here. 
-        //     axios.get("/api/desk_items/").then(res => {
-        //         this.setState({
-        //             loading: false,
-        //             rows: res.data.map(item =>
-        //                 [
-        //                     item.location,
-        //                     item.recipient
-        //                 ]
-        //             )
-        //         });
+        // axios.get("/api/deskitems/").then(res => {
+        //     this.setState({
+        //         loading: false,
+        //         items: res.data.map(item => {
+        //             return {
+        //                 user: item.desk_worker,
+        //                 body: item.content
+        //             }
+        //         }),
+        //         notes_refresh: false,
         //     });
+        // });
     }
 
     update_notes = () => {
@@ -72,7 +69,7 @@ class DeskHome extends Component {
                 <Row>
                     <Col xs="4">
                         <Jumbotron>
-                            Notes
+                            <h2>Notes</h2>
                             <AddNotes update_notes={this.update_notes} {... this.props} />
                             <p></p> {/* used for the extra space. */}
                             <NotesComponent notes={this.state.notes} />
@@ -80,7 +77,7 @@ class DeskHome extends Component {
                     </Col>
                     <Col>
                         <Jumbotron>
-                            Checked out items
+                            <h2>Checked out items</h2>
                             <p></p>
                             <UserTable
                                 rows={this.state.items}
