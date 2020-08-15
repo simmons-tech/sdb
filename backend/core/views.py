@@ -471,6 +471,50 @@ class Packages(viewsets.ModelViewSet):
     queryset = Package.current_objects
     serializer_class = PackageSerializer
 
+    @action(detail=False, action=['post'])
+    def log(self, request):
+        """
+        Logs a package in the system, and adds it to the database under the name of the desk worker that submits the
+        post request
+
+        :param request: DRF Request object
+        :return: DRF Response object
+        """
+
+        worker_username = request.data['desk_worker']['username']
+        recipient_username = request.data['recipient']['username']
+        desk_worker = DeskWorker.active_objects.get(username=worker_username)
+        recipient = User.objects.get(username=recipient_username)
+
+        data = {
+            'location': request.data['location'],
+            'quantity': request.data['quantity'],
+            'perishable': request.data['perishable'],
+        }
+
+        Package.objects.create(desk_worker=desk_worker, recipient=recipient, **data)
+
+        return Response({'status': 'created'}, status=status.HTTP_201_CREATED)
+
+    @action(detail=True, methods=['post'])
+    def pickup(self, request, pk=None):
+        """
+        Marks the package as picked up in the DB.
+
+        :param request: DRF Request object
+        :param pk: the pk of the package that is being picked up
+        :return: DRF Response object
+        """
+
+        picked_up_package = self.get_object()
+
+        # There is probably something wrong with the frontend
+        if picked_up_package.pk != pk:
+            return Response({'status': 'BAD REQUEST'}, status=status.HTTP_400_BAD_REQUEST)
+
+        picked_up_package.picked_up = datetime.now()
+        return Response({'status': 'updated'}, status=status.HTTP_200_OK)
+
 
 class DeskItems(viewsets.ModelViewSet):
     permission_classes = [IsDeskWorker]

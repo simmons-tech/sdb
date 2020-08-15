@@ -28,3 +28,4 @@ class Package(models.Model):
     picked_up = models.DateTimeField(blank=True)
 
     current_objects = WaitingPackages()
+    objects = models.Manager()
