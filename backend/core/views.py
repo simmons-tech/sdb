@@ -485,6 +485,21 @@ class DeskNotes(viewsets.ModelViewSet):
     queryset = DeskNote.current_objects
     serializer_class = DeskNoteSerializer
 
+    def create(self, request):
+
+        try:
+            # Get the desk_worker that is creating the note
+            worker_pk = request.data.pop('desk_worker')['pk']
+            desk_worker = User.objects.get(pk=worker_pk)
+
+            DeskNote.objects.create(desk_worker=desk_worker, **request.data)
+
+        # If something goes wrong, you want to ensure that you send a 400
+        except:
+            return Response(None, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'status': 'created'}, status=status.HTTP_201_CREATED)
+
 
 class DeskShifts(viewsets.ModelViewSet):
     permission_classes = [IsDeskWorker]

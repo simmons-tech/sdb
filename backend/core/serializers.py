@@ -3,7 +3,7 @@ from rest_framework_jwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import (User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup, DeskWorker,
-    Package, DeskItem, DeskNote, DeskShift)
+                     Package, DeskItem, DeskNote, DeskShift)
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -227,6 +227,8 @@ class DeskNoteSerializer(serializers.ModelSerializer):
             "desk_worker",
             "completed"
         )
+
+        required_fields = ('content', 'desk_worker')
 
 
 class DeskShiftSerializer(serializers.ModelSerializer):

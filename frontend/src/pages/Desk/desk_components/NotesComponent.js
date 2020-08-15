@@ -12,8 +12,8 @@ class NotesComponent extends Component {
     render() {
         return (
             (this.props.notes.length) ?
-                this.props.notes.map(note => 
-                    <Toast>
+                this.props.notes.map((note, index) =>
+                    <Toast key={index}>
                         <ToastHeader>
                             {note.user.username}
                         </ToastHeader>

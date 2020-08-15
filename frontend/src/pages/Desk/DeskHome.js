@@ -9,7 +9,7 @@ import axios from "../../axiosInstance";
 class DeskHome extends Component {
     constructor(props) {
         super(props);
-        this.state = { loading: false, items: [], notes: [], notes_refresh: false };
+        this.state = { loading: false, items: [], notes: []};
     }
 
     load_notes = () => {
@@ -42,16 +42,11 @@ class DeskHome extends Component {
         // });
     }
 
-    update_notes = () => {
-        this.setState({ notes_refresh: true })
-    }
-
-
     async componentDidMount() {
         this.load_notes();
     }
 
-    componentWillUpdate() {
+    componentDidUpdate() {
         if (this.state.notes_refresh) {
             this.load_notes();
         }
@@ -70,7 +65,7 @@ class DeskHome extends Component {
                     <Col xs="4">
                         <Jumbotron>
                             <h2>Notes</h2>
-                            <AddNotes update_notes={this.update_notes} {... this.props} />
+                            <AddNotes update_notes={this.load_notes} {... this.props} />
                             <p></p> {/* used for the extra space. */}
                             <NotesComponent notes={this.state.notes} />
                         </Jumbotron>

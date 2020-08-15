@@ -23,3 +23,4 @@ class DeskNote(models.Model):
     completed = models.BooleanField(default=False)
 
     current_objects = OpenDeskNote()
+    objects = models.Manager()
