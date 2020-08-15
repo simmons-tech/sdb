@@ -11,7 +11,7 @@ class WaitingPackages(models.Manager):
     """
 
     def get_queryset(self):
-        return super().get_queryset().filter(picked_up=True)
+        return super().get_queryset().filter(picked_up__isnull=True)
 
 
 class Package(models.Model):
