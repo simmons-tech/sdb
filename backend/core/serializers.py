@@ -225,7 +225,8 @@ class DeskNoteSerializer(serializers.ModelSerializer):
             "time",
             "content",
             "desk_worker",
-            "completed"
+            "completed",
+            "pk",
         )
 
         required_fields = ('content', 'desk_worker')

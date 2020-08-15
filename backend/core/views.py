@@ -500,6 +500,20 @@ class DeskNotes(viewsets.ModelViewSet):
 
         return Response({'status': 'created'}, status=status.HTTP_201_CREATED)
 
+    @action(detail=True, methods=['post'])
+    def complete(self, request, pk=None):
+        """
+        Marks the specified desknote as completed in the system
+
+        :param request: DRF Request object
+        :return: DRF Response object
+        """
+        note = self.get_object()
+        note.completed = True
+        note.save()
+
+        return Response({'status': 'updated'}, status=status.HTTP_200_OK)
+
 
 class DeskShifts(viewsets.ModelViewSet):
     permission_classes = [IsDeskWorker]

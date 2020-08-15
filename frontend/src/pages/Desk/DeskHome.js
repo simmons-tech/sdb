@@ -19,7 +19,8 @@ class DeskHome extends Component {
                 notes: res.data.map(item => {
                     return {
                         user: item.desk_worker,
-                        body: item.content
+                        body: item.content,
+                        pk: item.pk,
                     }
                 }),
                 notes_refresh: false,
@@ -67,7 +68,7 @@ class DeskHome extends Component {
                             <h2>Notes</h2>
                             <AddNotes update_notes={this.load_notes} {... this.props} />
                             <p></p> {/* used for the extra space. */}
-                            <NotesComponent notes={this.state.notes} />
+                            <NotesComponent update_notes={this.load_notes} notes={this.state.notes} />
                         </Jumbotron>
                     </Col>
                     <Col>
