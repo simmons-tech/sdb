@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import BasePage from "../BasePage";
 import { Jumbotron, Row, Col } from "reactstrap";
-import UserTable from "../../components/StripedTable";
+import InteractiveUserTable from "./desk_components/InteractiveUserTable";
 import UserSearch from "./desk_components/UserSearch";
 import axios from "../../axiosInstance";
 
@@ -39,7 +39,7 @@ class SearchPackages extends Component {
             <BasePage loading={this.state.loading} header="Package Pickup">
                 {this.state.searched ?
                     <Jumbotron>
-                        <UserTable
+                        <InteractiveUserTable
                             rows={this.state.users}
                             headers={["Last", "First", "Title", "Username", "Room", "Year"]}
                         />

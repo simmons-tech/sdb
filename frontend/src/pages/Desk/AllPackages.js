@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import BasePage from "../BasePage";
 import { Jumbotron, Row, Col } from "reactstrap";
-import UserTable from "../../components/StripedTable";
+import InteractiveUserTable from "./desk_components/InteractiveUserTable";
 import axios from "../../axiosInstance";
 
 class AllPackages extends Component {
@@ -34,7 +34,7 @@ class AllPackages extends Component {
     render() {
         return (
             <BasePage loading={this.state.loading} header="All Waiting Packages">
-                <UserTable 
+                <InteractiveUserTable 
                     rows = {this.state.rows}
                     headers = {
                         ["Recipient",
