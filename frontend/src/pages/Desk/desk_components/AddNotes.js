@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { InputGroup, Input, InputGroupAddon, Button } from "reactstrap";
 import axios from "../../../axiosInstance";
-import saveToken from '../../../login';
-
-
 
 
 class AddNotes extends Component {
@@ -38,7 +35,6 @@ class AddNotes extends Component {
                 this.clear_input();
                 this.props.update_notes();
             });
-        console.log(this.state.input);
     };
 
     clear_input = () => {

@@ -11,7 +11,7 @@ class WaitingPackages(models.Manager):
     """
 
     def get_queryset(self):
-        return super().get_queryset().filter(picked_up=True)
+        return super().get_queryset().filter(picked_up__isnull=True)
 
 
 class Package(models.Model):
@@ -28,3 +28,4 @@ class Package(models.Model):
     picked_up = models.DateTimeField(blank=True)
 
     current_objects = WaitingPackages()
+    objects = models.Manager()

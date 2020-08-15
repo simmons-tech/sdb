@@ -471,6 +471,50 @@ class Packages(viewsets.ModelViewSet):
     queryset = Package.current_objects
     serializer_class = PackageSerializer
 
+    @action(detail=False, methods=['post'])
+    def log(self, request):
+        """
+        Logs a package in the system, and adds it to the database under the name of the desk worker that submits the
+        post request
+
+        :param request: DRF Request object
+        :return: DRF Response object
+        """
+
+        worker_username = request.data['desk_worker']['username']
+        recipient_username = request.data['recipient']['username']
+        desk_worker = DeskWorker.active_objects.get(username=worker_username)
+        recipient = User.objects.get(username=recipient_username)
+
+        data = {
+            'location': request.data['location'],
+            'quantity': request.data['quantity'],
+            'perishable': request.data['perishable'] == 'true',
+        }
+
+        Package.objects.create(desk_worker=desk_worker, recipient=recipient, **data)
+
+        return Response({'status': 'created'}, status=status.HTTP_201_CREATED)
+
+    @action(detail=True, methods=['post'])
+    def pickup(self, request, pk=None):
+        """
+        Marks the package as picked up in the DB.
+
+        :param request: DRF Request object
+        :param pk: the pk of the package that is being picked up
+        :return: DRF Response object
+        """
+
+        picked_up_package = self.get_object()
+
+        # There is probably something wrong with the frontend
+        if picked_up_package.pk != pk:
+            return Response({'status': 'BAD REQUEST'}, status=status.HTTP_400_BAD_REQUEST)
+
+        picked_up_package.picked_up = datetime.now()
+        return Response({'status': 'updated'}, status=status.HTTP_200_OK)
+
 
 class DeskItems(viewsets.ModelViewSet):
     permission_classes = [IsDeskWorker]
@@ -484,6 +528,41 @@ class DeskNotes(viewsets.ModelViewSet):
 
     queryset = DeskNote.current_objects
     serializer_class = DeskNoteSerializer
+
+    def create(self, request):
+
+        try:
+            # Get the desk_worker that is creating the note
+            worker_pk = request.data.pop('desk_worker')['pk']
+            desk_worker = User.objects.get(pk=worker_pk)
+
+            DeskNote.objects.create(desk_worker=desk_worker, **request.data)
+
+        # If something goes wrong, you want to ensure that you send a 400
+        except:
+            return Response(None, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'status': 'created'}, status=status.HTTP_201_CREATED)
+
+    @action(detail=True, methods=['post'])
+    def complete(self, request, pk=None):
+        """
+        Marks the specified desknote as completed in the system
+
+        :param request: DRF Request object
+        :param pk: pk of the note being marked as completed
+        :return: DRF Response object
+        """
+        note = self.get_object()
+
+        # something is probably wrong with the frontend
+        if note.pk != pk:
+            return Response({'status': 'BAD REQUEST'}, status=status.HTTP_400_BAD_REQUEST)
+
+        note.completed = True
+        note.save()
+
+        return Response({'status': 'updated'}, status=status.HTTP_200_OK)
 
 
 class DeskShifts(viewsets.ModelViewSet):
