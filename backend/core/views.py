@@ -508,10 +508,6 @@ class Packages(viewsets.ModelViewSet):
 
         picked_up_package = self.get_object()
 
-        # There is probably something wrong with the frontend
-        if picked_up_package.pk != pk:
-            return Response({'status': 'BAD REQUEST'}, status=status.HTTP_400_BAD_REQUEST)
-
         picked_up_package.picked_up = datetime.now()
         return Response({'status': 'updated'}, status=status.HTTP_200_OK)
 
@@ -554,10 +550,6 @@ class DeskNotes(viewsets.ModelViewSet):
         :return: DRF Response object
         """
         note = self.get_object()
-
-        # something is probably wrong with the frontend
-        if note.pk != pk:
-            return Response({'status': 'BAD REQUEST'}, status=status.HTTP_400_BAD_REQUEST)
 
         note.completed = True
         note.save()
