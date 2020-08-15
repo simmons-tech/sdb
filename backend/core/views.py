@@ -550,9 +550,15 @@ class DeskNotes(viewsets.ModelViewSet):
         Marks the specified desknote as completed in the system
 
         :param request: DRF Request object
+        :param pk: pk of the note being marked as completed
         :return: DRF Response object
         """
         note = self.get_object()
+
+        # something is probably wrong with the frontend
+        if note.pk != pk:
+            return Response({'status': 'BAD REQUEST'}, status=status.HTTP_400_BAD_REQUEST)
+
         note.completed = True
         note.save()
 
