@@ -471,7 +471,7 @@ class Packages(viewsets.ModelViewSet):
     queryset = Package.current_objects
     serializer_class = PackageSerializer
 
-    @action(detail=False, action=['post'])
+    @action(detail=False, methods=['post'])
     def log(self, request):
         """
         Logs a package in the system, and adds it to the database under the name of the desk worker that submits the
