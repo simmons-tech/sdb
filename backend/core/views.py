@@ -489,7 +489,7 @@ class Packages(viewsets.ModelViewSet):
         data = {
             'location': request.data['location'],
             'quantity': request.data['quantity'],
-            'perishable': request.data['perishable'],
+            'perishable': request.data['perishable'] == 'true',
         }
 
         Package.objects.create(desk_worker=desk_worker, recipient=recipient, **data)
