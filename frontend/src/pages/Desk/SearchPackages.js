@@ -10,10 +10,7 @@ class SearchPackages extends Component {
         super(props);
         this.state = { loading: false, searched: false, users: [], packages: [] };
     }
-
-    //TODO once a user is found, clicking on it should bring them to a 
-    //     number of packages the user has page
-
+    
     onUserQuery = (values, callback) => {
         axios.get("/api/users/advanced_search/", {params: values}).then(res => {
             this.setState({

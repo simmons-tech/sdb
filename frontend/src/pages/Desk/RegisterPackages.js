@@ -8,33 +8,27 @@ import axios from "../../axiosInstance";
 class RegisterPackages extends Component {
     constructor(props) {
         super(props);
-        this.state = { loading: false, added_packages: [] };
+        this.state = { loading: false, add_package: false, added_packages: [] };
     }
 
-    // onUserQuery = (values, callback) => {
-    //     // TODO this is probably wrong with the backend, but fix later
-    //     axios.get("/api/users/", values).then(res => {
-    //         this.setState({
-    //             loading: false,
-    //             users: res.data.map(user =>
-    //                 [
-    //                     user.first_name,
-    //                     user.last_name,
-    //                     user.title,
-    //                     user.username,
-    //                     user.room,
-    //                     user.year
-    //                 ]
-    //             )
-    //         });
-    //     });
-    //     callback();
-    // }
-
-
-    handleAddPackage = () => {
-        // link to a add package page with a UserQuery
-
+    onUserQuery = (values, callback) => {
+        axios.get("/api/users/advanced_search/", {params: values}).then(res => {
+            this.setState({
+                loading: false,
+                users: res.data.map(user =>
+                    [
+                        user.last_name,
+                        user.first_name,
+                        user.title,
+                        user.username,
+                        (user.room) ? user.room.number : null,
+                        user.year
+                    ]
+                ),
+                searched: true
+            });
+        });
+        callback();
     }
 
     handleDeleteAll = () => {
@@ -52,21 +46,26 @@ class RegisterPackages extends Component {
 
     render() {
         return (
-            <BasePage loading={this.state.loading} header="Package Pickup">
-                <Button onClick={this.handleAddPackage}>Add Package</Button>
+            <BasePage loading={this.state.loading} header="Register Packages">
                 {this.state.added_packages.length ?
                     <Jumbotron>
+                        <Button onClick={this.handleRegisterPackages}>Register Packages</Button>
+                        <Button onClick={this.handleDeleteAll}>Delete All</Button>
                         <InteractiveUserTable>
                             rows = {this.added_packages}
                             headers = {["Recipient", "Bin", "Packages", "Perishable"]}
                             handleOnClick = {this.handleOnClick}
                         </InteractiveUserTable>
-                        <Button onClick={this.handleRegisterPackages}>Register Packages</Button>
-                        <Button onClick={this.handleDeleteAll}>Delete All</Button>
                     </Jumbotron>
                     :
                     <h2>No Pending Package Submissions</h2>
                 }
+                {this.state.add_package ? 
+                <UserSearch onQuery={this.onUserQuery} {...this.props} />
+                :
+                <Button onClick={()=>this.setState({add_package: true})}>Add Package</Button>
+                }
+
             </BasePage>
         );
     }
