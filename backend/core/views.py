@@ -154,8 +154,8 @@ class PleasureEducators(viewsets.ModelViewSet):
 
 class DeskWorkers(viewsets.ModelViewSet):
     """
-    GET requests return a list of Users that are active Medlinks.
-    POST requests add Medlinks and records the order of usernames
+    GET requests return a list of Users that are active Desk Workers.
+    POST requests add Desk Workers and records the order of usernames
     given. Any usernames not in the POST request are set as inactive.
     """
     ids = DeskWorker.active_objects.values_list('id')
