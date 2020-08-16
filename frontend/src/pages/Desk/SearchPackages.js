@@ -15,28 +15,30 @@ class SearchPackages extends Component {
     //     number of packages the user has page
 
     onUserQuery = (values, callback) => {
-        // TODO this is probably wrong with the backend, but fix later
-        axios.get("/api/users/", values).then(res => {
+        axios.get("/api/users/advanced_search/", {params: values}).then(res => {
             this.setState({
                 loading: false,
                 users: res.data.map(user =>
                     [
-                        user.first_name,
                         user.last_name,
+                        user.first_name,
                         user.title,
                         user.username,
-                        user.room,
+                        (user.room) ? user.room.number : null,
                         user.year
                     ]
-                )
+                ),
+                searched: true
             });
         });
         callback();
     }
 
     handleOnClick = (row) => {
-        let username = row.username;
-        // TODO Query the username for packages. 
+        let username = row[3];
+        // TODO Bring to the packaege page of a user
+        
+        console.log(username);
     }
 
     render() {
