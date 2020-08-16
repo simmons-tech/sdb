@@ -32,6 +32,7 @@ import AllPackages from './pages/Desk/AllPackages';
 import SearchPackages from './pages/Desk/SearchPackages';
 import DeskCheckout from './pages/Desk/DeskCheckout';
 import DeskGuestList from './pages/Desk/GuestList';
+import RegisterPackages from './pages/Desk/RegisterPackages';
 
 import HomePage from './pages/Home/HomePage';
 import LoginPage from './pages/Home/LoginPage';
@@ -80,6 +81,7 @@ const routing = (
           <Route exact path={ROUTES.DESK_HOME} component={deskOnly(DeskHome)} />
           <Route exact path={ROUTES.ALL_PACKAGES} component={deskOnly(AllPackages)} />
           <Route exact path={ROUTES.SEARCH_PACKAGES} component={deskOnly(SearchPackages)} />
+          <Route exact path={ROUTES.REGISTER_PACKAGES} component={deskOnly(RegisterPackages)} />
           <Route exact path={ROUTES.DESK_CHECKOUT} component={deskOnly(DeskCheckout)} />
           <Route exact path={ROUTES.DESK_GUEST_LIST} component={deskOnly(DeskGuestList)} />
           <Route component={NoMatchPage}/>
