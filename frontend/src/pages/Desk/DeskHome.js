@@ -47,12 +47,6 @@ class DeskHome extends Component {
         this.load_notes();
     }
 
-    componentDidUpdate() {
-        if (this.state.notes_refresh) {
-            this.load_notes();
-        }
-    }
-
 
     render() {
         return (
