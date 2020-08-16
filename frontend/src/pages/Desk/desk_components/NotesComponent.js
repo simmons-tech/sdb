@@ -18,13 +18,14 @@ class NotesComponent extends Component {
         return (
             (this.props.notes.length) ?
                 this.props.notes.map((note, index) =>
-                    <Toast key={index}>
-                        <ToastHeader>
+                    <Toast key={index} transition={true}>
+                        <ToastHeader 
+                            icon = {(note.user === this.props.user) ? "primary" : "secondary"}
+                            toggle = {() => this.handleComplete(note.pk)}>
                             {note.user.username}
                         </ToastHeader>
                         <ToastBody>
                             {note.body}
-                            <Button onClick={() => this.handleComplete(note.pk)}>Complete!</Button>
                         </ToastBody>
                     </Toast>
                 )
