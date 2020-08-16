@@ -23,18 +23,18 @@ class AddNotes extends Component {
     }
 
     handle_button = () => {
-        // TODO connect it to the backend
-        // TODO make the message show up on after the post. This might be part of notes component
-        axios
-            .post('/api/desknotes/',
-                {
-                    desk_worker: this.props.user,
-                    content: this.state.input,
-                })
-            .then(res => {
-                this.clear_input();
-                this.props.update_notes();
-            });
+        if(this.state.input.trim() !== ""){
+            axios
+                .post('/api/desknotes/',
+                    {
+                        desk_worker: this.props.user,
+                        content: this.state.input,
+                    })
+                .then(res => {
+                    this.clear_input();
+                    this.props.update_notes();
+                });
+        }
     };
 
     clear_input = () => {
@@ -52,7 +52,7 @@ class AddNotes extends Component {
                         value={this.state.input}
                     />
                     <InputGroupAddon addonType="append">
-                        <Button onClick={this.handle_button} >Post</Button>
+                        <Button onClick={this.handle_button}>Post</Button>
                     </InputGroupAddon>
                 </InputGroup>
             </div>
