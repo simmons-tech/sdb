@@ -31,6 +31,11 @@ class AllPackages extends Component {
         });
     } 
 
+    handleOnClick = (row) => {
+        let username = row.username;
+        // TODO Query the username for packages. 
+    }
+
     render() {
         return (
             <BasePage loading={this.state.loading} header="All Waiting Packages">
@@ -41,9 +46,10 @@ class AllPackages extends Component {
                          "Bin",
                          "# Pkgs",
                          "Perishable?",
-                         "Last Registrationn",
+                         "Last Registration",
                          "Registered By"
                     ]}
+                    handleOnClick = {this.handleOnClick}
                 />
             </BasePage>
         );

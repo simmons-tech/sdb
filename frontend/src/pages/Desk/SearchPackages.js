@@ -34,6 +34,11 @@ class SearchPackages extends Component {
         callback();
     }
 
+    handleOnClick = (row) => {
+        let username = row.username;
+        // TODO Query the username for packages. 
+    }
+
     render() {
         return (
             <BasePage loading={this.state.loading} header="Package Pickup">
@@ -42,6 +47,7 @@ class SearchPackages extends Component {
                         <InteractiveUserTable
                             rows={this.state.users}
                             headers={["Last", "First", "Title", "Username", "Room", "Year"]}
+                            handleOnClick = {this.handleOnClick}
                         />
                     </Jumbotron>
                     :
