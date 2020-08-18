@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import BasePage from "../BasePage";
-import { Jumbotron, Button } from "reactstrap";
+import { Jumbotron, Button, Row, Col } from "reactstrap";
 import InteractiveUserTable from "./desk_components/InteractiveUserTable";
 import UserSearch from "./desk_components/UserSearch";
 import axios from "../../axiosInstance";
@@ -8,7 +8,7 @@ import axios from "../../axiosInstance";
 class RegisterPackages extends Component {
     constructor(props) {
         super(props);
-        this.state = { loading: false, add_package: false, added_packages: [] };
+        this.state = { loading: false, add_package: false, added_packages: [], users: [], searched: false};
     }
 
     onUserQuery = (values, callback) => {
@@ -36,12 +36,25 @@ class RegisterPackages extends Component {
         this.setState({ added_packages: [] })
     }
 
-    handleRegisterPackages = () => {
-        // used to send a register added packages. 
+    handleRegisterAllPackages = () => {
+        // used to send a register all added packages. 
+        // add desk_worker to the submission
     }
 
-    handleOnClick = (row) => {
+    handleUserQueryOnClick = (row) => {
         // used to edit or delete a entry
+        let username = row[3];
+
+    }
+
+    handleAddedPackageOnClick = (row) => {
+
+    }
+
+    handleAddPackage = (values) =>{
+        // used to add a package in the state. Does not register them to the DB yet
+        // TODO check if values contain recipient, location, quantity, and perishable
+        this.setState({added_packages:[...this.state.added_packages,...values]})
     }
 
     render() {
@@ -49,19 +62,42 @@ class RegisterPackages extends Component {
             <BasePage loading={this.state.loading} header="Register Packages">
                 {this.state.added_packages.length ?
                     <Jumbotron>
-                        <Button onClick={this.handleRegisterPackages}>Register Packages</Button>
+                        <Button onClick={this.handleRegisterAllPackages}>Register Packages</Button>
                         <Button onClick={this.handleDeleteAll}>Delete All</Button>
-                        <InteractiveUserTable>
-                            rows = {this.added_packages}
+                        <InteractiveUserTable 
+                            rows = {this.state.added_packages}
                             headers = {["Recipient", "Bin", "Packages", "Perishable"]}
-                            handleOnClick = {this.handleOnClick}
-                        </InteractiveUserTable>
+                            handleOnClick = {this.handleAddedPackageOnClick}
+                        />
                     </Jumbotron>
                     :
                     <h2>No Pending Package Submissions</h2>
                 }
                 {this.state.add_package ? 
-                <UserSearch onQuery={this.onUserQuery} {...this.props} />
+                <Row>
+                    <Col>
+                        <UserSearch onQuery={this.onUserQuery} {...this.props} />
+                    </Col>
+                    <Col>
+                        <Jumbotron>
+                            {(this.state.users.length) ? 
+                                <div>
+                                    <h4>Select a resident to register the package for:</h4>
+                                    <InteractiveUserTable
+                                        rows = {this.state.users}
+                                        headers = {["Last", "First", "Title", "Username", "Room", "Year"]}
+                                        handleOnClick = {this.handleUserQueryOnClick}
+                                    />
+                                </div>
+                            : 
+                                (this.state.searched) ? 
+                                    <h4>No resident matched your query.</h4>
+                                    :
+                                    <h4>Search for a resident. Results will appear here.</h4>
+                            }
+                        </Jumbotron>
+                    </Col>
+                </Row>
                 :
                 <Button onClick={()=>this.setState({add_package: true})}>Add Package</Button>
                 }
