@@ -9,7 +9,7 @@ class RegisterPackages extends Component {
     constructor(props) {
         super(props);
         this.state = { loading: false, add_package: false, added_packages: [], users: [], searched: false};
-    }
+    }  
 
     onUserQuery = (values, callback) => {
         axios.get("/api/users/advanced_search/", {params: values}).then(res => {
