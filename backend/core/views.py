@@ -412,6 +412,46 @@ class UserList(viewsets.ModelViewSet):
         serializer = UserSerializer(gras, many=True)
         return Response(serializer.data)
 
+    @action(detail=True, methods=['get'])
+    def packages(self, request, pk=None):
+        """
+        Returns a list of Packages that belong to the current user
+
+        :param request: DRF Request object
+        :param pk: Pk of the user making the query
+        :return: DRF Response object
+        """
+
+        # Verify that the user making the request is actually the current user
+        user = self.get_object()
+        if user.pk != self.request.user.pk:
+            return Response(None, status=status.HTTP_401_UNAUTHORIZED)
+
+        # Get all packages from this user
+        user_packages = user.received_package_set.all()
+        serializer = PackageSerializer(user_packages, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['get'])
+    def loaned_items(self, request, pk=None):
+        """
+        Returns a listing of all items that the user has loaned from desk.
+
+        :param request: DRF Request object
+        :param pk: Pk of the user making the query
+        :return: DRF Response object
+        """
+
+        # Verify that the user making the request is actually the current user
+        user = self.get_object()
+        if user.pk != self.request.user.pk:
+            return Response(None, status=status.HTTP_401_UNAUTHORIZED)
+
+        # Get all loaned items for this user
+        user_items = user.item_loaned_set.all()
+        serializer = DeskItemSerializer(user_items, many=True)
+        return Response(serializer.data)
+
     def list(self, request):
         """
         Returns a list of the first 5 Users who match
@@ -541,7 +581,7 @@ class DeskItems(viewsets.ModelViewSet):
 
         out_items = DeskItem.checked_out_objects.get_queryset()
         serializer = DeskItemSerializer(out_items, many=True)
-        return Response(serializer)
+        return Response(serializer.data)
 
     @action(detail=True, methods=['post'])
     def checkout(self, request):
