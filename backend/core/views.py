@@ -428,7 +428,7 @@ class UserList(viewsets.ModelViewSet):
             return Response(None, status=status.HTTP_401_UNAUTHORIZED)
 
         # Get all packages from this user
-        user_packages = user.received_package_set.all()
+        user_packages = user.received_package
         serializer = PackageSerializer(user_packages, many=True)
         return Response(serializer.data)
 
@@ -448,7 +448,7 @@ class UserList(viewsets.ModelViewSet):
             return Response(None, status=status.HTTP_401_UNAUTHORIZED)
 
         # Get all loaned items for this user
-        user_items = user.item_loaned_set.all()
+        user_items = user.item_loaned
         serializer = DeskItemSerializer(user_items, many=True)
         return Response(serializer.data)
 
