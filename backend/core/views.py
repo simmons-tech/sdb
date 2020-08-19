@@ -523,8 +523,12 @@ class Packages(viewsets.ModelViewSet):
 
         worker_username = request.data['desk_worker']['username']
         recipient_username = request.data['recipient']['username']
-        desk_worker = DeskWorker.active_objects.get(username=worker_username)
+        desk_worker = User.objects.get(username=worker_username)
         recipient = User.objects.get(username=recipient_username)
+
+        # Verify that a desk worker is making the request (and that the package is logged under themselves)
+        if desk_worker.pk != request.user.pk:
+            return Response(None, status.HTTP_401_UNAUTHORIZED)
 
         data = {
             'location': request.data['location'],

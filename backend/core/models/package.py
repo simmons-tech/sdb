@@ -19,13 +19,28 @@ class Package(models.Model):
     A model representing a package that is logged at the Simmons front desk.
     """
 
-    log_time = models.DateTimeField(auto_now_add=True)
-    location = models.CharField(max_length=255)
-    quantity = models.IntegerField()
-    perishable = models.BooleanField(default=False)
-    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="received_package")
-    desk_worker = models.ForeignKey(User, on_delete=models.CASCADE)
-    picked_up = models.DateTimeField(blank=True)
+    log_time = models.DateTimeField(auto_now_add=True,
+                                    blank=False,
+                                    null=False)
+    location = models.CharField(blank=False,
+                                null=False,
+                                max_length=255)
+    quantity = models.IntegerField(blank=False,
+                                   null=False)
+    perishable = models.BooleanField(blank=False,
+                                     null=False,
+                                     default=False)
+    recipient = models.ForeignKey(User,
+                                  on_delete=models.CASCADE,
+                                  related_name="received_package",
+                                  blank=False,
+                                  null=False)
+    desk_worker = models.ForeignKey(User,
+                                    on_delete=models.CASCADE,
+                                    blank=False,
+                                    null=False)
+    picked_up = models.DateTimeField(blank=True,
+                                     null=True)
 
     current_objects = WaitingPackages()
     objects = models.Manager()
