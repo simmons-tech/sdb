@@ -64,7 +64,7 @@ const routing = (
           <Route exact path={ROUTES.PROFILE} component={withAuthentication(ProfilePage)} />
           <Route exact path={ROUTES.ABOUT} component={withSession(AboutPage)} />
           <Route exact path={ROUTES.LOGIN} component={withSession(LoginPage)} />
-          <Route exact patch={ROUTES.PACKAGES} component={withAuthentication(UserPackagePage)} />
+          {/* <Route exact patch={ROUTES.PACKAGES} component={withAuthentication(UserPackagePage)} /> */}
           <Route exact path={ROUTES.SIGN_UP} component={withAuthentication(SignupPage)} />
           <Route exact path={ROUTES.SIGN_OUT} component={SignoutPage} />
           <Route exact path={ROUTES.RESIDENT_DIRECTORY} component={withAuthentication(DirectoryPage)} />
