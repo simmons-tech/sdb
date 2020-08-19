@@ -21,12 +21,12 @@ class AllPackages extends Component {
                     loading: false,
                     rows: res.data.map(item =>
                         [
-                            item.recipient,
+                            item.recipient.display_name,
                             item.location,
                             item.quantity,
-                            item.perishable,
+                            (item.perishable) ? "Yes" : "No",
                             item.log_time,
-                            item.desk_worker
+                            item.desk_worker.display_name
                         ]
                     )
                 });
