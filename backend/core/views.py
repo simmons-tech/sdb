@@ -1,7 +1,7 @@
 import csv
 import io
 import random
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.db import transaction
 from django.db.models import Q
@@ -559,10 +559,13 @@ class DeskItems(viewsets.ModelViewSet):
         worker_pk = request.data['desk_worker']['pk']
         resident_pk = request.data['resident']['pk']
 
+        hours_loaned = request.data['hours_loaned']
+
         item.desk_worker = User.objects.get(pk=worker_pk)
         item.resident = User.objects.get(pk=resident_pk)
         item.checked_out = True
         item.time_out = datetime.now()
+        item.time_due = datetime.now() + timedelta(hours=hours_loaned)
 
         item.save()
 
