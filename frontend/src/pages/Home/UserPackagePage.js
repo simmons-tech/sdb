@@ -26,13 +26,12 @@ class UserPackagePage extends Component {
                             [
                                 data.log_time,
                                 data.quantity,
-                                data.perishable,
+                                (data.perishable) ? "Yes" : "No",
                                 data.picked_up,
                             ]
                         )),
                     })
-                })
-                .catch(e => console.log(e));
+                });
         }
     }
 
