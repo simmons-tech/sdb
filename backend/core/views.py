@@ -44,7 +44,8 @@ def updateList(request, objects):
             return Response(None, status=status.HTTP_400_BAD_REQUEST)
 
     # Any usernames not included are not active
-    to_deactivate = objects.filter(is_active=True).exclude(user__username__in=usernames).all()
+    to_deactivate = objects.filter(is_active=True).exclude(
+        user__username__in=usernames).all()
     for entry in to_deactivate:
         deactivateRecord(entry)
 
@@ -99,7 +100,8 @@ class Medlinks(viewsets.ModelViewSet):
     given. Any usernames not in the POST request are set as inactive.
     """
     ids = Medlink.active_objects.values_list('id')
-    queryset = User.objects.filter(medlink__id__in=ids).order_by("medlink__index")
+    queryset = User.objects.filter(
+        medlink__id__in=ids).order_by("medlink__index")
     serializer_class = UserSerializer
 
     @permission_classes([IsAdmin])
@@ -114,7 +116,8 @@ class AssociateAdvisors(viewsets.ModelViewSet):
     given. Any usernames not in the POST request are set as inactive.
     """
     ids = AssociateAdvisor.active_objects.values_list('id')
-    queryset = User.objects.filter(associateadvisor__id__in=ids).order_by("associateadvisor__index")
+    queryset = User.objects.filter(
+        associateadvisor__id__in=ids).order_by("associateadvisor__index")
     serializer_class = UserSerializer
 
     @permission_classes([IsAdmin])
@@ -129,7 +132,8 @@ class ResidentPeerMentors(viewsets.ModelViewSet):
     given. Any usernames not in the POST request are set as inactive.
     """
     ids = ResidentPeerMentor.active_objects.values_list('id')
-    queryset = User.objects.filter(residentpeermentor__id__in=ids).order_by("residentpeermentor__index")
+    queryset = User.objects.filter(residentpeermentor__id__in=ids).order_by(
+        "residentpeermentor__index")
     serializer_class = UserSerializer
 
     @permission_classes([IsAdmin])
@@ -144,7 +148,8 @@ class PleasureEducators(viewsets.ModelViewSet):
     given. Any usernames not in the POST request are set as inactive.
     """
     ids = PleasureEducator.active_objects.values_list('id')
-    queryset = User.objects.filter(pleasureeducator__id__in=ids).order_by("pleasureeducator__index")
+    queryset = User.objects.filter(
+        pleasureeducator__id__in=ids).order_by("pleasureeducator__index")
     serializer_class = UserSerializer
 
     @permission_classes([IsAdmin])
@@ -159,7 +164,8 @@ class DeskWorkers(viewsets.ModelViewSet):
     given. Any usernames not in the POST request are set as inactive.
     """
     ids = DeskWorker.active_objects.values_list('id')
-    queryset = User.objects.filter(deskworker__id__in=ids).order_by("deskworker__index")
+    queryset = User.objects.filter(
+        deskworker__id__in=ids).order_by("deskworker__index")
     serializer_class = UserSerializer
 
     @permission_classes([IsAdmin])
@@ -173,7 +179,8 @@ class Administrators(viewsets.ModelViewSet):
     POST requests add Pleasure Educators and records the order of usernames
     given. Any usernames not in the POST request are set as inactive.
     """
-    ids = Administrator.active_objects.values_list('id').order_by("administrator__index")
+    ids = Administrator.active_objects.values_list(
+        'id').order_by("administrator__index")
     queryset = User.objects.filter(administrator__id__in=ids)
     serializer_class = UserSerializer
 
@@ -233,7 +240,7 @@ class Officers(viewsets.ModelViewSet):
         # Any positions they used to hold that are _not_ in this list
         # will be deactivated
         for officer in officers:
-            new_positions = set([position['position'] \
+            new_positions = set([position['position']
                                  for position in positions if position['username'] == officer])
             to_deactivate = Officer.objects.filter(is_active=True, user__username=officer) \
                 .exclude(position__in=new_positions)
@@ -241,7 +248,8 @@ class Officers(viewsets.ModelViewSet):
                 deactivateRecord(position)
 
         # Any usernames not included are not active
-        to_deactivate = Officer.objects.filter(is_active=True).exclude(user__username__in=officers).all()
+        to_deactivate = Officer.objects.filter(
+            is_active=True).exclude(user__username__in=officers).all()
         for entry in to_deactivate:
             deactivateRecord(entry)
 
@@ -391,13 +399,15 @@ class UserList(viewsets.ModelViewSet):
             users = users.filter(username__istartswith=username)
         if room:
             rooms = Room.objects.filter(number__istartswith=room)
-            user_room_ids = UserRoom.current_objects.filter(room__in=rooms).values_list('id')
+            user_room_ids = UserRoom.current_objects.filter(
+                room__in=rooms).values_list('id')
             users = users.filter(userroom__id__in=user_room_ids)
         if year:
             users = users.filter(year__iexact=year)
         if section:
             rooms = Room.objects.filter(section__name__istartswith=section)
-            user_room_ids = UserRoom.current_objects.filter(room__in=rooms).values_list('id')
+            user_room_ids = UserRoom.current_objects.filter(
+                room__in=rooms).values_list('id')
             users = users.filter(userroom__id__in=user_room_ids)
 
         serializer = UserSerializer(users, many=True)
@@ -511,7 +521,7 @@ class Packages(viewsets.ModelViewSet):
     queryset = Package.current_objects
     serializer_class = PackageSerializer
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=['post'])
     def user_packages(self, request):
         """
         Queries the database and retrieves all packages that belong to a given user based on their username
@@ -521,7 +531,7 @@ class Packages(viewsets.ModelViewSet):
         """
 
         recipient_username = request.data['recipient']['username']
-        recipient = User.objects.select_related('received_package').get(username=recipient_username)
+        recipient = User.objects.get(username=recipient_username)
 
         packages = recipient.received_package
         serializer = PackageSerializer(packages, many=True)
@@ -553,7 +563,8 @@ class Packages(viewsets.ModelViewSet):
             'perishable': request.data['perishable'] == 'true',
         }
 
-        Package.objects.create(desk_worker=desk_worker, recipient=recipient, **data)
+        Package.objects.create(desk_worker=desk_worker,
+                               recipient=recipient, **data)
 
         return Response({'status': 'created'}, status=status.HTTP_201_CREATED)
 
