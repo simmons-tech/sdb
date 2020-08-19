@@ -9,7 +9,7 @@ class AddNotes extends Component {
         this.state = { input: "" }
     }
 
-    // Input bo for the notes section. Should refresh the react component to get notes again from the db
+    // Input box for the notes section. Should refresh the react component to get notes again from the db
 
 
     handle_change = (e) => {

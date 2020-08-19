@@ -5,7 +5,6 @@ import InteractiveUserTable from "./desk_components/InteractiveUserTable";
 import UserSearch from "./desk_components/UserSearch";
 import AddPackageForm from "./desk_components/AddPackageForm";
 import axios from "../../axiosInstance";
-import { faCloudShowersHeavy } from "@fortawesome/free-solid-svg-icons";
 
 class RegisterPackages extends Component {
     constructor(props) {
@@ -22,7 +21,8 @@ class RegisterPackages extends Component {
                 first_name: "",
                 title: "",
                 username: ""
-            }
+            },
+            submission_progress:""
         };
     }  
 
@@ -68,23 +68,40 @@ class RegisterPackages extends Component {
     handleRegisterAllPackages = () => {
         // used to send a register all added packages. 
         // add desk_worker to the submission
-        // axios.post("/api/users/log/", values).then(res => {
-        //     // resets the state of the page
-        //     this.setState({ 
-        //         loading: false, 
-        //         add_package: false, 
-        //         editing: false, 
-        //         searched: false, 
-        //         added_packages: [], 
-        //         users: [], 
-        //         currently_editing:{
-        //             last_name: "",
-        //             first_name: "",
-        //             title: "",
-        //             username: ""
-        //         }
-        //     });
-        // });
+        this.state.added_packages.map((values) => {
+            
+            let req = {
+                desk_worker: {username: this.props.user.username},
+                recipient: {username: values[4]},
+                location: values[1],
+                quantity: values[2],
+                perishable: values[3]
+            }
+
+            axios.post("/api/packages/log/", req).then(
+                this.setState({
+                    submission_progress: "Sending to DB" 
+                })
+            );
+        })
+        // resents the pages state
+        this.setState({ 
+            loading: false, 
+            add_package: false, 
+            editing: false, 
+            searched: false, 
+            added_packages: [], 
+            users: [], 
+            currently_editing:{
+                last_name: "",
+                first_name: "",
+                title: "",
+                username: ""
+            },
+            submission_progress: "All Saved!" 
+
+        });
+        
     }
 
     handleUserQueryOnClick = (row) => {
@@ -152,6 +169,7 @@ class RegisterPackages extends Component {
                             headers = {["Recipient", "Bin", "Packages", "Perishable", "Username", "Actions"]}
                             handleOnClick = {this.handleAddedPackageOnClick}
                         />
+                        <h4>{this.state.submission_progress}</h4>
                     </Jumbotron>
                     :
                     <h2>No Pending Package Submissions</h2>

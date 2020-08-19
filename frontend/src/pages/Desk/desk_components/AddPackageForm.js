@@ -5,10 +5,6 @@ import { CustomInputForm } from '../../../components/CustomFormikInputs'
 
 import { FormGroup, Label, Button } from "reactstrap"
 
-import axios from '../../../axiosInstance';
-import { faBalanceScale } from "@fortawesome/free-solid-svg-icons";
-import { resetServerContext } from "react-beautiful-dnd";
-
 
 class AddPackageForm extends Component {
     constructor(props) {
@@ -22,15 +18,6 @@ class AddPackageForm extends Component {
                 perishable: false
             }}
     }
-
-
-    // componentDidMount() {
-    //     axios
-    //       .get('/api/sections/')
-    //       .then(res => {
-    //         this.setState({sections: res.data.map(item => item.name)})
-    //       })
-    // }
 
     onSubmit = (values) => {
         if (values.bin.trim() === ""){
