@@ -3,12 +3,27 @@ import BasePage from "../BasePage";
 import { Jumbotron, Button, Row, Col } from "reactstrap";
 import InteractiveUserTable from "./desk_components/InteractiveUserTable";
 import UserSearch from "./desk_components/UserSearch";
+import AddPackageForm from "./desk_components/AddPackageForm";
 import axios from "../../axiosInstance";
+import { faCloudShowersHeavy } from "@fortawesome/free-solid-svg-icons";
 
 class RegisterPackages extends Component {
     constructor(props) {
         super(props);
-        this.state = { loading: false, add_package: false, added_packages: [], users: [], searched: false};
+        this.state = { 
+            loading: false, 
+            add_package: false, // when the add package button is pushed
+            editing: false, // when a user is selected and editing out package info
+            searched: false, // when a query has been made
+            added_packages: [], // packages that have been logged, but not posted to the db yet
+            users: [], // users from a query
+            currently_editing:{
+                last_name: "",
+                first_name: "",
+                title: "",
+                username: ""
+            }
+        };
     }  
 
     onUserQuery = (values, callback) => {
@@ -29,6 +44,20 @@ class RegisterPackages extends Component {
             });
         });
         callback();
+        this.handleBackButton(); // clears the query table and form.
+    }
+
+    handleBackButton = () =>{
+        // change current states
+        this.setState({
+            currently_editing:{
+                last_name: "",
+                first_name: "",
+                title: "",
+                username:""
+            },
+            editing: false,
+        })
     }
 
     handleDeleteAll = () => {
@@ -39,22 +68,76 @@ class RegisterPackages extends Component {
     handleRegisterAllPackages = () => {
         // used to send a register all added packages. 
         // add desk_worker to the submission
+        // axios.post("/api/users/log/", values).then(res => {
+        //     // resets the state of the page
+        //     this.setState({ 
+        //         loading: false, 
+        //         add_package: false, 
+        //         editing: false, 
+        //         searched: false, 
+        //         added_packages: [], 
+        //         users: [], 
+        //         currently_editing:{
+        //             last_name: "",
+        //             first_name: "",
+        //             title: "",
+        //             username: ""
+        //         }
+        //     });
+        // });
     }
 
     handleUserQueryOnClick = (row) => {
         // used to edit or delete a entry
-        let username = row[3];
+        this.setState({
+            currently_editing:{
+                last_name: row[0],
+                first_name: row[1],
+                title: row[2],
+                username: row[3]
+            },
+            editing: true,
+        })
 
     }
 
     handleAddedPackageOnClick = (row) => {
-
+        //for actions to make a row clickable
+        // Empty for now on purpose
     }
 
-    handleAddPackage = (values) =>{
+    handleRowDelete = (index) => {
+        // onclick action for delete button
+        let items = [...this.state.added_packages];
+        items.splice(index, 1);
+
+        // used to reindex the delete button for each row. Could have a better solution.
+        for(let i = 0; i < items.length; ++i){
+            let item = items[i];
+            item[5] = 
+                <div>
+                    <Button onClick = {() => this.handleRowDelete(i)}>Delete</Button>
+                </div>  
+            items[i] = item;
+        }
+        this.setState({added_packages: items});
+    }
+
+    handleAddPackage = (values, callback) => {
         // used to add a package in the state. Does not register them to the DB yet
-        // TODO check if values contain recipient, location, quantity, and perishable
-        this.setState({added_packages:[...this.state.added_packages,...values]})
+        let index = this.state.added_packages.length;
+        this.setState({added_packages:[...this.state.added_packages,[
+            this.state.currently_editing.first_name + " " + this.state.currently_editing.last_name,
+            values.bin,
+            values.packages,
+            (values.perishable) ? "Yes" : "No",
+            this.state.currently_editing.username,
+            <div>
+                <Button onClick = {() => this.handleRowDelete(index)}>Delete</Button>
+            </div> 
+        ]
+        ]})
+        callback();
     }
 
     render() {
@@ -66,7 +149,7 @@ class RegisterPackages extends Component {
                         <Button onClick={this.handleDeleteAll}>Delete All</Button>
                         <InteractiveUserTable 
                             rows = {this.state.added_packages}
-                            headers = {["Recipient", "Bin", "Packages", "Perishable"]}
+                            headers = {["Recipient", "Bin", "Packages", "Perishable", "Username" "Actions"]}
                             handleOnClick = {this.handleAddedPackageOnClick}
                         />
                     </Jumbotron>
@@ -80,20 +163,28 @@ class RegisterPackages extends Component {
                     </Col>
                     <Col>
                         <Jumbotron>
-                            {(this.state.users.length) ? 
+                            {(this.state.editing) ?
+                                // In this state if a user has been selected for a package
                                 <div>
-                                    <h4>Select a resident to register the package for:</h4>
-                                    <InteractiveUserTable
-                                        rows = {this.state.users}
-                                        headers = {["Last", "First", "Title", "Username", "Room", "Year"]}
-                                        handleOnClick = {this.handleUserQueryOnClick}
-                                    />
+                                    {/* This back button looks ugly, but idk how to fix it */}
+                                    <Button onClick={() => this.handleBackButton()}>Back</Button>
+                                    <AddPackageForm currently_editing = {this.state.currently_editing} handleAddPackage = {this.handleAddPackage}/>
                                 </div>
-                            : 
-                                (this.state.searched) ? 
-                                    <h4>No resident matched your query.</h4>
-                                    :
-                                    <h4>Search for a resident. Results will appear here.</h4>
+                            :
+                                (this.state.users.length) ? 
+                                    <div>
+                                        <h4>Select a resident to register the package for:</h4>
+                                        <InteractiveUserTable
+                                            rows = {this.state.users}
+                                            headers = {["Last", "First", "Title", "Username", "Room", "Year"]}
+                                            handleOnClick = {this.handleUserQueryOnClick}
+                                        />
+                                    </div>
+                                : 
+                                    (this.state.searched) ? 
+                                        <h4>No resident matched your query.</h4>
+                                        :
+                                        <h4>Search for a resident. Results will appear here.</h4>
                             }
                         </Jumbotron>
                     </Col>
