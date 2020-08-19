@@ -518,6 +518,77 @@ class DeskItems(viewsets.ModelViewSet):
     queryset = DeskItem.objects.all()
     serializer_class = DeskItemSerializer
 
+    @action(detail=False, methods=['get'])
+    def available(self, request):
+        """
+        Returns a listing of all of the desk items that are currently not loaned out
+
+        :param request: DRF Request Object
+        :return: DRF Response Object
+        """
+
+        available_items = DeskItem.available_objects.get_queryset()
+        serializer = DeskItemSerializer(available_items, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def out(self, request):
+        """
+        Returns a listing of all of the desk items that are loaned out from desk
+        :param request: DRF Request object
+        :return: DRF Response object
+        """
+
+        out_items = DeskItem.checked_out_objects.get_queryset()
+        serializer = DeskItemSerializer(out_items, many=True)
+        return Response(serializer)
+
+    @action(detail=True, methods=['post'])
+    def checkout(self, request):
+        """
+        Checks out a given item from the front desk, marking the given resident as the one that checked it out
+
+        :param request: DRF Request object
+        :return: DRF Response object
+        """
+        item = self.get_object()
+
+        if item is None or item.checked_out:
+            return Response({'status': 'Item is already checked out'}, status.HTTP_400_BAD_REQUEST)
+
+        worker_pk = request.data['desk_worker']['pk']
+        resident_pk = request.data['resident']['pk']
+
+        item.desk_worker = User.objects.get(pk=worker_pk)
+        item.resident = User.objects.get(pk=resident_pk)
+        item.checked_out = True
+        item.time_out = datetime.now()
+
+        item.save()
+
+        return Response({'status': 'success'}, status.HTTP_200_OK)
+
+    @action(detail=True, methods=['post'])
+    def ret(self, request):
+        """
+        Returns the specified item to the front desk, and removes all "checked out" properties of the item
+        :param request: DRF Request object
+        :return: DRF Response object
+        """
+
+        item = self.get_object()
+
+        if item is None or not item.checked_out:
+            return Response({'status': 'item is not checked out'}, status.HTTP_400_BAD_REQUEST)
+
+        item.desk_worker = None
+        item.resident = None
+        item.checked_out = False
+        item.time_out = None
+        item.time_due = None
+
+        return Response({'status': 'item is returned'}, status.HTTP_200_OK)
+
 
 class DeskNotes(viewsets.ModelViewSet):
     permission_classes = [IsDeskWorker]

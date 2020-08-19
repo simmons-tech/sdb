@@ -9,7 +9,7 @@ class CheckedOutItems(models.Manager):
     """
 
     def get_queryset(self):
-        return super().get_queryset().filter(checked_out=False)
+        return super().get_queryset().filter(checked_out=True)
 
 
 class AvailableItems(models.Manager):
@@ -18,7 +18,7 @@ class AvailableItems(models.Manager):
     """
 
     def get_queryset(self):
-        return super().get_queryset().filter(checked_out=True)
+        return super().get_queryset().filter(checked_out=False)
 
 
 class DeskItem(models.Model):
@@ -29,7 +29,7 @@ class DeskItem(models.Model):
     item = models.CharField(max_length=255, blank=False)
     time_out = models.DateTimeField()
     time_due = models.DateTimeField()
-    checked_out = models.BooleanField(default=False)
+    checked_out = models.BooleanField(default=False, blank=False)
     resident = models.ForeignKey(User, on_delete=models.CASCADE, related_name="item_loaned")
     desk_worker = models.ForeignKey(User, on_delete=models.CASCADE)
 
