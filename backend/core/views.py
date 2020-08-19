@@ -583,8 +583,16 @@ class Packages(viewsets.ModelViewSet):
         """
 
         picked_up_package = self.get_object()
+        num_picked_up = request.data['num_picked_up']
 
-        picked_up_package.picked_up = datetime.now()
+        # Make sure that the number of packages being picked up makes sense
+        expected_max_pickup = picked_up_package.quantity - picked_up_package.num_picked_up
+        if num_picked_up > expected_max_pickup:
+            return Response({'status': 'More picked up than allowed'}, status=status.HTTP_400_BAD_REQUEST)
+
+        picked_up_package.num_picked_up += num_picked_up
+        picked_up_package.save()
+
         return Response({'status': 'updated'}, status=status.HTTP_200_OK)
 
 

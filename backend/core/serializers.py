@@ -196,8 +196,8 @@ class PackageSerializer(serializers.ModelSerializer):
             "perishable",
             "log_time",
             "desk_worker",
-            "picked_up",
-            "pk"
+            "num_picked_up",
+            "pk",
         )
 
 
