@@ -149,7 +149,7 @@ class RegisterPackages extends Component {
                         <Button onClick={this.handleDeleteAll}>Delete All</Button>
                         <InteractiveUserTable 
                             rows = {this.state.added_packages}
-                            headers = {["Recipient", "Bin", "Packages", "Perishable", "Username" "Actions"]}
+                            headers = {["Recipient", "Bin", "Packages", "Perishable", "Username", "Actions"]}
                             handleOnClick = {this.handleAddedPackageOnClick}
                         />
                     </Jumbotron>
