@@ -21,10 +21,8 @@ export default function InteractiveUserTable(props) {
               <tr key={index}>
                 {
                   row.map((cell, index) => (
-                    <td key={index}>
-                        <div onClick={() => props.handleOnClick(row)}>
+                    <td key={index} onClick={() => props.handleOnClick(row)}>
                         {cell}
-                        </div>
                     </td>
                   ))
                 }
