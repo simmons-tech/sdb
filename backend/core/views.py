@@ -549,22 +549,26 @@ class Packages(viewsets.ModelViewSet):
         """
 
         worker_username = request.data['desk_worker']['username']
-        recipient_username = request.data['recipient']['username']
         desk_worker = User.objects.get(username=worker_username)
-        recipient = User.objects.get(username=recipient_username)
+        packages = request.data['packages']
 
         # Verify that a desk worker is making the request (and that the package is logged under themselves)
         if desk_worker.pk != request.user.pk:
             return Response(None, status.HTTP_401_UNAUTHORIZED)
 
-        data = {
-            'location': request.data['location'],
-            'quantity': request.data['quantity'],
-            'perishable': request.data['perishable'] == 'true',
-        }
+        for user_package in packages:
 
-        Package.objects.create(desk_worker=desk_worker,
-                               recipient=recipient, **data)
+            recipient_username = user_package['username']
+            recipient = User.objects.get(username=recipient_username)
+
+            data = {
+                'location': user_package['location'],
+                'quantity': user_package['quantity'],
+                'perishable': user_package['perishable'] == 'true',
+            }
+
+            Package.objects.create(desk_worker=desk_worker,
+                                   recipient=recipient, **data)
 
         return Response({'status': 'created'}, status=status.HTTP_201_CREATED)
 
