@@ -530,7 +530,7 @@ class Packages(viewsets.ModelViewSet):
         :return: DRF Response object containing the packages of the requested user
         """
 
-        recipient_username = request.query_params['recipient']['username']
+        recipient_username = request.query_params.get('recipient')['username']
         recipient = User.objects.get(username=recipient_username)
 
         packages = recipient.received_package
@@ -541,8 +541,8 @@ class Packages(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def log(self, request):
         """
-        Logs a package in the system, and adds it to the database under the name of the desk worker that submits the
-        post request
+        Logs listing of packages in the system, and adds it to the database under
+        the name of the desk worker that submits the post request
 
         :param request: DRF Request object
         :return: DRF Response object
@@ -592,6 +592,30 @@ class Packages(viewsets.ModelViewSet):
 
         picked_up_package.num_picked_up += num_picked_up
         picked_up_package.save()
+
+        return Response({'status': 'updated'}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['post'])
+    def bulk_pickup(self, request):
+        """
+        Allows bulk pickup requests from desk
+
+        :param request: DRF Request object
+        :return: DRF Response object
+        """
+
+        packages = request.data['packages']
+        for picked_up_package in packages:
+            package_pk = picked_up_package['pk']
+            num_picked_up = picked_up_package['num_picked_up']
+            package_object = Package.objects.get(pk=package_pk)
+
+            expected_max_pickup = package_object.quantity - package_object.num_picked_up
+            if num_picked_up > expected_max_pickup:
+                return Response({'status': 'More picked up than allowed'}, status=status.HTTP_400_BAD_REQUEST)
+
+            package_object.num_picked_up += num_picked_up
+            package_object.save()
 
         return Response({'status': 'updated'}, status=status.HTTP_200_OK)
 
