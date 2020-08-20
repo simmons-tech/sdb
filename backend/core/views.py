@@ -521,7 +521,7 @@ class Packages(viewsets.ModelViewSet):
     queryset = Package.current_objects
     serializer_class = PackageSerializer
 
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=['get'])
     def user_packages(self, request):
         """
         Queries the database and retrieves all packages that belong to a given user based on their username
@@ -530,7 +530,7 @@ class Packages(viewsets.ModelViewSet):
         :return: DRF Response object containing the packages of the requested user
         """
 
-        recipient_username = request.data['recipient']['username']
+        recipient_username = request.query_params['recipient']['username']
         recipient = User.objects.get(username=recipient_username)
 
         packages = recipient.received_package

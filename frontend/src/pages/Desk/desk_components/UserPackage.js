@@ -19,7 +19,7 @@ class UserPackage extends Component {
 
     getUserPackages = () =>{
         axios
-          .post('/api/packages/user_packages/',{recipient:{username: this.props.user.username}})
+          .get('/api/packages/user_packages/',{recipient:{username: this.props.user.username}})
           .then(res => {
               console.log(res)
             this.setState({
