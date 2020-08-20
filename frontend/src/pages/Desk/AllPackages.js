@@ -19,6 +19,7 @@ class AllPackages extends Component {
     // once a user is found, clicking on them should go to the user's pacakges page
 
     loadPackages = () => {
+
         axios
         .get("/api/packages/")
         .then(res => {
@@ -38,9 +39,10 @@ class AllPackages extends Component {
             });
         })
         .catch(e => console.log(e));
+        
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         this.loadPackages();
     } 
 
@@ -67,18 +69,25 @@ class AllPackages extends Component {
                     <UserPackages user = {this.state.current_user} back = {this.handleBackButton}/>
                 :
                 <Jumbotron>
-                    <InteractiveUserTable 
-                        rows = {this.state.rows}
-                        headers = {
-                            ["Recipient",
-                            "Bin",
-                            "# Pkgs",
-                            "Perishable?",
-                            "Last Registration",
-                            "Registered By"
-                        ]}
-                        handleOnClick = {this.handleOnClick}
-                    />
+                    {(this.state.rows.length) ?
+                        <InteractiveUserTable 
+                            rows = {this.state.rows}
+                            headers = {
+                                ["Recipient",
+                                "Username",
+                                "Bin",
+                                "# Pkgs",
+                                "Perishable?",
+                                "Last Registration",
+                                "Registered By"
+                            ]}
+                            handleOnClick = {this.handleOnClick}
+                        />
+                
+                    :
+                        <h4>No packages waiting to be picked up.</h4>
+                    }
+                    
                 </Jumbotron>
                 }
             </BasePage>
