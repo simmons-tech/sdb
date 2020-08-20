@@ -55,3 +55,7 @@ class PleasureEducator(Group):
 
 class DeskWorker(Group):
     pass
+
+
+class DeskCaptain(Group):
+    pass

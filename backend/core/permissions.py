@@ -1,6 +1,6 @@
 from rest_framework import permissions
 
-from .models import Administrator, DeskWorker
+from .models import Administrator, DeskWorker, DeskCaptain
 
 
 class IsAdmin(permissions.BasePermission):
@@ -19,3 +19,12 @@ class IsDeskWorker(permissions.BasePermission):
 
     def has_permission(self, request, view):
         return DeskWorker.objects.filter(user=request.user).exists()
+
+
+class IsDeskCaptain(permissions.BasePermission):
+    """
+    Permission for Desk Captain to access captain-specific pages
+    """
+
+    def has_permission(self, request, view):
+        return DeskCaptain.objects.filter(user=request.user).exists()

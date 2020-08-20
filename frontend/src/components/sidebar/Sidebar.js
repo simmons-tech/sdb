@@ -78,6 +78,7 @@ class Sidebar extends React.Component {
           onClick={this.openSecondary}
           open={this.state.primaryOpen}
           isAdmin={this.props.isAdmin}
+          isDeskCaptain={this.props.isDeskCaptain}
           isDeskWorker={this.props.isDeskWorker}
         />
         <SidebarSecondary
@@ -92,6 +93,7 @@ class Sidebar extends React.Component {
           )}
           user={this.props.user}
           isAdmin={this.props.isAdmin}
+          isDeskCaptain={this.props.isDeskCaptain}
           isDeskWorker={this.props.isDeskWorker}
         />
       </div>

@@ -173,6 +173,22 @@ class DeskWorkers(viewsets.ModelViewSet):
         return updateList(request, DeskWorker.objects)
 
 
+class DeskCaptains(viewsets.ModelViewSet):
+    """
+    GET requests return a list of Users that are active Desk Captains.
+    POST requests add Desk Captains and records the order of usernames
+    given. Any usernames not in the POST request are set as inactive.
+    """
+    ids = DeskCaptain.active_objects.values_list('id')
+    queryset = User.objects.filter(
+        deskcaptain__id__in=ids).order_by("deskcaptain__index")
+    serializer_class = UserSerializer
+
+    @permission_classes([IsAdmin])
+    def create(self, request):
+        return updateList(request, DeskCaptain.objects)
+
+
 class Administrators(viewsets.ModelViewSet):
     """
     GET requests return a list of Users that are active Pleasure Educators.
@@ -621,10 +637,27 @@ class Packages(viewsets.ModelViewSet):
 
 
 class DeskItems(viewsets.ModelViewSet):
-    permission_classes = [IsDeskWorker]
+    permission_classes = [IsDeskWorker, IsDeskCaptain]
 
     queryset = DeskItem.objects.all()
     serializer_class = DeskItemSerializer
+
+    def create(self, request):
+        """
+        Creates a new DeskItem for the front desk. Can only be created by Desk Captains
+        :param request:
+        :return:
+        """
+
+        # If the user isn't a desk captain, kick them
+        if not DeskCaptain.objects.filter(user=request.user).exists():
+            return Response({'status': 'UNAUTHORIZED'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        item_name = request.data['item_name']
+        item = DeskItem.objects.create(item=item_name)
+        item.save()
+
+        return Response({'status': 'created'}, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=['get'])
     def available(self, request):
@@ -709,16 +742,12 @@ class DeskNotes(viewsets.ModelViewSet):
 
     def create(self, request):
 
-        try:
-            # Get the desk_worker that is creating the note
-            worker_pk = request.data.pop('desk_worker')['pk']
-            desk_worker = User.objects.get(pk=worker_pk)
+        # Get the desk_worker that is creating the note
+        worker_pk = request.data.pop('desk_worker')['pk']
+        desk_worker = User.objects.get(pk=worker_pk)
 
-            DeskNote.objects.create(desk_worker=desk_worker, **request.data)
-
-        # If something goes wrong, you want to ensure that you send a 400
-        except:
-            return Response(None, status=status.HTTP_400_BAD_REQUEST)
+        note = DeskNote.objects.create(desk_worker=desk_worker, **request.data)
+        note.save()
 
         return Response({'status': 'created'}, status=status.HTTP_201_CREATED)
 

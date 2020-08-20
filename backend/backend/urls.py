@@ -29,6 +29,7 @@ router.register(r'residentpeermentors', views.ResidentPeerMentors, 'residentpeer
 router.register(r'pleasureeducators', views.PleasureEducators, 'pleasureeducators')
 router.register(r'administrators', views.Administrators, 'administrators')
 router.register(r'deskworkers', views.DeskWorkers, 'deskworkers')
+router.register(r'deskcaptains', views.DeskCaptains, 'deskcaptains')
 router.register(r'officers', views.Officers, 'officers')
 router.register(r'rooms', views.RoomList, 'rooms')
 router.register(r'sections', views.SectionList, 'sections')

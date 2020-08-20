@@ -3,7 +3,7 @@ from rest_framework_jwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import (User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup, DeskWorker,
-                     Package, DeskItem, DeskNote, DeskShift)
+                     DeskCaptain, Package, DeskItem, DeskNote, DeskShift)
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -13,6 +13,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['user'] = UserSerializer(user).data
         token['is_admin'] = Administrator.objects.filter(user=user).exists()
         token['is_desk_worker'] = DeskWorker.objects.filter(user=user).exists()
+        token['is_desk_captain'] = DeskCaptain.objects.filter(user=user).exists()
 
         return token
 
