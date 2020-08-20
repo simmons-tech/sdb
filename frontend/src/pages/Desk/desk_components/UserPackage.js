@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {Button, Jumbotron, Input } from "reactstrap";
 import InteractiveUserTable from "./InteractiveUserTable";
-import { CustomInputForm } from '../../../components/CustomFormikInputs'
 
 import axios from '../../../axiosInstance';
 
@@ -42,16 +41,17 @@ class UserPackage extends Component {
     }
 
     handlePickUp = () => {
-        // handles picking up the packages
+        // handles picking up the packages one at a time
+        let values = [];
         for(let i = 0; i < this.state.values.length; i++){
-            axios.post("/api/packages/"+this.state.pk[i] +"/pickup/", {
+            values.push({
+                pk: this.state.pk[i],
                 num_picked_up: parseInt(this.state.values[i])
-            });
+            })
         }
-
-        this.getUserPackages();
-        this.props.back();
-        
+        axios.post("/api/packages/bulk_pickup/", {packages: values}).then(res =>
+            this.props.back()
+        );
     }
 
     handleOnClick = () =>{
