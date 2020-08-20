@@ -28,9 +28,7 @@ class AddPackageForm extends Component {
             this.setState({ text: "The number of packages is invalid"});
             return;
         }
-        
-        console.log("in add form")
-        console.log(values)
+    
         this.props.handleAddPackage(values, () => { this.setState({ text: "Query Finished" }) });
     }
 
