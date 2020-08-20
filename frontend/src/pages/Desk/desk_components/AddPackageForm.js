@@ -29,7 +29,7 @@ class AddPackageForm extends Component {
             return;
         }
     
-        this.props.handleAddPackage(values, () => { this.setState({ text: "Query Finished" }) });
+        this.props.handleAddPackage(values, () => { this.setState({ text: "Package Added" }) });
     }
 
     render() {
