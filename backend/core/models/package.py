@@ -46,11 +46,3 @@ class Package(models.Model):
 
     current_objects = WaitingPackages()
     objects = models.Manager()
-
-    def save(self):
-
-        # Ensure sanity by making sure the number picked up is always <= the number logged
-        if self.num_picked_up > self.quantity:
-            self.num_picked_up = self.quantity
-
-        super().save()
