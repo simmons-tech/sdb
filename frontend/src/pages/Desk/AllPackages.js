@@ -19,7 +19,6 @@ class AllPackages extends Component {
     // once a user is found, clicking on them should go to the user's pacakges page
 
     loadPackages = () => {
-
         axios
         .get("/api/packages/")
         .then(res => {
@@ -38,11 +37,14 @@ class AllPackages extends Component {
                 )
             });
         })
-        .catch(e => console.log(e));
+        .catch(e => console.log(e))
+
+        
         
     }
 
     componentDidMount() {
+        this.setState({loading: true});
         this.loadPackages();
     } 
 
