@@ -21,17 +21,18 @@ class UserPackage extends Component {
         axios
           .post('/api/packages/user_packages/',{recipient:{username: this.props.user.username}})
           .then(res => {
+              console.log(res)
             this.setState({
                 pk: res.data.map(item => item.pk),
-                values: res.data.map((item) => item.quantity),
+                values: res.data.map((item) => item.quantity - item.num_picked_up),
                 packages: res.data.map((item,ind) => 
                     [
                         item.log_time,
                         item.location,
                         (item.perishable) ? "Yes" : "No",
-                        item.quantity,
-                        <Input type="select" name={"num" + ind} onChange={event => this.handleDropDown(event, ind)} component={CustomInputForm}>
-                            {[...Array(item.quantity+1).keys()].reverse().map((num, index) => (
+                        item.quantity - item.num_picked_up,
+                        <Input type="select" name={"num" + ind} onChange={event => this.handleDropDown(event, ind)}>
+                            {[...Array(item.quantity - item.num_picked_up+1).keys()].reverse().map((num, index) => (
                                 <option key={index} value={num}>{num}</option>
                             ))}
                         </Input>
@@ -44,7 +45,7 @@ class UserPackage extends Component {
         // handles picking up the packages
         for(let i = 0; i < this.state.values.length; i++){
             axios.post("/api/packages/"+this.state.pk[i] +"/pickup/", {
-                num_picked_up: this.state.values[i]
+                num_picked_up: parseInt(this.state.values[i])
             });
         }
 

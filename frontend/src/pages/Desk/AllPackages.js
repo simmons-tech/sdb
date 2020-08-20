@@ -30,7 +30,7 @@ class AllPackages extends Component {
                         item.recipient.display_name,
                         item.recipient.username,
                         item.location,
-                        item.quantity,
+                        (item.quantity - item.num_picked_up),
                         (item.perishable) ? "Yes" : "No",
                         item.log_time,
                         item.desk_worker.display_name
