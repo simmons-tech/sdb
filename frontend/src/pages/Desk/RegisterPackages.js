@@ -68,22 +68,26 @@ class RegisterPackages extends Component {
     handleRegisterAllPackages = () => {
         // used to send a register all added packages. 
         // add desk_worker to the submission
+        let list = []
         this.state.added_packages.map((values) => {
-            
-            let req = {
-                desk_worker: {username: this.props.user.username},
-                recipient: {username: values[4]},
+            let temp = {
+                username: values[4],
                 location: values[1],
                 quantity: values[2],
                 perishable: values[3]
             }
-
-            axios.post("/api/packages/log/", req).then(
-                this.setState({
-                    submission_progress: "Sending to DB" 
-                })
-            );
+            list.push(temp);
         })
+        let req = {
+            desk_worker: {username: this.props.user.username},
+            packages: list,
+        }
+
+        axios.post("/api/packages/log/", req).then(
+            this.setState({
+                submission_progress: "Sending to DB" 
+            })
+        );
         // resents the pages state
         this.setState({ 
             loading: false, 
