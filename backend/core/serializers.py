@@ -3,7 +3,7 @@ from rest_framework_jwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import (User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup, DeskWorker,
-                     DeskCaptain, Package, DeskItem, DeskNote, DeskShift)
+                     DeskCaptain, Package, DeskItem, DeskNote, DeskShift, ItemLoan)
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -203,18 +203,32 @@ class PackageSerializer(serializers.ModelSerializer):
 
 
 class DeskItemSerializer(serializers.ModelSerializer):
-    resident = UserSerializer()
-    desk_worker = UserSerializer()
-
     class Meta:
         model = DeskItem
         fields = (
-            "item",
-            "time_out",
-            "time_due",
-            "checked_out",
-            "resident",
-            "desk_worker"
+            'item',
+            'quantity',
+            'num_available',
+            'pk',
+        )
+
+
+class ItemLoanSerializer(serializers.ModelSerializer):
+    resident = UserSerializer()
+    desk_worker = UserSerializer()
+    item = DeskItemSerializer()
+
+    class Meta:
+        model = ItemLoan
+        fields = (
+            'item',
+            'resident',
+            'desk_worker',
+            'num_checked_out',
+            'time_out',
+            'hours_loaned',
+            'time_due',
+            'pk',
         )
 
 
