@@ -11,7 +11,7 @@ class UserPackagePage extends Component {
         this.state = {
             loading: true,
             packages: [],
-        }
+        };
     }
 
     async componentDidMount() {

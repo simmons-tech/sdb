@@ -29,25 +29,11 @@ class DeskItem(models.Model):
 
     item = models.CharField(max_length=255, blank=False, null=False)
     quantity = models.IntegerField(blank=False, null=False)
+    num_available = models.IntegerField(blank=False, null=False)
 
     available_objects = AvailableItems()
     checked_out_objects = CheckedOutItems()
     objects = models.Manager()
-
-    @property
-    def num_available(self):
-        """
-        Returns the number of objects that are still available to be checked out by summing the quantities of all
-        "checkout" models
-
-        :return: an integer representing the number of this item that are available
-        """
-
-        total_checked_out = 0
-        for loan in self.loan:
-            total_checked_out += loan.num_checked_out
-
-        return int(self.quantity) - total_checked_out
 
 
 class OverdueLoans(models.Manager):
@@ -56,7 +42,7 @@ class OverdueLoans(models.Manager):
     """
 
     def get_queryset(self):
-        return super().get_queryset().filter(time_due__lt=datetime.now())
+        return super().get_queryset().filter(time_out__gt=datetime.now() - timedelta(models.F('hours_loaned')))
 
 
 class ItemLoan(models.Model):

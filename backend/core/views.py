@@ -474,8 +474,8 @@ class UserList(viewsets.ModelViewSet):
             return Response(None, status=status.HTTP_401_UNAUTHORIZED)
 
         # Get all loaned items for this user
-        user_items = user.item_loaned
-        serializer = DeskItemSerializer(user_items, many=True)
+        user_items = user.loan
+        serializer = ItemLoanSerializer(user_items, many=True)
         return Response(serializer.data)
 
     def list(self, request):
@@ -655,7 +655,7 @@ class DeskItems(viewsets.ModelViewSet):
 
         item_name = request.data['item_name']
         item_quantity = request.data['quantity']
-        item = DeskItem.objects.create(item=item_name, quantity=item_quantity)
+        item = DeskItem.objects.create(item=item_name, quantity=item_quantity, num_available=item_quantity)
         item.save()
 
         return Response({'status': 'created'}, status=status.HTTP_201_CREATED)
@@ -713,12 +713,16 @@ class DeskItems(viewsets.ModelViewSet):
         item = self.get_object()
 
         if item is None or item.num_available == 0:
-            return Response({'status': 'No items to check out or item does not exist'}, status.HTTP_400_BAD_REQUEST)
+            return Response({'status': 'No items to check out or item does not exist'},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         worker_username = request.data['desk_worker']['username']
         resident_username = request.data['resident']['username']
         hours_loaned = request.data['hours_loaned']
         num_checked_out = request.data['num_checked_out']
+
+        if num_checked_out > item.num_available:
+            return Response({'status': 'Not enough items available'}, status=status.HTTP_400_BAD_REQUEST)
 
         desk_worker = User.objects.get(username=worker_username)
         resident = User.objects.get(username=resident_username)
@@ -729,6 +733,9 @@ class DeskItems(viewsets.ModelViewSet):
                         hours_loaned=hours_loaned,
                         num_checkd_out=num_checked_out)
         loan.save()
+
+        item.num_available -= num_checked_out
+        item.save()
 
         return Response({'status': 'success'}, status.HTTP_200_OK)
 
@@ -750,6 +757,12 @@ class ItemLoans(viewsets.ModelViewSet):
         """
 
         loan = self.get_object()
+        item = loan.item
+
+        # Increase the number of items available in the db
+        item.num_available += loan.num_checked_out
+        item.save()
+
         loan.delete()
 
         return Response({'status': 'deleted'}, status=status.HTTP_200_OK)
