@@ -21,6 +21,7 @@ from .models import *
 from .permissions import *
 from .serializers import *
 from .utils import process_user_csv
+from .enums import DeskItemType
 
 
 def deactivateRecord(item):
@@ -87,6 +88,8 @@ def impersonate(request):
     refresh = RefreshToken.for_user(user)
     refresh['user'] = UserSerializer(user).data
     refresh['is_admin'] = Administrator.objects.filter(user=user).exists()
+    refresh['is_desk_worker'] = DeskWorker.objects.filter(user=user).exists()
+    refresh['is_desk_captain'] = DeskCaptain.objects.filter(user=user).exists()
     return Response({
         'refresh': str(refresh),
         'access': str(refresh.access_token),
@@ -642,6 +645,35 @@ class DeskItems(viewsets.ModelViewSet):
     queryset = DeskItem.objects.all()
     serializer_class = DeskItemSerializer
 
+    @action(detail=False, methods=['get'])
+    def categories(self, request):
+        """
+        Returns a listing of all of the categories for desk items
+
+        :param request:
+        :return:
+        """
+
+        categories = list()
+        for item in DeskItemType:
+            categories.append(str(item))
+
+        return Response({'categories': categories}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['post'])
+    def items_in_category(self, request):
+        """
+        A query to return all of the items in a given category, queried by their index in `categories`
+
+        :param request: DRF Request object with a field `'category'` and value of type `int`
+        :return: DRF Response object
+        """
+
+        category = DeskItemType.get(request.data['category'])
+        desk_items = DeskItem.objects.filter(category=category)
+        serializer = DeskItemSerializer(desk_items, many=True)
+        return Response(serializer.data)
+
     def create(self, request):
         """
         Creates a new DeskItem for the front desk. Can only be created by Desk Captains
@@ -653,9 +685,8 @@ class DeskItems(viewsets.ModelViewSet):
         if not DeskCaptain.objects.filter(user=request.user).exists():
             return Response({'status': 'UNAUTHORIZED'}, status=status.HTTP_401_UNAUTHORIZED)
 
-        item_name = request.data['item_name']
         item_quantity = request.data['quantity']
-        item = DeskItem.objects.create(item=item_name, quantity=item_quantity, num_available=item_quantity)
+        item = DeskItem.objects.create(num_available=item_quantity, **request.data)
         item.save()
 
         return Response({'status': 'created'}, status=status.HTTP_201_CREATED)

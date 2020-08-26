@@ -1,7 +1,9 @@
 from django.db import models
 from datetime import datetime, timedelta
+from enumchoicefield import EnumChoiceField
 
 from .user import User
+from ..enums import DeskItemType
 
 
 class CheckedOutItems(models.Manager):
@@ -30,6 +32,11 @@ class DeskItem(models.Model):
     item = models.CharField(max_length=255, blank=False, null=False)
     quantity = models.IntegerField(blank=False, null=False)
     num_available = models.IntegerField(blank=False, null=False)
+    location = models.TextField()
+    category = EnumChoiceField(
+        enum_class=DeskItemType,
+        default=DeskItemType.OTHER,
+    )
 
     available_objects = AvailableItems()
     checked_out_objects = CheckedOutItems()

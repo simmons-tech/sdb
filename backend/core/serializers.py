@@ -209,6 +209,8 @@ class DeskItemSerializer(serializers.ModelSerializer):
             'item',
             'quantity',
             'num_available',
+            'location',
+            'category',
             'pk',
         )
 
