@@ -58,6 +58,9 @@ core/models/__pycache__/
 # backend/venv
 venv
 
+# Clean macOS dotfiles
+*.DS_Store
+
 # Heroku
 local_settings.py
 .env
