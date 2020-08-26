@@ -28,6 +28,7 @@ import ProfilePage from './pages/Home/ProfilePage';
 import AboutPage from './pages/Home/AboutPage';
 import MailingListsPage from "./pages/Home/MailingListsPage";
 import MeetingsPage from "./pages/HouseGov/MeetingsPage";
+import OpenProposalsPage from "./pages/HouseGov/OpenProposalsPage"
 import NoMatchPage from './pages/NoMatchPage';
 import SignoutPage from './pages/SignoutPage';
 import SignupPage from './pages/SignupPage';
@@ -68,6 +69,7 @@ const routing = (
           <Route exact path={ROUTES.TREASURY_HOME} component={adminOnly(TreasuryPage)} />
           <Route exact path={ROUTES.TREASURY_ACCOUNT} component={adminOnly(TreasuryPage)} />
           <Route exact path={ROUTES.MEETINGS} component={withAuthentication(MeetingsPage)} />
+          <Route exact path={ROUTES.OPEN_PROPOSALS} component={withAuthentication(OpenProposalsPage)} />
           <Route component={NoMatchPage}/>
         </Switch>
       </ThemeProvider>

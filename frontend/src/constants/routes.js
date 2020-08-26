@@ -18,6 +18,7 @@ export const ABOUT = '/home/about'
 // House Gov links
 export const HOUSE_FINANCES = '/gov/finances'
 export const MEETINGS = '/gov/meetings'
+export const OPEN_PROPOSALS = '/gov/meetings/proposals'
 export const SUBMIT_PROPOSAL = '/gov/submit'
 
 // Lounge links
