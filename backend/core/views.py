@@ -448,3 +448,31 @@ class UserList(viewsets.ModelViewSet):
         overfilled = RoomSerializer(Room.overfilled_objects, many=True).data
 
         return Response({"underfilled": underfilled, "overfilled": overfilled})
+
+
+class MeetingList(viewsets.ModelViewSet):
+    queryset = Meeting.objects.all()
+    serializer_class = MeetingSerializer
+
+    @permission_classes([IsAdmin])
+    @action(detail=False, methods=['post'])
+    def new(self, request):
+        serializer = MeetingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProposalList(viewsets.ModelViewSet):
+    queryset = Proposal.objects.filter(meeting=Meeting.objects.latest('meet_date'))
+    serializer_class = ProposalSerializer
+
+    @action(detail=False, methods=['post'])
+    def submit(self, request):
+        request.data['meeting'] = Meeting.objects.latest('meet_date').id
+        serializer = ProposalSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

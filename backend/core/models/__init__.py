@@ -3,3 +3,4 @@ from .groups import *
 from .room import *
 from .section import *
 from .finances import *
+from .meetings import *

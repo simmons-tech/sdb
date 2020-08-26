@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup
+from .models import User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup, Meeting, Proposal, Update
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -178,4 +178,51 @@ class AccountGroupSerializer(serializers.ModelSerializer):
         fields = (
             'name',
             'accounts'
+        )
+
+
+class UpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Update
+        fields = (
+            'date',
+            'update',
+            'proposal'
+        )
+
+
+class ProposalSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Proposal
+        fields = (
+            'meeting',
+            'date',
+            'primary_author',
+            'secondary_authors',
+            'title',
+            'procedure',
+            'procedure_notes',
+            'summary',
+            'full_text',
+            'decision',
+            'updates'
+        )
+
+
+class MeetingSerializer(serializers.ModelSerializer):
+    proposals = ProposalSerializer(many=True)
+
+    class Meta:
+        model = Meeting
+        fields = (
+            'id',
+            'name',
+            'meet_date',
+            'intro',
+            'house_announcements',
+            'president_announcements',
+            'committee_reports',
+            'proposals'
         )

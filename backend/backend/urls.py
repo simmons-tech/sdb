@@ -32,6 +32,9 @@ router.register(r'officers', views.Officers, 'officers')
 router.register(r'rooms', views.RoomList, 'rooms')
 router.register(r'sections', views.SectionList, 'sections')
 router.register(r'accounts', views.AccountsList, 'accounts')
+router.register(r'meetings', views.MeetingList, 'meetings')
+router.register(r'proposals', views.ProposalList, 'proposals')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
