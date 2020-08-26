@@ -63,6 +63,8 @@ export const LINKS = [
     {url: ROUTES.SEARCH_PACKAGES, name: "Package Pickup", deskOnly: true},
     {url: ROUTES.REGISTER_PACKAGES, name: "Register Packages", deskOnly: true},
     {url: ROUTES.DESK_CHECKOUT, name: "Item Checkout", deskOnly: true},
+    {url: ROUTES.DESK_ITEM_RETURN, name: "Item Return", deskOnly: true},
+    {url: ROUTES.DESK_ADD_ITEM, name: "Add Item", deskOnly: true},
     {url: ROUTES.DESK_GUEST_LIST, name: "Search Guest List", deskOnly: true}
   ]
 ]

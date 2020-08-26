@@ -29,22 +29,25 @@ class DeskHome extends Component {
     }
 
     load_items = () =>{
-        // axios.get("/api/deskitems/").then(res => {
-        //     this.setState({
-        //         loading: false,
-        //         items: res.data.map(item => {
-        //             return {
-        //                 user: item.desk_worker,
-        //                 body: item.content
-        //             }
-        //         }),
-        //         notes_refresh: false,
-        //     });
-        // });
+        axios.get("/api/deskitems/out/").then(res => {
+            console.log(res);
+            console.log("check")
+            this.setState({
+                loading: false,
+                items: res.data.map(item => 
+                    [
+                        item.name,
+                        item.resident,
+                        item.time_due
+                    ]
+                ),
+            });
+        });
     }
 
     async componentDidMount() {
         this.load_notes();
+        this.load_items();
     }
 
 
@@ -69,10 +72,15 @@ class DeskHome extends Component {
                         <Jumbotron>
                             <h2>Checked out items</h2>
                             <p></p>
+                            {(this.state.items.length) ? 
                             <UserTable
                                 rows={this.state.items}
                                 headers={["Name", "Item", "Return Date"]}
                             />
+                            :
+                                <h4>There are no checked out items.</h4>
+                            }
+                            
                         </Jumbotron>
                     </Col>
                 </Row>
