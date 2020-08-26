@@ -19,6 +19,8 @@ import TreasuryPage from './pages/Admin/Treasury/TreasuryPage';
 
 // User Imports
 import UserPackagePage from "./pages/Home/UserPackagePage";
+import UserItemLoanPage from "./pages/Home/UserItemLoanPage";
+
 
 // Directory Imports
 import AssociateAdvisorPage from './pages/Directory/AssociateAdvisorPage';
@@ -50,9 +52,6 @@ import SignupPage from './pages/SignupPage';
 import { history } from './routing.js';
 import * as serviceWorker from './serviceWorker';
 import theme from "./theme.js";
-
-
-
 
 
 const routing = (
@@ -92,7 +91,7 @@ const routing = (
           <Route exact path={ROUTES.DESK_ITEM_RETURN} component={deskOnly(ItemReturn)} />
           <Route exact path={ROUTES.DESK_ADD_ITEM} component={deskOnly(AddDeskItem)} />
           <Route exact path={ROUTES.PACKAGES} component={withAuthentication(UserPackagePage)} />
-
+          <Route exact path={ROUTES.LOANS} component={withAuthentication(UserItemLoanPage)} />
           <Route component={NoMatchPage}/>
         </Switch>
       </ThemeProvider>

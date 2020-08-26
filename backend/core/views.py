@@ -1,7 +1,7 @@
 import csv
 import io
 import random
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from django.db import transaction
 from django.db.models import Q
@@ -474,8 +474,8 @@ class UserList(viewsets.ModelViewSet):
             return Response(None, status=status.HTTP_401_UNAUTHORIZED)
 
         # Get all loaned items for this user
-        user_items = user.item_loaned
-        serializer = DeskItemSerializer(user_items, many=True)
+        user_items = user.loan
+        serializer = ItemLoanSerializer(user_items, many=True)
         return Response(serializer.data)
 
     def list(self, request):
@@ -654,7 +654,8 @@ class DeskItems(viewsets.ModelViewSet):
             return Response({'status': 'UNAUTHORIZED'}, status=status.HTTP_401_UNAUTHORIZED)
 
         item_name = request.data['item_name']
-        item = DeskItem.objects.create(item=item_name)
+        item_quantity = request.data['quantity']
+        item = DeskItem.objects.create(item=item_name, quantity=item_quantity, num_available=item_quantity)
         item.save()
 
         return Response({'status': 'created'}, status=status.HTTP_201_CREATED)
@@ -662,7 +663,7 @@ class DeskItems(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def available(self, request):
         """
-        Returns a listing of all of the desk items that are currently not loaned out
+        Returns a listing of all of the desk items that are currently available to be loaned out
 
         :param request: DRF Request Object
         :return: DRF Response Object
@@ -676,12 +677,29 @@ class DeskItems(viewsets.ModelViewSet):
     def out(self, request):
         """
         Returns a listing of all of the desk items that are loaned out from desk
+
         :param request: DRF Request object
         :return: DRF Response object
         """
 
         out_items = DeskItem.checked_out_objects.get_queryset()
         serializer = DeskItemSerializer(out_items, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['get'])
+    def loans(self, request, pk=None):
+        """
+        Returns all of the loans that are out on this item
+
+        :param request: DRF request object
+        :param pk: The pk of the item being queried
+        :return: DRF Response object
+        """
+
+        item = self.get_object()
+
+        loans = item.check_out
+        serializer = ItemLoanSerializer(loans, many=True)
         return Response(serializer.data)
 
     @action(detail=True, methods=['post'])
@@ -694,44 +712,89 @@ class DeskItems(viewsets.ModelViewSet):
         """
         item = self.get_object()
 
-        if item is None or item.checked_out:
-            return Response({'status': 'Item is already checked out'}, status.HTTP_400_BAD_REQUEST)
+        if item is None or item.num_available == 0:
+            return Response({'status': 'No items to check out or item does not exist'},
+                            status=status.HTTP_400_BAD_REQUEST)
 
-        worker_pk = request.data['desk_worker']['pk']
-        resident_pk = request.data['resident']['pk']
-
+        worker_username = request.data['desk_worker']['username']
+        resident_username = request.data['resident']['username']
         hours_loaned = request.data['hours_loaned']
+        num_checked_out = request.data['num_checked_out']
 
-        item.desk_worker = User.objects.get(pk=worker_pk)
-        item.resident = User.objects.get(pk=resident_pk)
-        item.checked_out = True
-        item.time_out = datetime.now()
-        item.time_due = datetime.now() + timedelta(hours=hours_loaned)
+        if num_checked_out > item.num_available:
+            return Response({'status': 'Not enough items available'}, status=status.HTTP_400_BAD_REQUEST)
 
+        desk_worker = User.objects.get(username=worker_username)
+        resident = User.objects.get(username=resident_username)
+
+        loan = ItemLoan(item=item,
+                        desk_worker=desk_worker,
+                        resident=resident,
+                        hours_loaned=hours_loaned,
+                        num_checkd_out=num_checked_out)
+        loan.save()
+
+        item.num_available -= num_checked_out
         item.save()
 
         return Response({'status': 'success'}, status.HTTP_200_OK)
 
+
+class ItemLoans(viewsets.ModelViewSet):
+    permission_classes = [IsDeskWorker, IsDeskCaptain]
+
+    queryset = ItemLoan.objects.all()
+    serializer_class = ItemLoanSerializer
+
     @action(detail=True, methods=['post'])
-    def ret(self, request):
+    def ret(self, request, pk=None):
         """
-        Returns the specified item to the front desk, and removes all "checked out" properties of the item
+        Returns the specific loan and removes it from the database
+
+        :param request: DRF Request object
+        :param pk: The pk of the loan being returned
+        :return: DRF Response object
+        """
+
+        loan = self.get_object()
+        item = loan.item
+
+        # Increase the number of items available in the db
+        item.num_available += loan.num_checked_out
+        item.save()
+
+        loan.delete()
+
+        return Response({'status': 'deleted'}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['get'])
+    def overdue(self, request):
+        """
+        Returns a listing of all item loans that are overdue
         :param request: DRF Request object
         :return: DRF Response object
         """
 
-        item = self.get_object()
+        overdue_loans = ItemLoans.overdue.all()
+        serializer = ItemLoanSerializer(overdue_loans, many=True)
+        return Response(serializer.data)
 
-        if item is None or not item.checked_out:
-            return Response({'status': 'item is not checked out'}, status.HTTP_400_BAD_REQUEST)
+    @action(detail=False, methods=['post'])
+    def user_loans(self, request):
+        """
+        Returns all of the loans that are in the name of the specified user
 
-        item.desk_worker = None
-        item.resident = None
-        item.checked_out = False
-        item.time_out = None
-        item.time_due = None
+        :param request: DRF Request object
+        :return: DRF Response object
+        """
 
-        return Response({'status': 'item is returned'}, status.HTTP_200_OK)
+        resident_username = request.data['username']
+        resident = User.objects.get(username=resident_username)
+
+        loans = ItemLoan.objects.get(resident=resident)
+        serializer = ItemLoanSerializer(loans, many=True)
+
+        return Response(serializer.data)
 
 
 class DeskNotes(viewsets.ModelViewSet):
