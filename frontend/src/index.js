@@ -25,6 +25,8 @@ import StudentOfficersPage from './pages/Directory/StudentOfficersPage';
 import HomePage from './pages/Home/HomePage';
 import LoginPage from './pages/Home/LoginPage';
 import ProfilePage from './pages/Home/ProfilePage';
+import AboutPage from './pages/Home/AboutPage';
+import MailingListsPage from "./pages/Home/MailingListsPage";
 import NoMatchPage from './pages/NoMatchPage';
 import SignoutPage from './pages/SignoutPage';
 import SignupPage from './pages/SignupPage';
@@ -43,7 +45,9 @@ const routing = (
         <Switch>
           <Route exact path="/"><Redirect to={ROUTES.HOME} /></Route>
           <Route exact path={ROUTES.HOME} component={withAuthentication(HomePage)} />
+          <Route exact path={ROUTES.MAILING_LISTS} component={withAuthentication(MailingListsPage)} />
           <Route exact path={ROUTES.PROFILE} component={withAuthentication(ProfilePage)} />
+          <Route exact path={ROUTES.ABOUT} component={withSession(AboutPage)} />
           <Route exact path={ROUTES.LOGIN} component={withSession(LoginPage)} />
           <Route exact path={ROUTES.SIGN_UP} component={withAuthentication(SignupPage)} />
           <Route exact path={ROUTES.SIGN_OUT} component={SignoutPage} />
