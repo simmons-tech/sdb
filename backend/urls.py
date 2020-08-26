@@ -37,11 +37,11 @@ router.register(r'accounts', views.AccountsList, 'accounts')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('', never_cache(TemplateView.as_view(template_name='index.html'))),
+    # path('api/', include(router.urls)),
     path('api/fame/', views.highlighted_user),
     path('token_auth/', views.CustomTokenObtainPairView.as_view()),
     path('refresh_token/', TokenRefreshView.as_view()),
     path('impersonate/', views.impersonate),
+    re_path('.*', never_cache(TemplateView.as_view(template_name='index.html')))
     # path('users/', views.UserList.as_view())
 ]
