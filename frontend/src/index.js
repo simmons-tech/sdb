@@ -37,6 +37,8 @@ import AllPackages from './pages/Desk/AllPackages';
 import SearchPackages from './pages/Desk/SearchPackages';
 import DeskCheckout from './pages/Desk/DeskCheckout';
 import DeskGuestList from './pages/Desk/GuestList';
+import ItemReturn from './pages/Desk/ItemReturn';
+import AddDeskItem from './pages/Desk/AddDeskItem';
 import RegisterPackages from './pages/Desk/RegisterPackages';
 
 import HomePage from './pages/Home/HomePage';
@@ -86,6 +88,8 @@ const routing = (
           <Route exact path={ROUTES.REGISTER_PACKAGES} component={deskOnly(RegisterPackages)} />
           <Route exact path={ROUTES.DESK_CHECKOUT} component={deskOnly(DeskCheckout)} />
           <Route exact path={ROUTES.DESK_GUEST_LIST} component={deskOnly(DeskGuestList)} />
+          <Route exact path={ROUTES.DESK_ITEM_RETURN} component={deskOnly(ItemReturn)} />
+          <Route exact path={ROUTES.DESK_ADD_ITEM} component={deskOnly(AddDeskItem)} />
           <Route exact path={ROUTES.PACKAGES} component={withAuthentication(UserPackagePage)} />
           <Route exact path={ROUTES.LOANS} component={withAuthentication(UserItemLoanPage)} />
           <Route component={NoMatchPage}/>
