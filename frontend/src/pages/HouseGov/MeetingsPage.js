@@ -17,7 +17,7 @@ class MeetingsPage extends Component {
       {/* <img src={MPR}/> */}
         <Navbar color="light">
           <NavLink href={TODO}>View Upcoming Meeting Agenda</NavLink>|
-          <NavLink href={TODO}>View Open Proposals</NavLink>|
+          <NavLink href="meetings/proposals">View Open Proposals</NavLink>|
           <NavLink href={TODO}>View Deleted Proposals</NavLink>|
           <NavLink href="../submit">Submit Proposal</NavLink>|
           <NavLink href={TODO}>Policy Search</NavLink>
