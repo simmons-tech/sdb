@@ -11,9 +11,9 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
         token['user'] = UserSerializer(user).data
-        token['is_admin'] = Administrator.objects.filter(user=user).exists()
-        token['is_desk_worker'] = DeskWorker.objects.filter(user=user).exists()
-        token['is_desk_captain'] = DeskCaptain.objects.filter(user=user).exists()
+        token['is_admin'] = Administrator.active_objects.filter(user=user).exists()
+        token['is_desk_worker'] = DeskWorker.active_objects.filter(user=user).exists()
+        token['is_desk_captain'] = DeskCaptain.active_objects.filter(user=user).exists()
 
         return token
 

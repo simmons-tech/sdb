@@ -9,7 +9,7 @@ class IsAdmin(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        return Administrator.objects.filter(user=request.user).exists()
+        return Administrator.active_objects.filter(user=request.user).exists()
 
 
 class IsDeskWorker(permissions.BasePermission):
@@ -18,7 +18,7 @@ class IsDeskWorker(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        return DeskWorker.objects.filter(user=request.user).exists()
+        return DeskWorker.active_objects.filter(user=request.user).exists()
 
 
 class IsDeskCaptain(permissions.BasePermission):
@@ -27,4 +27,4 @@ class IsDeskCaptain(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        return DeskCaptain.objects.filter(user=request.user).exists()
+        return DeskCaptain.active_objects.filter(user=request.user).exists()
