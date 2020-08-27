@@ -686,7 +686,9 @@ class DeskItems(viewsets.ModelViewSet):
             return Response({'status': 'UNAUTHORIZED'}, status=status.HTTP_401_UNAUTHORIZED)
 
         item_quantity = request.data['quantity']
-        item = DeskItem.objects.create(num_available=item_quantity, **request.data)
+        category_id = request.data.pop['category']
+        category = DeskItemType.get(int(category_id))
+        item = DeskItem.objects.create(num_available=item_quantity, category=category, **request.data)
         item.save()
 
         return Response({'status': 'created'}, status=status.HTTP_201_CREATED)
