@@ -14,19 +14,20 @@ class AddDeskItem extends Component {
 
 
     componentDidMount() {
+        this.setState({loading: true})
         axios
           .get('/api/deskitems/categories/')
           .then(res => {
             this.setState({
+                loading: false,
                 desk_captain: true,
                 categories: ["[Select]", ...res.data.categories]
             })
           }).catch(promise => (
             this.setState({
+                loading: false,
                 desk_captain: false
             })
-
-              
           ))
       }
 
@@ -38,7 +39,6 @@ class AddDeskItem extends Component {
             return;
         } 
         
-
         axios
             .post('/api/deskitems/',{
                 quantity: values.quantity,
