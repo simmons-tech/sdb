@@ -1,67 +1,105 @@
 import React, { Component } from "react";
 import BasePage from "../BasePage";
-import { Jumbotron, Row, Col } from "reactstrap";
+import { Jumbotron, Col, FormGroup, Label, Button } from "reactstrap";
+import {Field, Form, Formik } from "formik";
+import { CustomInputForm } from '../../components/CustomFormikInputs'
 import UserTable from "../../components/StripedTable";
 import axios from "../../axiosInstance";
 
 class AddDeskItem extends Component {
     constructor(props) {
         super(props);
-        this.state = { loading: false, item_added: ""};
+        this.state = { loading: false, text:"", categories: []};
     }
 
-    // async componentDidMount() {
-    //     axios.get("/api/packages/").then(res => {
-    //         this.setState({
-    //             loading: false,
-    //             rows: res.data.map(item =>
-    //                 [
-    //                     item.location,
-    //                     item.recipient
-    //                 ]
-    //             )
-    //         });
-    //     });
-    // } 
+
+    componentDidMount() {
+        axios
+          .get('/api/deskitems/categories/')
+          .then(res => {
+            this.setState({categories: ["[Select]", ...res.data.categories]})
+          })
+      }
 
     onSubmit = (values) => {
+
+        console.log(values);
+        if(values.category === "0"){
+            this.setState({text: "Please select a category"});
+            return;
+        } 
+        
+
+        axios
+            .post('/api/deskitems/',{
+                quantity: values.quantity,
+                item: values.name,
+                location: values.location,
+                category: values.category,
+            })
+            .then(res => {
+                if(res.data.status === "UNAUTHORIZED"){
+                    this.setState({
+                        text: "You do not have permissions to add items",
+                    })
+                } else if(res.data.status === "created"){
+                    this.setState({
+                        text: "Desk item added",
+                    })
+                }
+                
+            })
+            .catch(this.setState({text: "An error has occured."}))
 
     }
 
     render() {
         return (
             <BasePage loading={this.state.loading} header="Add Desk Item">
-
                 <Jumbotron>
                     <Formik
-                        onSubmit={(values, {resetForm}) => {
-                            this.onSubmit(values);
-                            resetForm({
-                                name: this.state.defaults.bin,
-                                packages: this.state.defaults.packages,
-                                perishable: this.state.defaults.perishable
-                            });
-                        }}
-                        >
+                    initialValues = {{
+                        name: "",
+                        quantity: "",
+                        location: "",
+                        category: "0"
+                    }}
+                    onSubmit={(values, {resetForm}) => {
+                        this.onSubmit(values);
+                        resetForm({
+                            name: "",
+                            quantity: "",
+                            location: "",
+                            category: "0"
+                        });
+                    }}
+                    >
                         <Form className='p'>
                             <FormGroup row>
-                                <Label for="bin" sm={2}>Bin</Label>
+                                <Label for="name" sm={2}>Name</Label>
                                 <Col sm={10}>
-                                    <Field type="text" name="bin" component={CustomInputForm} />
+                                    <Field type="text" name="name" component={CustomInputForm} />
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
-                                <Label for="packages" sm={2}>Packages</Label>
+                                <Label for="quantity" sm={2}>Quantity</Label>
                                 <Col sm={10}>
-                                    <Field type="number" name="packages" component={CustomInputForm} />
+                                    <Field type="number" name="quantity" component={CustomInputForm} />
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
-                                <Label for="perishable" sm={2}>Perishable</Label>
+                                <Label for="location" sm={2}>Location</Label>
+                                <Col sm={10}>
+                                    <Field type="text" name="location" component={CustomInputForm} />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Label for="category" sm={2}>Category</Label>
                                 <Col>
-                                    <Field type="select" name="perishable" component={CustomInputForm}>
-                                    <option value={false}>No</option>
-                                    <option value={true}>Yes</option>
+                                    <Field type="select" name="category" component={CustomInputForm}>
+                                    {this.state.categories.map((section, index) => (
+                                        <option key={index} value={index + ""}>{section}</option>
+                                    ))}
                                     </Field>
                                 </Col>
                             </FormGroup>

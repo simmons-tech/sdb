@@ -6,6 +6,7 @@ import { ThemeProvider } from "styled-components";
 import * as ROUTES from './constants/routes';
 import adminOnly from './hoc/adminOnly';
 import deskOnly from "./hoc/deskOnly";
+import deskCaptainOnly from "./hoc/deskCaptainOnly";
 import withAuthentication from './hoc/withAuthentication';
 import withSession from "./hoc/withSession";
 import './index.css';
@@ -89,7 +90,7 @@ const routing = (
           <Route exact path={ROUTES.DESK_CHECKOUT} component={deskOnly(DeskCheckout)} />
           <Route exact path={ROUTES.DESK_GUEST_LIST} component={deskOnly(DeskGuestList)} />
           <Route exact path={ROUTES.DESK_ITEM_RETURN} component={deskOnly(ItemReturn)} />
-          <Route exact path={ROUTES.DESK_ADD_ITEM} component={deskOnly(AddDeskItem)} />
+          <Route exact path={ROUTES.DESK_ADD_ITEM} component={deskCaptainOnly(AddDeskItem)} />
           <Route exact path={ROUTES.PACKAGES} component={withAuthentication(UserPackagePage)} />
           <Route exact path={ROUTES.LOANS} component={withAuthentication(UserItemLoanPage)} />
           <Route component={NoMatchPage}/>
