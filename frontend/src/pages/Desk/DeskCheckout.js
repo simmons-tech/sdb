@@ -98,6 +98,8 @@ class DeskCheckout extends Component {
                 ),
                 searched_user: true,
                 selected_user: false,
+                username: "",
+                display_name: "",
             });
         });
         callback();
