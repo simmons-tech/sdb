@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Col } from "reactstrap"
+import { Col, Row } from "reactstrap"
 import { Formik, Form, Field } from 'formik';
 import { CustomInputForm } from '../../../components/CustomFormikInputs'
 
@@ -29,8 +29,9 @@ class UserSearch extends Component {
     }
 
     render() {
+        let Wrapper = (this.props.noWrapper) ? "div" : Jumbotron
         return (
-            <Jumbotron>
+            <Wrapper>
                 <Formik
                     initialValues={{
                         first_name: '',
@@ -94,9 +95,8 @@ class UserSearch extends Component {
                         <Button type="submit">Search</Button>
                         <div>{this.state.text}</div>
                     </Form>
-                </Formik>
-                
-            </Jumbotron>
+                </Formik> 
+            </Wrapper>
         );
     }
 }
