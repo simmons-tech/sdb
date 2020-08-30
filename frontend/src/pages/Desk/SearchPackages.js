@@ -40,7 +40,6 @@ class SearchPackages extends Component {
     }
 
     handleOnClick = (row) => {
-        console.log(row)
         this.setState({
             current_user:{
                 display_name: row[1] + " " + row[0],
