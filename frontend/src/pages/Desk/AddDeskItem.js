@@ -3,7 +3,6 @@ import BasePage from "../BasePage";
 import { Jumbotron, Col, FormGroup, Label, Button } from "reactstrap";
 import {Field, Form, Formik } from "formik";
 import { CustomInputForm } from '../../components/CustomFormikInputs'
-import UserTable from "../../components/StripedTable";
 import axios from "../../axiosInstance";
 
 class AddDeskItem extends Component {
@@ -16,20 +15,20 @@ class AddDeskItem extends Component {
     componentDidMount() {
         this.setState({loading: true})
         axios
-          .get('/api/deskitems/categories/')
-          .then(res => {
+            .get('/api/deskitems/categories/')
+            .then(res => {
             this.setState({
                 loading: false,
                 desk_captain: true,
                 categories: ["[Select]", ...res.data.categories]
             })
-          }).catch(promise => (
+            }).catch(promise => (
             this.setState({
                 loading: false,
                 desk_captain: false
             })
-          ))
-      }
+        ))  
+    }
 
     onSubmit = (values) => {
 
