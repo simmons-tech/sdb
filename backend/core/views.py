@@ -736,7 +736,7 @@ class DeskItems(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     @action(detail=True, methods=['post'])
-    def checkout(self, request):
+    def checkout(self, request, pk=None):
         """
         Checks out a given item from the front desk, marking the given resident as the one that checked it out
 
@@ -764,7 +764,7 @@ class DeskItems(viewsets.ModelViewSet):
                         desk_worker=desk_worker,
                         resident=resident,
                         hours_loaned=hours_loaned,
-                        num_checkd_out=num_checked_out)
+                        num_checked_out=num_checked_out)
         loan.save()
 
         item.num_available -= num_checked_out
