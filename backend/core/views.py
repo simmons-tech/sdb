@@ -731,7 +731,7 @@ class DeskItems(viewsets.ModelViewSet):
 
         item = self.get_object()
 
-        loans = item.check_out
+        loans = item.loan
         serializer = ItemLoanSerializer(loans, many=True)
         return Response(serializer.data)
 
@@ -808,7 +808,7 @@ class ItemLoans(viewsets.ModelViewSet):
         :return: DRF Response object
         """
 
-        overdue_loans = ItemLoans.overdue.all()
+        overdue_loans = ItemLoans.overdue.get_queryset()
         serializer = ItemLoanSerializer(overdue_loans, many=True)
         return Response(serializer.data)
 
