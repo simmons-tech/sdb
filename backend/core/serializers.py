@@ -228,7 +228,6 @@ class ItemLoanSerializer(serializers.ModelSerializer):
             'desk_worker',
             'num_checked_out',
             'time_out',
-            'hours_loaned',
             'time_due',
             'pk',
         )

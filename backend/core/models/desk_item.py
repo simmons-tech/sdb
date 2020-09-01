@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import datetime, timedelta
+from django.utils import timezone
 from enumchoicefield import EnumChoiceField
 
 from .user import User
@@ -49,7 +49,7 @@ class OverdueLoans(models.Manager):
     """
 
     def get_queryset(self):
-        return super().get_queryset().filter(time_out__gt=datetime.now() - timedelta(models.F('hours_loaned')))
+        return super().get_queryset().filter(time_due__gt=timezone.now())
 
 
 class ItemLoan(models.Model):
@@ -74,16 +74,7 @@ class ItemLoan(models.Model):
                                     null=False)
     num_checked_out = models.IntegerField(blank=False, null=False)
     time_out = models.DateTimeField(auto_now_add=True)
-    hours_loaned = models.IntegerField()
+    time_due = models.DateTimeField()
 
     objects = models.Manager()
     overdue = OverdueLoans()
-
-    @property
-    def time_due(self):
-        """
-        Returns the DateTime when this loan expires
-        :return: DateTime object defined by time_out + hours_loaned
-        """
-
-        return self.time_out + timedelta(hours=self.hours_loaned)

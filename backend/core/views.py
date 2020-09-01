@@ -1,11 +1,12 @@
 import csv
 import io
 import random
-from datetime import datetime
+from datetime import timedelta
 
 from django.db import transaction
 from django.db.models import Q
 from django.db.models.aggregates import Count
+from django.utils import timezone
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -26,7 +27,7 @@ from .enums import DeskItemType
 
 def deactivateRecord(item):
     item.is_active = False
-    item.end_date = datetime.now()
+    item.end_date = timezone.now()
     item.save()
 
 
@@ -753,6 +754,7 @@ class DeskItems(viewsets.ModelViewSet):
         resident_username = request.data['resident']['username']
         hours_loaned = request.data['hours_loaned']
         num_checked_out = request.data['num_checked_out']
+        time_due = timezone.now() + timedelta(hours=hours_loaned)
 
         if num_checked_out > item.num_available:
             return Response({'status': 'Not enough items available'}, status=status.HTTP_400_BAD_REQUEST)
@@ -763,7 +765,7 @@ class DeskItems(viewsets.ModelViewSet):
         loan = ItemLoan(item=item,
                         desk_worker=desk_worker,
                         resident=resident,
-                        hours_loaned=hours_loaned,
+                        time_due=time_due,
                         num_checked_out=num_checked_out)
         loan.save()
 
@@ -808,7 +810,7 @@ class ItemLoans(viewsets.ModelViewSet):
         :return: DRF Response object
         """
 
-        overdue_loans = ItemLoans.overdue.get_queryset()
+        overdue_loans = ItemLoan.overdue.all()
         serializer = ItemLoanSerializer(overdue_loans, many=True)
         return Response(serializer.data)
 
@@ -824,9 +826,9 @@ class ItemLoans(viewsets.ModelViewSet):
         resident_username = request.data['username']
         resident = User.objects.get(username=resident_username)
 
-        loans = ItemLoan.objects.get(resident=resident)
-        serializer = ItemLoanSerializer(loans, many=True)
+        loans = ItemLoan.objects.filter(resident=resident)
 
+        serializer = ItemLoanSerializer(loans, many=True)
         return Response(serializer.data)
 
 
