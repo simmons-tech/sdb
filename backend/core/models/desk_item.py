@@ -49,7 +49,7 @@ class OverdueLoans(models.Manager):
     """
 
     def get_queryset(self):
-        return super().get_queryset().filter(time_due__gt=timezone.now())
+        return super().get_queryset().filter(time_due__lt=timezone.now())
 
 
 class ItemLoan(models.Model):
