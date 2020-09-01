@@ -36,9 +36,17 @@ class DeskHome extends Component {
                 loading: false,
                 overdue: res.data.map(item => 
                     [
-                        item.name,
-                        item.resident,
-                        item.time_due
+                        item.resident.display_name,
+                        item.item.item, // name of the item checked out
+                        item.num_checked_out, 
+                        new Date(item.time_due).toLocaleDateString(
+                            undefined, 
+                            {
+                                year: 'numeric', 
+                                month: 'long', 
+                                day: 'numeric'
+                            }) 
+                        
                     ]
                 ),
             });
@@ -54,10 +62,13 @@ class DeskHome extends Component {
                                 val.resident.display_name, 
                                 val.item.item, 
                                 val.num_checked_out, 
-                                new Date(val.time_due).toLocaleDateString(undefined, 
-                                    {year: 'numeric', 
-                                    month: 'long', 
-                                    day: 'numeric'})], 
+                                new Date(val.time_due).toLocaleDateString(
+                                    undefined, 
+                                    {
+                                        year: 'numeric', 
+                                        month: 'long', 
+                                        day: 'numeric'
+                                    })], 
                                 ...this.state.items]
                         })
                     })
