@@ -19,7 +19,7 @@ class DeskCheckout extends Component {
             categories: [], 
             page_items: [],
             page_pk: [],
-            pk:false,
+            pk: false,
             users: [], 
             searched_user: false,
             selected_user: false,
@@ -151,16 +151,15 @@ class DeskCheckout extends Component {
                 desk_worker: {username:this.props.user.username},
                 resident:{username: this.state.username},
                 hours_loaned: value.hours,
-                num_checked_out: value.quantity
+                num_checked_out: parseInt(value.quantity)
             })
             .then(res => {
                 // resets state
                 this.setState({
                     loading: false, 
-                    instruction: "",  
+                    instruction: "Item has been successfully checked out.",
                     page_load: false, 
                     item_selected: false, 
-                    categories: [], 
                     page_items: [],
                     page_pk: [],
                     pk: false,
