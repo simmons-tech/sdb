@@ -30,19 +30,19 @@ class DeskHome extends Component {
 
     load_items = () =>{
         // get overdue items
-        // axios.get("/api/loans/overdue/").then(res => {
-        //     console.log(res);
-        //     this.setState({
-        //         loading: false,
-        //         overdue: res.data.map(item => 
-        //             [
-        //                 item.name,
-        //                 item.resident,
-        //                 item.time_due
-        //             ]
-        //         ),
-        //     });
-        // });
+        axios.get("/api/loans/overdue/").then(res => {
+            console.log(res);
+            this.setState({
+                loading: false,
+                overdue: res.data.map(item => 
+                    [
+                        item.name,
+                        item.resident,
+                        item.time_due
+                    ]
+                ),
+            });
+        });
 
         // get all checked out items
         axios.get("/api/deskitems/out/").then(res => {
@@ -95,7 +95,7 @@ class DeskHome extends Component {
                     </Col>
                     <Col>
                         <Jumbotron>
-                            {/* <h2>Overdue Items</h2>
+                            <h2>Overdue Items</h2>
                             <p></p>
                             {(this.state.overdue.length) ? 
                                 <UserTable
@@ -104,7 +104,7 @@ class DeskHome extends Component {
                                 />
                             :
                                 <h4>There are no overdue items.</h4>
-                            } */}
+                            }
                             <h2>Checked Out Items</h2>
                             <p></p>
                             {(this.state.items.length) ? 
