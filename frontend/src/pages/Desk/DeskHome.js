@@ -31,7 +31,6 @@ class DeskHome extends Component {
     load_items = () =>{
         // get overdue items
         axios.get("/api/loans/overdue/").then(res => {
-            console.log(res);
             this.setState({
                 loading: false,
                 overdue: res.data.map(item => 

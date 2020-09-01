@@ -51,7 +51,6 @@ class ItemReturn extends Component {
             username: row[3]
         })
         .then(res => {
-            console.log(res)
             this.setState({
                 current_user : row[1] + " " + row[0],
                 loans: res.data.map(loan => 
@@ -77,10 +76,7 @@ class ItemReturn extends Component {
     }
 
     handleItemSelect = (row) => {
-        console.log(row)
         let pk_index = this.state.loans.findIndex(e => e === row);
-        console.log(pk_index)
-        console.log(this.state.pks)
 
         this.setState({
             current_item: row[0],
