@@ -47,7 +47,6 @@ class DeskCheckout extends Component {
                 category: page+1
             })
             .then(res => {
-                console.log(res)
                 this.setState({
                     loading: false,
                     page_load: page + "",
@@ -155,6 +154,7 @@ class DeskCheckout extends Component {
             })
             .then(res => {
                 // resets state
+                this.handlePageChange(parseInt(this.state.page_load));
                 this.setState({
                     loading: false, 
                     instruction: "Item has been successfully checked out.",
