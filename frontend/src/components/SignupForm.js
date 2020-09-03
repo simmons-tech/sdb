@@ -28,6 +28,8 @@ const SignupSchema = Yup.object().shape({
     .required("Required"),
   year: Yup.string(),
   room: Yup.string(),
+  password: Yup.string()
+    .required("Required")
 });
 
 class SignupForm extends React.Component {
@@ -46,6 +48,7 @@ class SignupForm extends React.Component {
               initialValues={{
                 username: '',
                 email: '',
+                password: '',
                 first_name: '',
                 last_name: '',
                 year: '',
@@ -65,6 +68,10 @@ class SignupForm extends React.Component {
                 <FormGroup>
                   <Label for="email">Email</Label>
                   <Field name="email" type={'text'} id="email" component={CustomInputForm} />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="password">Password</Label>
+                  <Field name="password" type={'password'} id="password" component={CustomInputForm} />
                 </FormGroup>
                 <Row form>
                   <Col md="6">

@@ -1,4 +1,5 @@
 # Simmons DB
+**A temporary deployed version of the DB can be found here: https://temp-sdb-2020.herokuapp.com/**
 This project is an attempt to completely re-write, with all its existing
 functionality, the database system and interface used in Simmons Hall at MIT. These
 include, but are not limited to,
@@ -63,7 +64,7 @@ the codebase: https://www.django-rest-framework.org/
 To get your environment set up for local development, perform for the following actions in the specified order
 1. Navigate to the `frontend` directory.
 2. Run `yarn install`. This installs the packages necessary for the frontend site.
-3. Navigate to the `backend` directory.
+3. Navigate to the root directory.
 4. Optionally create a Python venv and activate it (recommended). To do this, run `python -m venv PATH_TO_YOUR_VENV`
  followed by `source PATH_TO_YOUR_VENV/bin/activate`. `PATH_TO_YOUR_VENV` can be anywhere on your machine; note that
  venv paths cannot contain spaces. Make sure the Python version in this venv satisfies the requirements above.
@@ -74,12 +75,12 @@ given username and password that can be used to log into the site with.
 7. Run `python manage.py setadmin YOUR_USERNAME` where `YOUR_USERNAME` was the username you used in the previous 
 step. This adds your account to the `Administrator` group on the DB.
 8. Run `python manage.py initdb`. This does two things:
-    1. Creates all the `Room` and `Section` objects needed for the DB. This data comes from `backend/data/room_sections.csv`.
-    2. Creates an account on the DB for every row (user) in `backend/data/sample_user_csv.csv`. This is all dummy data.
+    1. Creates all the `Room` and `Section` objects needed for the DB. This data comes from `data/room_sections.csv`.
+    2. Creates an account on the DB for every row (user) in `data/sample_user_csv.csv`. This is all dummy data.
 
 Once you perform these actions, to get the development servers running you need to
 1. Run `yarn start` from the `frontend` directory to get the frontend development server (React) started.
-2. In a separate terminal, run `python manage.py runserver` from the `backend` directory to get the backend server 
+2. In a separate terminal, run `python manage.py runserver` from the root directory to get the backend server 
 (Django) started.
 3. Navigate to http://localhost:3000/ in your browser.
 

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { history } from './routing.js';
 import * as ROUTES from './constants/routes'
 
-const baseURL = 'http://localhost:8000'
+// const baseURL = 'http://localhost:8000'
 
 const isHandlerEnabled = (config={}) => {
   return config.hasOwnProperty('handlerEnabled') && !config.handlerEnabled ? 
@@ -26,7 +26,8 @@ const errorHandler = (instance, error) => {
   if (isHandlerEnabled(error.config)) {
     let statusCode = error.response.status;
     if (statusCode === 401) {
-      if (error.config.url === baseURL + "/refresh_token/") {
+      // if (error.config.url === baseURL + "/refresh_token/") {
+      if (error.config.url == "/refresh_token/") {
         // Refresh failed; log out
         localStorage.clear();
         history.replace(ROUTES.LOGIN);
@@ -77,7 +78,7 @@ const successHandler = (response) => {
 
 const fetchClient = () => {
   const defaultOptions = {
-    baseURL: baseURL,
+    // baseURL: baseURL,
     headers: {
       'Content-Type': 'application/json',
     },

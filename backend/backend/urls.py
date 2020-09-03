@@ -46,6 +46,6 @@ urlpatterns = [
     path('api/fame/', views.highlighted_user),
     path('token_auth/', views.CustomTokenObtainPairView.as_view()),
     path('refresh_token/', TokenRefreshView.as_view()),
-    path('impersonate/', views.impersonate)
+    path('impersonate/', views.impersonate),
     # path('users/', views.UserList.as_view())
 ]
