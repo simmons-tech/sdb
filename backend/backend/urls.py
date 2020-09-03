@@ -15,9 +15,7 @@ Including another URLconf
 """
 from core import views
 from django.contrib import admin
-from django.urls import path, include, re_path
-from django.views.generic import TemplateView
-from django.views.decorators.cache import never_cache
+from django.urls import path, include
 from rest_framework import routers
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
@@ -42,6 +40,5 @@ urlpatterns = [
     path('token_auth/', views.CustomTokenObtainPairView.as_view()),
     path('refresh_token/', TokenRefreshView.as_view()),
     path('impersonate/', views.impersonate),
-    re_path('.*', never_cache(TemplateView.as_view(template_name='index.html')))
     # path('users/', views.UserList.as_view())
 ]
