@@ -84,12 +84,6 @@ Once you perform these actions, to get the development servers running you need 
 (Django) started.
 3. Navigate to http://localhost:3000/ in your browser.
 
-## Deploying to Heroku
-Currently the DB is being hosted temporarily using Heroku's free tier. To deploy changes to Heroku, complete the following steps:
-1. First make sure you have Heroku installed
-2. Commit your changes
-3. Run `git push heroku branch:master` and replace branch with your current local branch.
-
 ## TODOS
 * Add ability to login with MIT Certificates. This should use the same middleware pipeline and work in
 tandem with the regular username/password login.
