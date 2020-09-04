@@ -31,7 +31,13 @@ class AllPackages extends Component {
                         item.location,
                         (item.quantity - item.num_picked_up),
                         (item.perishable) ? "Yes" : "No",
-                        item.log_time,
+                        new Date(item.log_time).toLocaleDateString(
+                        undefined,
+                        {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        }),
                         item.desk_worker.display_name
                     ]
                 )

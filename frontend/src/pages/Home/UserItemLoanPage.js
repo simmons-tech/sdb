@@ -24,8 +24,8 @@ class UserItemLoanPage extends Component {
                         loans: res.data.map(data => (
                             [
                                 data.item.item,
-                                data.time_out,
-                                data.time_due,
+                                new Date(data.time_out).toString(),
+                                new Date(data.time_due).toString(),
                                 data.num_checked_out,
                             ]
                         )),
