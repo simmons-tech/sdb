@@ -39,11 +39,31 @@ export default function SidebarSecondary(props) {
           </NavItem>
         </SecondaryBackButton>
         {
-          props.items.map((item, indx) => (
-            <NavItem key={indx}>
-              <NavLink href={item.url}>{item.name}</NavLink>
-            </NavItem>
-          ))
+          props.items
+              .filter(item => {
+
+                  // don't display admin pages to non-admin
+                  if (item.adminOnly && !props.isAdmin) {
+                      return false;
+                  }
+
+                  // don't display desk pages to non-desk workers
+                  if (item.deskOnly && !(props.isDeskWorker || props.isDeskCaptain)) {
+                      return false;
+                  }
+
+                  // don't display desk captain pages to non-captains
+                  if (item.deskCaptainOnly && !props.isDeskCaptain) {
+                      return false;
+                  }
+
+                  return true;
+              })
+              .map((item, indx) => (
+                <NavItem key={indx}>
+                  <NavLink href={item.url}>{item.name}</NavLink>
+                </NavItem>
+              ))
         }
       </Nav>
       <Nav className="foot">
