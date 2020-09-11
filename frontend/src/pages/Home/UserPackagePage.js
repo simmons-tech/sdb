@@ -24,7 +24,13 @@ class UserPackagePage extends Component {
                         packages: res.data.map(data => (
                             // Load the relevant package data in the order it will display on the table
                             [
-                                data.log_time,
+                                new Date(data.log_time).toLocaleDateString(
+                                    undefined,
+                                    {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                    }),
                                 data.quantity,
                                 (data.perishable) ? "Yes" : "No",
                                 data.picked_up,
