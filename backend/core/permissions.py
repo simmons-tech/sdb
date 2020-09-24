@@ -18,7 +18,10 @@ class IsDeskWorker(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        return DeskWorker.active_objects.filter(user=request.user).exists()
+        return (
+            DeskWorker.active_objects.filter(user=request.user).exists() or
+            DeskCaptain.active_objects.filter(user=request.user).exists()
+        )
 
 
 class IsDeskCaptain(permissions.BasePermission):

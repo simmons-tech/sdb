@@ -641,7 +641,7 @@ class Packages(viewsets.ModelViewSet):
 
 
 class DeskItems(viewsets.ModelViewSet):
-    permission_classes = [IsDeskWorker, IsDeskCaptain]
+    permission_classes = [IsDeskWorker]
 
     queryset = DeskItem.objects.all()
     serializer_class = DeskItemSerializer
@@ -776,7 +776,7 @@ class DeskItems(viewsets.ModelViewSet):
 
 
 class ItemLoans(viewsets.ModelViewSet):
-    permission_classes = [IsDeskWorker, IsDeskCaptain]
+    permission_classes = [IsDeskWorker]
 
     queryset = ItemLoan.objects.all()
     serializer_class = ItemLoanSerializer
