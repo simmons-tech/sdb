@@ -5,6 +5,8 @@ import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { ThemeProvider } from "styled-components";
 import * as ROUTES from './constants/routes';
 import adminOnly from './hoc/adminOnly';
+import deskOnly from "./hoc/deskOnly";
+import deskCaptainOnly from "./hoc/deskCaptainOnly";
 import withAuthentication from './hoc/withAuthentication';
 import withSession from "./hoc/withSession";
 import './index.css';
@@ -15,6 +17,13 @@ import ImpersonatePage from './pages/Admin/ImpersonatePage';
 import RoomHistoryPage from './pages/Admin/RoomHistoryPage';
 import RoomStatusSummaryPage from './pages/Admin/RoomStatusSummaryPage';
 import TreasuryPage from './pages/Admin/Treasury/TreasuryPage';
+
+// User Imports
+import UserPackagePage from "./pages/Home/UserPackagePage";
+import UserItemLoanPage from "./pages/Home/UserItemLoanPage";
+
+
+// Directory Imports
 import AssociateAdvisorPage from './pages/Directory/AssociateAdvisorPage';
 import DirectoryPage from './pages/Directory/DirectoryPage';
 import GraPage from './pages/Directory/GraPage';
@@ -22,6 +31,17 @@ import MedlinkPage from './pages/Directory/MedlinkPage';
 import PleasureEducatorsPage from './pages/Directory/PleasureEducatorsPage';
 import ResidentPeerMentorsPage from './pages/Directory/ResidentPeerMentorsPage';
 import StudentOfficersPage from './pages/Directory/StudentOfficersPage';
+
+// Desk Imports
+import DeskHome from './pages/Desk/DeskHome';
+import AllPackages from './pages/Desk/AllPackages';
+import SearchPackages from './pages/Desk/SearchPackages';
+import DeskCheckout from './pages/Desk/DeskCheckout';
+import DeskGuestList from './pages/Desk/GuestList';
+import ItemReturn from './pages/Desk/ItemReturn';
+import AddDeskItem from './pages/Desk/AddDeskItem';
+import RegisterPackages from './pages/Desk/RegisterPackages';
+
 import HomePage from './pages/Home/HomePage';
 import LoginPage from './pages/Home/LoginPage';
 import ProfilePage from './pages/Home/ProfilePage';
@@ -33,9 +53,6 @@ import SignupPage from './pages/SignupPage';
 import { history } from './routing.js';
 import * as serviceWorker from './serviceWorker';
 import theme from "./theme.js";
-
-
-
 
 
 const routing = (
@@ -66,6 +83,16 @@ const routing = (
           <Route exact path={ROUTES.ROOM_HISTORY} component={adminOnly(RoomHistoryPage)} />
           <Route exact path={ROUTES.TREASURY_HOME} component={adminOnly(TreasuryPage)} />
           <Route exact path={ROUTES.TREASURY_ACCOUNT} component={adminOnly(TreasuryPage)} />
+          <Route exact path={ROUTES.DESK_HOME} component={deskOnly(DeskHome)} />
+          <Route exact path={ROUTES.ALL_PACKAGES} component={deskOnly(AllPackages)} />
+          <Route exact path={ROUTES.SEARCH_PACKAGES} component={deskOnly(SearchPackages)} />
+          <Route exact path={ROUTES.REGISTER_PACKAGES} component={deskOnly(RegisterPackages)} />
+          <Route exact path={ROUTES.DESK_CHECKOUT} component={deskOnly(DeskCheckout)} />
+          <Route exact path={ROUTES.DESK_GUEST_LIST} component={deskOnly(DeskGuestList)} />
+          <Route exact path={ROUTES.DESK_ITEM_RETURN} component={deskOnly(ItemReturn)} />
+          <Route exact path={ROUTES.DESK_ADD_ITEM} component={deskCaptainOnly(AddDeskItem)} />
+          <Route exact path={ROUTES.PACKAGES} component={withAuthentication(UserPackagePage)} />
+          <Route exact path={ROUTES.LOANS} component={withAuthentication(UserItemLoanPage)} />
           <Route component={NoMatchPage}/>
         </Switch>
       </ThemeProvider>

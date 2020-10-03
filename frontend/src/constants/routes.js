@@ -49,3 +49,13 @@ export const ROOM_STATUS_SUMMARY = '/admin/roomstatussummary'
 
 export const TREASURY_HOME = '/admin/treasury'
 export const TREASURY_ACCOUNT = TREASURY_HOME + '/account/:account?'
+
+// Desk Links
+export const DESK_HOME = '/desk/welcome'
+export const ALL_PACKAGES = '/desk/allpackages'
+export const SEARCH_PACKAGES = '/desk/searchpackages'
+export const REGISTER_PACKAGES = '/desk/registerpackages'
+export const DESK_CHECKOUT = '/desk/deskcheckout'
+export const DESK_ITEM_RETURN = '/desk/itemreturn'
+export const DESK_ADD_ITEM = '/desk/additem'
+export const DESK_GUEST_LIST = '/desk/deskguestlist'
