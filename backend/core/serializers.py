@@ -2,8 +2,8 @@ from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import (User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup, DeskWorker,
-                     DeskCaptain, Package, DeskItem, DeskNote, DeskShift, ItemLoan)
+from .models import (User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup, Transaction,
+                     DeskWorker, DeskCaptain, Package, DeskItem, DeskNote, DeskShift, ItemLoan)
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -164,12 +164,35 @@ class DetailedUserSerializer(serializers.ModelSerializer):
         )
 
 
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = (
+            'amount',
+            'description',
+            'date',
+        )
+
+
 class AccountSerializerBasic(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = (
             'name',
-            'balance'
+            'balance',
+        )
+
+
+class AccountSerializerDetail(serializers.ModelSerializer):
+    transactions = TransactionSerializer(many=True)
+
+    class Meta:
+        model = Account
+        fields = (
+            'name',
+            'balance',
+            'transactions',
+            'creation_date',
         )
 
 
