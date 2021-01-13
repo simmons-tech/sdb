@@ -209,6 +209,22 @@ class Administrators(viewsets.ModelViewSet):
         return updateList(request, Administrator.objects)
 
 
+class Treasurers(viewsets.ModelViewSet):
+    """
+    GET requests return a list of Users that are active Treasurers.
+    POST requests add Treasurers and records the order of usernames
+    given. Any usernames not in the POST request are set as inactive.
+    """
+
+    ids = Treasurer.active_objects.values_list('id').order_by('treasurer__index')
+    queryset = User.objects.filter(treasurer__id__in=ids)
+    serializer_class = UserSerializer
+
+    @permission_classes([IsAdmin])
+    def create(self, request):
+        return updateList(request, Treasurer.objects)
+
+
 class Officers(viewsets.ModelViewSet):
     """
     GET requests return a list of officers.

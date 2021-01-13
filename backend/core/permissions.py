@@ -1,6 +1,6 @@
 from rest_framework import permissions
 
-from .models import Administrator, DeskWorker, DeskCaptain
+from .models import Administrator, DeskWorker, DeskCaptain, Treasurer
 
 
 class IsAdmin(permissions.BasePermission):
@@ -10,6 +10,15 @@ class IsAdmin(permissions.BasePermission):
 
     def has_permission(self, request, view):
         return Administrator.active_objects.filter(user=request.user).exists()
+
+
+class IsTreasurer(permissions.BasePermission):
+    """
+    Permission for Treasurers to access the Treasury pages
+    """
+
+    def has_permission(self, request, view):
+        return Treasurer.active_objects.filter(user=request.user).exists()
 
 
 class IsDeskWorker(permissions.BasePermission):
