@@ -178,6 +178,7 @@ class AccountSerializerBasic(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = (
+            'pk',
             'name',
             'balance',
         )
@@ -189,6 +190,7 @@ class AccountSerializerDetail(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = (
+            'pk',
             'name',
             'balance',
             'transactions',
