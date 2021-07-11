@@ -37,11 +37,13 @@ class LoginForm extends React.Component {
       <Container fluid>
         <Row>
           <Col md="6" sm="10" className="mx-auto p-0 text-white">
-            {this.props.errors.map((error, indx) => (
-              <Alert key={indx} color="danger">
-                <span>{error}</span>
+            {(this.props.errors.length > 0) ?
+              <Alert color="danger">
+                <span>{this.props.errors}</span>
               </Alert>
-            ))}
+              : 
+              <div></div>
+            }
             <Formik
               initialValues={{
                 username: '',
