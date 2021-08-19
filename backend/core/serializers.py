@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import (User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup, DeskWorker,
+from .models import (User, UserGuest, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup, DeskWorker,
                      DeskCaptain, Package, DeskItem, DeskNote, DeskShift, ItemLoan)
 
 
@@ -53,6 +53,37 @@ class UserSerializer(serializers.ModelSerializer):
             'room',
             'year',
             'pk'
+        )
+
+
+class UserGuestSerializer(serializers.ModelSerializer):
+    """
+    A serializer that represents a single person on a user's guest list
+    """
+
+    class Meta:
+        model = UserGuest
+        fields = (
+            'name',
+            'kerb',
+            'host',
+        )
+
+
+class GuestListSerializer(serializers.ModelSerializer):
+    """
+    A serializer that returns the guest list for a user
+    """
+
+    guests = UserGuestSerializer(many=True)
+
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'first_name',
+            'last_name',
+            'guests',
         )
 
 
