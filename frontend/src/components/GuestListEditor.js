@@ -97,7 +97,7 @@ export default class GuestListEditor extends Component {
 
         return (
             <div>
-                <Table className='p-3' striped hover>
+                <Table className='p-3' striped hover responsive style={{backgroundColor: "white"}}>
                     <thead>
                         <tr>
                             <th/>

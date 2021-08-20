@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import BasePage from "../BasePage";
 import GuestListEditor from "../../components/GuestListEditor";
+import {Jumbotron} from "reactstrap";
 
 class UserGuestList extends Component {
     constructor(props) {
@@ -10,8 +11,11 @@ class UserGuestList extends Component {
     }
     render() {
         return (
-            <BasePage loading={this.state.loading} header="Edit Guest List">
-                <GuestListEditor user={this.props.user} />
+            <BasePage loading={this.state.loading}>
+                <Jumbotron>
+                    <h4>Edit Guest List</h4>
+                    <GuestListEditor user={this.props.user} />
+                </Jumbotron>
             </BasePage>
         );
     }
