@@ -21,6 +21,7 @@ import TreasuryPage from './pages/Admin/Treasury/TreasuryPage';
 // User Imports
 import UserPackagePage from "./pages/Home/UserPackagePage";
 import UserItemLoanPage from "./pages/Home/UserItemLoanPage";
+import UserGuestList from "./pages/Home/UserGuestList";
 
 
 // Directory Imports
@@ -93,6 +94,7 @@ const routing = (
           <Route exact path={ROUTES.DESK_ADD_ITEM} component={deskCaptainOnly(AddDeskItem)} />
           <Route exact path={ROUTES.PACKAGES} component={withAuthentication(UserPackagePage)} />
           <Route exact path={ROUTES.LOANS} component={withAuthentication(UserItemLoanPage)} />
+          <Route exact path={ROUTES.GUEST_LIST} component={withAuthentication(UserGuestList)} />
           <Route component={NoMatchPage}/>
         </Switch>
       </ThemeProvider>

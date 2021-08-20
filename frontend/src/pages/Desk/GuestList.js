@@ -15,7 +15,7 @@ class DeskGuestList extends Component {
             selected_user: false,
             users: [], 
             //TODO Change this guest to query the db on click
-            guests: [["first", "last","kreb"]]};
+            guests: [["first", "last","kerb"]]};
     }
 
     // async componentDidMount() {
@@ -54,14 +54,19 @@ class DeskGuestList extends Component {
     }
 
     handleOnClick = (row) => {
-        // put the GET api call here.
-        this.setState({
-            current_user:{
-                display_name: row[1] + " " + row[0],
-                username: row[3]
-            },
-            selected_user: true,
-        })
+        axios
+            .post('/api/users/guest_list/', {username: row[3]})
+            .then(res => {
+                this.setState({
+                    current_user:{
+                        display_name: row[1] + " " + row[0],
+                        username: row[3],
+                    },
+                    selected_user: true,
+                    guests: res.data.guests.map(guest => [guest.first_name, guest.last_name, guest.kerb]),
+                })
+            })
+            .catch(err => console.log(err));
     }
 
     handleBackButton = () => {

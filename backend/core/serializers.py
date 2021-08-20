@@ -64,7 +64,8 @@ class UserGuestSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserGuest
         fields = (
-            'name',
+            'first_name',
+            'last_name',
             'kerb',
             'host',
         )

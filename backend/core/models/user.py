@@ -132,7 +132,8 @@ class UserGuest(models.Model):
     A person that appears on the guest list of a user.
     """
 
-    name = models.CharField(max_length=255, blank=False, null=False)
+    first_name = models.CharField(max_length=255, blank=False, null=False)
+    last_name = models.CharField(max_length=255, blank=False, null=False)
     kerb = models.CharField(max_length=255, blank=False, null=False)
     host = models.ForeignKey(User,
                              on_delete=models.CASCADE,

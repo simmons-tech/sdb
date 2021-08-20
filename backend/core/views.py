@@ -482,7 +482,7 @@ class UserList(viewsets.ModelViewSet):
         serializer = ItemLoanSerializer(user_items, many=True)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['post'])
+    @action(detail=False, methods=['post'])
     def guest_list(self, request, pk=None):
         """
         Returns the user's guest list
@@ -518,17 +518,14 @@ class UserList(viewsets.ModelViewSet):
         removed_guests = request.data['remove']
         for guest in removed_guests:
             guest_object = current_user.guests.filter(kerb=guest['kerb'])[0]
-            current_user.guests.remove(guest_object)
             guest_object.delete()
 
         # Create the new guests and add them to the guest list
         added_guests = request.data['add']
         for guest in added_guests:
-            current_user.guests.create(kerb=guest['kerb'], name=guest['name'])
+            current_user.guests.create(kerb=guest['kerb'], first_name=guest['first_name'], last_name=guest['last_name'])
 
         return Response(None, status.HTTP_200_OK)
-
-
 
     def list(self, request):
         """
