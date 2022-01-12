@@ -39,6 +39,8 @@ router.register(r'desknotes', views.DeskNotes, 'desknotes')
 router.register(r'deskshifts', views.DeskShifts, 'deskshifts')
 router.register(r'deskitems', views.DeskItems, 'deskitems')
 router.register(r'loans', views.ItemLoans, 'loans')
+router.register(r'guests', views.Guests, 'guests')
+router.register(r'one_time_events', views.OneTimeEvents, 'one_time_events')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

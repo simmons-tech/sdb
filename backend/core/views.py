@@ -1,7 +1,7 @@
 import csv
 import io
 import random
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from django.db import transaction
 from django.db.models import Q
@@ -11,11 +11,14 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
 )
+
+from core.models import one_time_event
 
 from .exceptions import InvalidUserCSVException
 from .models import *
@@ -481,6 +484,42 @@ class UserList(viewsets.ModelViewSet):
         user_items = user.loan
         serializer = ItemLoanSerializer(user_items, many=True)
         return Response(serializer.data)
+    
+    @action(detail=True, methods=['get'])
+    def guest_list_renewal_mode(self, request, pk=None):
+        """
+        Returns the renewal mode of the user.
+        """
+        # Verify that the user making the request is actually the current user
+        user = self.get_object()
+        if user.pk != self.request.user.pk:
+            return Response(None, status=status.HTTP_401_UNAUTHORIZED)
+        return Response(user.guest_list_renewal_mode)
+    
+    @action(detail=True, methods=['get'])
+    def guest_list(self, request, pk=None):
+        """
+        Returns the guest list of the user.
+        """
+        # Verify that the user making the request is actually the current user
+        # TODO: Add additional check for desk worker (should be able to view)
+        user = self.get_object()
+        if user.pk != self.request.user.pk:
+            return Response(None, status=status.HTTP_401_UNAUTHORIZED)
+
+        guest_list = user.guest_list.filter(
+            Q(validity_end_time__gte=timezone.make_aware(datetime.now())) &
+            Q(is_one_time=False))
+        guest_list_serializer = GuestSerializer(guest_list, many=True)
+
+        one_time_events = user.one_time_events.filter(
+            end_time__gte=timezone.make_aware(datetime.now()))
+        events_serializer = OneTimeEventSerializer(one_time_events, many=True)
+
+        return Response({
+            'guest_list': guest_list_serializer.data,
+            'one_time_events': events_serializer.data,
+        }, status=status.HTTP_200_OK)
 
     def list(self, request):
         """
@@ -689,7 +728,8 @@ class DeskItems(viewsets.ModelViewSet):
         item_quantity = request.data['quantity']
         category_id = request.data.pop('category')
         category = DeskItemType.get(int(category_id))
-        item = DeskItem.objects.create(num_available=item_quantity, category=category, **request.data)
+        item = DeskItem.objects.create(
+            num_available=item_quantity, category=category, **request.data)
         item.save()
 
         return Response({'status': 'created'}, status=status.HTTP_201_CREATED)
@@ -871,3 +911,78 @@ class DeskShifts(viewsets.ModelViewSet):
 
     queryset = DeskShift.current_objects
     serializer_class = DeskShiftSerializer
+
+
+class Guests(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+
+    queryset = Guest.objects.all()
+    serializer_class = GuestSerializer
+
+    def create(self, request):
+        # Determine the validity period
+        if request.data['is_one_time']:
+            host = None
+            event = OneTimeEvent.objects.get(pk=request.data.pop('event_pk'))
+            validity_start_time = request.data.pop('validity_start_time')
+            validity_end_time = request.data.pop('validity_end_time')
+        else:
+            host = request.user
+            event = None
+            validity_start_time = timezone.make_aware(datetime.now())
+            if request.user.guest_list_renewal_mode == 'Monthly':
+                next_month = datetime.now().replace(day=28) + timedelta(days=4)
+                validity_end_time = timezone.make_aware(next_month - \
+                    timedelta(days=next_month.day - 1))
+            else:
+                validity_end_time = timezone.make_aware(
+                    datetime(datetime.now().year, 12, 31, 23, 59, 59))
+
+        guest = Guest.objects.create(
+            host=host,
+            event=event,
+            validity_start_time=validity_start_time,
+            validity_end_time=validity_end_time,
+            **request.data)
+        guest.save()
+
+        return Response({'status': 'created'}, status=status.HTTP_201_CREATED)
+
+    def destroy(self, request, pk=None):
+        guest = Guest.objects.get(pk=pk)
+        # We don't care about history for one-time guests
+        if guest.is_one_time:
+            guest.delete()
+        else:
+            guest.validity_end_time = timezone.make_aware(datetime.now())
+            guest.save()
+        return Response({'status': 'deleted'}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['get'], permission_classes=[IsDeskCaptain])
+    def guest_list_history(self, request):
+        """
+        Returns the guest list history between the specified times
+        """
+        guest_list = Guest.objects.filter(
+            Q(validity_start_time__lte=request.start_time) &
+            Q(validity_end_time__gte=request.end_time))
+        serializer = GuestSerializer(guest_list, many=True)
+        return Response(serializer.data)
+
+
+class OneTimeEvents(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+
+    queryset = OneTimeEvent.objects.all()
+    serializer_class = OneTimeEventSerializer
+
+    def create(self, request):
+        event = OneTimeEvent.objects.create(
+            host=request.user,
+            name=request.data.pop('name'),
+            start_time=request.data.pop('start_time'),
+            end_time=request.data.pop('end_time')
+        )
+        event.save()
+
+        return Response({'status': 'created'}, status=status.HTTP_201_CREATED)

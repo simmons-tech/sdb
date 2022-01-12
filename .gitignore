@@ -57,6 +57,7 @@ core/models/__pycache__/
 # Virtual Environments
 backend/venv
 venv
+backend/env
 
 # Clean macOS dotfiles
 *.DS_Store

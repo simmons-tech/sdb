@@ -118,7 +118,15 @@ class User(AbstractUser):
     hidden = models.BooleanField(default=False)
     # roles = models.ManyToManyField(Role)
 
-    # Guest lists (TODO)
+    # Guest lists
+    class GuestListRenewalMode(models.TextChoices):
+        MONTHLY = 'Monthly'
+        END_OF_YEAR = 'End of Year'
+    guest_list_renewal_mode = models.CharField(
+        max_length=11,
+        choices=GuestListRenewalMode.choices,
+        default=GuestListRenewalMode.MONTHLY
+    )
 
     REQUIRED_FIELDS = ['year', 'first_name', 'last_name']
 
