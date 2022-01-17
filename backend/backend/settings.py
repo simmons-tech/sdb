@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'core',
     'django.contrib.admin',
     'django.contrib.auth',
+    'mozilla_django_oidc',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -59,6 +60,18 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend'
+)
+
+OIDC_RP_CLIENT_ID = os.environ['OIDC_RP_CLIENT_ID']
+OIDC_RP_CLIENT_SECRET = os.environ['OIDC_RP_CLIENT_SECRET']
+OIDC_OP_AUTHORIZATION_ENDPOINT = 'https://oidc.mit.edu/authorize'
+OIDC_OP_TOKEN_ENDPOINT = 'https://oidc.mit.edu/token'
+OIDC_OP_USER_ENDPOINT = 'https://oidc.mit.edu/userinfo'
+OIDC_CREATE_USER = False
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -131,9 +144,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+        'mozilla_django_oidc.contrib.drf.OIDCAuthentication',
     ),
     'DATE_FORMAT': '%b %d %Y',
 }

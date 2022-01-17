@@ -13,9 +13,6 @@ from rest_framework.decorators import action
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-)
 
 from .exceptions import InvalidUserCSVException
 from .models import *
@@ -52,11 +49,6 @@ def updateList(request, objects):
         deactivateRecord(entry)
 
     return Response({'status': 'updated'})
-
-
-class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer
-
 
 @api_view(['GET'])
 def highlighted_user(request):
@@ -333,6 +325,16 @@ class AccountsList(viewsets.ReadOnlyModelViewSet):
 class UserList(viewsets.ModelViewSet):
     queryset = User.objects.exclude(hidden=True).exclude(is_active=False)
     serializer_class = UserSerializer
+
+    @action(detail=False, methods=['get'])
+    def get_logged_in(self, request):
+        user = request.user
+        return Response({
+            'user': UserSerializer(user).data,
+            'is_admin': Administrator.active_objects.filter(user=user).exists(),
+            'is_desk_worker': DeskWorker.active_objects.filter(user=user).exists(),
+            'is_desk_captain': DeskCaptain.active_objects.filter(user=user).exists()
+        })
 
     @action(detail=True, methods=['get'])
     def get_profile(self, request, pk=None):

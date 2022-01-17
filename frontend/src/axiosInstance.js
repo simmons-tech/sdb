@@ -11,14 +11,26 @@ const isHandlerEnabled = (config={}) => {
 
 const getNewToken = (instance) => {
   return new Promise((resolve, reject) => {
-    instance
-      .post('/refresh_token/', { refresh: localStorage.getItem('refresh_token') })
-      .then(response => {
-        resolve(response.data.access);
-      })
-      .catch((error) => {
-        reject(error);
-      });
+    const params = new URLSearchParams();
+      params.append("grant_type", "refresh_token");
+      params.append("refresh_token", localStorage.getItem('refresh_token'));
+      params.append("redirect_uri", process.env.REACT_APP_OPENID_REDIRECT);
+      instance
+        .post("https://oidc.mit.edu/token", params, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          auth: {
+            username: process.env.REACT_APP_OPENID_ID,
+            password: process.env.REACT_APP_OPENID_SECRET
+          }
+        })
+        .then(response => {
+          resolve(response.data.access);
+        })
+        .catch((error) => {
+          reject(error);
+        });
   });
 }
 
