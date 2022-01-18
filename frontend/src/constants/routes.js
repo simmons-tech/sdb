@@ -13,6 +13,7 @@ export const POLLS = '/home/polls'
 export const LOTTERIES = '/home/lotteries'
 export const MOVIES = '/home/movies'
 export const LIBRARY = '/home/library'
+export const MISC = '/home/misc'
 export const ABOUT = '/home/about'
 
 // House Gov links
