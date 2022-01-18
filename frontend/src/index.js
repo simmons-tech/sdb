@@ -42,10 +42,12 @@ import ItemReturn from './pages/Desk/ItemReturn';
 import AddDeskItem from './pages/Desk/AddDeskItem';
 import RegisterPackages from './pages/Desk/RegisterPackages';
 
+// Home Page Imports
 import HomePage from './pages/Home/HomePage';
 import LoginPage from './pages/Home/LoginPage';
 import ProfilePage from './pages/Home/ProfilePage';
 import AboutPage from './pages/Home/AboutPage';
+import CheckoutList from './pages/Home/CheckoutList';
 import LibraryPage from './pages/Home/LibraryPage';
 import MailingListsPage from "./pages/Home/MailingListsPage";
 import NoMatchPage from './pages/NoMatchPage';
@@ -66,6 +68,7 @@ const routing = (
           <Route exact path={ROUTES.MAILING_LISTS} component={withAuthentication(MailingListsPage)} />
           <Route exact path={ROUTES.PROFILE} component={withAuthentication(ProfilePage)} />
           <Route exact path={ROUTES.ABOUT} component={withSession(AboutPage)} />
+          <Route exact path={ROUTES.MOVIES} component={withSession(CheckoutList)} />
           <Route exact path={ROUTES.LIBRARY} component={withSession(LibraryPage)} />
           <Route exact path={ROUTES.LOGIN} component={withSession(LoginPage)} />
           <Route exact path={ROUTES.SIGN_UP} component={withAuthentication(SignupPage)} />
