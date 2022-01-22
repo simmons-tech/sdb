@@ -967,8 +967,8 @@ class Guests(viewsets.ModelViewSet):
         Returns the guest list history between the specified times
         """
         guest_list = Guest.objects.filter(
-            Q(validity_start_time__lte=request.start_time) &
-            Q(validity_end_time__gte=request.end_time))
+            Q(validity_start_time__lte=request.query_params.get('start_time', None)) &
+            Q(validity_end_time__gte=request.query_params.get('end_time', None)))
         serializer = GuestSerializer(guest_list, many=True)
         return Response(serializer.data)
 
