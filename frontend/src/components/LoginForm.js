@@ -35,11 +35,6 @@ class LoginForm extends React.Component {
   render() {
     return (
       <div className="mb-3">
-        {this.props.errors.map((error, indx) => (
-          <Alert key={indx} color="danger">
-            <span>{error}</span>
-          </Alert>
-        ))}
         <Formik
           initialValues={{
             username: "",

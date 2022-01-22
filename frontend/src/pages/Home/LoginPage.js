@@ -78,7 +78,7 @@ class LoginPage extends React.Component {
       // Alert user that they can't log in
       this.setState({
         loading: false,
-        oidcError: "You are not a Simmons resident >:(",
+        oidcError: "No active account found with the given credentials",
       });
     }
   }
@@ -91,13 +91,13 @@ class LoginPage extends React.Component {
       })
       .catch((e) => {
         this.setState({
-          errors: Object.values(e.response.data).reduce(
+          jwtErrors: Object.values(e.response.data).reduce(
             (a, element) => a.concat(element),
             []
           ),
         });
       });
-  }
+  };
 
   render() {
     return (
@@ -113,6 +113,11 @@ class LoginPage extends React.Component {
             ) : (
               <></>
             )}
+            {this.state.jwtErrors.map((error) => (
+              <Alert color="danger">
+                <span>{error}</span>
+              </Alert>
+            ))}
             <h2 className="mb-3">Welcome to the Simmons DB!</h2>
             <p>
               You can login using your MIT credentials, or with a
