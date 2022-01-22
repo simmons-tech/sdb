@@ -17,6 +17,9 @@ from core import views
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+from rest_framework_simplejwt.views import (
+    TokenRefreshView,
+)
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserList, 'user')
@@ -41,6 +44,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/fame/', views.highlighted_user),
+    path('token_auth/', views.CustomTokenObtainPairView.as_view()),
+    path('refresh_token/', TokenRefreshView.as_view()),
     path('impersonate/', views.impersonate),
     # path('users/', views.UserList.as_view())
 ]

@@ -6,6 +6,18 @@ from .models import (User, Administrator, Officer, Room, Section, UserRoom, Acco
                      DeskCaptain, Package, DeskItem, DeskNote, DeskShift, ItemLoan)
 
 
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['user'] = UserSerializer(user).data
+        token['is_admin'] = Administrator.active_objects.filter(user=user).exists()
+        token['is_desk_worker'] = DeskWorker.active_objects.filter(user=user).exists()
+        token['is_desk_captain'] = DeskCaptain.active_objects.filter(user=user).exists()
+
+        return token
+
+
 class SectionNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Section

@@ -4,7 +4,7 @@ import { CustomDirectoryAutocomplete } from '../../components/CustomFormikInputs
 import axios from '../../axiosInstance';
 import { Formik, Form, Field } from 'formik';
 import { FormGroup, Label, Button } from "reactstrap"
-import saveToken from '../../login';
+import { saveJwtToken } from '../../login';
 import * as Yup from 'yup';
 
 
@@ -13,7 +13,7 @@ class ImpersonatePage extends Component {
   onSubmit = (values) => {
     axios
       .post('/impersonate/', values)
-      .then(res => saveToken(res.data, this.props.history))
+      .then(res => saveJwtToken(res.data, this.props.history))
   }
 
   render() {

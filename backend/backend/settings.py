@@ -63,7 +63,8 @@ MIDDLEWARE = [
 
 AUTHENTICATION_BACKENDS = (
     'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
-    'django.contrib.auth.backends.ModelBackend'
+    # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 OIDC_RP_CLIENT_ID = os.environ['OIDC_RP_CLIENT_ID']
@@ -145,6 +146,9 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'mozilla_django_oidc.contrib.drf.OIDCAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ),
     'DATE_FORMAT': '%b %d %Y',
 }
@@ -152,6 +156,7 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(weeks=2),
+    'AUTH_HEADER_TYPES': ('JWT',),
 }
 
 # we whitelist localhost:3000 because that's where frontend will be served

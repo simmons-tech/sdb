@@ -13,6 +13,9 @@ from rest_framework.decorators import action
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+)
 
 from .exceptions import InvalidUserCSVException
 from .models import *
@@ -49,6 +52,11 @@ def updateList(request, objects):
         deactivateRecord(entry)
 
     return Response({'status': 'updated'})
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
 
 @api_view(['GET'])
 def highlighted_user(request):
