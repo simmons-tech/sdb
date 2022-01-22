@@ -496,15 +496,18 @@ class UserList(viewsets.ModelViewSet):
             return Response(None, status=status.HTTP_401_UNAUTHORIZED)
         return Response(user.guest_list_renewal_mode)
     
-    @action(detail=True, methods=['get'])
-    def guest_list(self, request, pk=None):
+    @action(detail=False, methods=['get'])
+    def guest_list(self, request):
         """
         Returns the guest list of the user.
         """
         # Verify that the user making the request is actually the current user
-        # TODO: Add additional check for desk worker (should be able to view)
-        user = self.get_object()
-        if user.pk != self.request.user.pk:
+        # (or a desk worker)
+        username = request.query_params.get('username', None)
+        if username == None or not User.objects.filter(username=username).exists():
+            return Response(None, status=status.HTTP_400_BAD_REQUEST)
+        user = User.objects.get(username=username)
+        if user.pk != self.request.user.pk and not IsDeskWorker().has_permission(request, None):
             return Response(None, status=status.HTTP_401_UNAUTHORIZED)
 
         guest_list = user.guest_list.filter(
