@@ -2,7 +2,8 @@ from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup, Meeting, Proposal, Update
+from .models import (User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup, DeskWorker,
+                     DeskCaptain, Package, DeskItem, DeskNote, DeskShift, ItemLoan)
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -10,7 +11,9 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
         token['user'] = UserSerializer(user).data
-        token['is_admin'] = Administrator.objects.filter(user=user).exists()
+        token['is_admin'] = Administrator.active_objects.filter(user=user).exists()
+        token['is_desk_worker'] = DeskWorker.active_objects.filter(user=user).exists()
+        token['is_desk_captain'] = DeskCaptain.active_objects.filter(user=user).exists()
 
         return token
 
@@ -181,48 +184,78 @@ class AccountGroupSerializer(serializers.ModelSerializer):
         )
 
 
-class UpdateSerializer(serializers.ModelSerializer):
+class PackageSerializer(serializers.ModelSerializer):
+    recipient = UserSerializer()
+    desk_worker = UserSerializer()
 
     class Meta:
-        model = Update
+        model = Package
         fields = (
-            'date',
-            'update',
-            'proposal'
+            "recipient",
+            "location",
+            "quantity",
+            "perishable",
+            "log_time",
+            "desk_worker",
+            "num_picked_up",
+            "pk",
         )
 
 
-class ProposalSerializer(serializers.ModelSerializer):
-
+class DeskItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Proposal
+        model = DeskItem
         fields = (
-            'meeting',
-            'date',
-            'primary_author',
-            'secondary_authors',
-            'title',
-            'procedure',
-            'procedure_notes',
-            'summary',
-            'full_text',
-            'decision',
-            'updates'
+            'item',
+            'quantity',
+            'num_available',
+            'location',
+            'category',
+            'pk',
         )
 
 
-class MeetingSerializer(serializers.ModelSerializer):
-    proposals = ProposalSerializer(many=True)
+class ItemLoanSerializer(serializers.ModelSerializer):
+    resident = UserSerializer()
+    desk_worker = UserSerializer()
+    item = DeskItemSerializer()
 
     class Meta:
-        model = Meeting
+        model = ItemLoan
         fields = (
-            'id',
-            'name',
-            'meet_date',
-            'intro',
-            'house_announcements',
-            'president_announcements',
-            'committee_reports',
-            'proposals'
+            'item',
+            'resident',
+            'desk_worker',
+            'num_checked_out',
+            'time_out',
+            'time_due',
+            'pk',
+        )
+
+
+class DeskNoteSerializer(serializers.ModelSerializer):
+    desk_worker = UserSerializer()
+
+    class Meta:
+        model = DeskNote
+        fields = (
+            "time",
+            "content",
+            "desk_worker",
+            "completed",
+            "pk",
+        )
+
+        required_fields = ('content', 'desk_worker')
+
+
+class DeskShiftSerializer(serializers.ModelSerializer):
+    desk_worker = UserSerializer()
+
+    class Meta:
+        model = DeskShift
+        fields = (
+            "start_time",
+            "end_time",
+            "desk_worker"
         )

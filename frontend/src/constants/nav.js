@@ -5,7 +5,8 @@ export const CATEGORIES = [
   "House Gov",
   "Lounges",
   "Directories",
-  "Admin"
+  "Admin",
+  "Desk",
 ]
 
 export const LINKS = [
@@ -55,5 +56,15 @@ export const LINKS = [
     { url: ROUTES.ROOM_STATUS_SUMMARY, name: "Room Status Summary", adminOnly: true},
     { url: ROUTES.ROOM_HISTORY, name: "Room History", adminOnly: true},
     { url: ROUTES.TREASURY_HOME, name: "Treasury", adminOnly: true},
+  ],
+  [
+    {url: ROUTES.DESK_HOME, name: "Dashboard", deskOnly: true},
+    {url: ROUTES.ALL_PACKAGES, name: "All Waiting Packages", deskOnly: true},
+    {url: ROUTES.SEARCH_PACKAGES, name: "Package Pickup", deskOnly: true},
+    {url: ROUTES.REGISTER_PACKAGES, name: "Register Packages", deskOnly: true},
+    {url: ROUTES.DESK_CHECKOUT, name: "Item Checkout", deskOnly: true},
+    {url: ROUTES.DESK_ITEM_RETURN, name: "Item Return", deskOnly: true},
+    {url: ROUTES.DESK_ADD_ITEM, name: "Add Item", deskCaptainOnly: true},
+    {url: ROUTES.DESK_GUEST_LIST, name: "Search Guest List", deskOnly: true}
   ]
 ]

@@ -28,13 +28,23 @@ router.register(r'associateadvisors', views.AssociateAdvisors, 'associateadvisor
 router.register(r'residentpeermentors', views.ResidentPeerMentors, 'residentpeermentors')
 router.register(r'pleasureeducators', views.PleasureEducators, 'pleasureeducators')
 router.register(r'administrators', views.Administrators, 'administrators')
+router.register(r'deskworkers', views.DeskWorkers, 'deskworkers')
+router.register(r'deskcaptains', views.DeskCaptains, 'deskcaptains')
 router.register(r'officers', views.Officers, 'officers')
 router.register(r'rooms', views.RoomList, 'rooms')
 router.register(r'sections', views.SectionList, 'sections')
 router.register(r'accounts', views.AccountsList, 'accounts')
+<<<<<<< HEAD
 router.register(r'meetings', views.MeetingList, 'meetings')
 router.register(r'proposals', views.ProposalList, 'proposals')
 
+=======
+router.register(r'packages', views.Packages, 'packages')
+router.register(r'desknotes', views.DeskNotes, 'desknotes')
+router.register(r'deskshifts', views.DeskShifts, 'deskshifts')
+router.register(r'deskitems', views.DeskItems, 'deskitems')
+router.register(r'loans', views.ItemLoans, 'loans')
+>>>>>>> master
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -42,6 +52,6 @@ urlpatterns = [
     path('api/fame/', views.highlighted_user),
     path('token_auth/', views.CustomTokenObtainPairView.as_view()),
     path('refresh_token/', TokenRefreshView.as_view()),
-    path('impersonate/', views.impersonate)
+    path('impersonate/', views.impersonate),
     # path('users/', views.UserList.as_view())
 ]

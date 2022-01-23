@@ -1,14 +1,18 @@
 # migrations
 backend/core/migrations/*
+core/migrations/*
 
 # dependencies
 frontend/node_modules
+node_modules
 
 # testing
 frontend/coverage
+coverage
 
 # production
 frontend/build
+build
 
 # misc
 frontend/.DS_Store
@@ -16,20 +20,33 @@ frontend/.env.local
 frontend/.env.development.local
 frontend/.env.test.local
 frontend/.env.production.local
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 frontend/npm-debug.log*
-frontend/yar-debug.log*
+frontend/yarn-debug.log*
 frontend/yarn-error.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # DB
 backend/db.sqlite3
 backend/db_backup.sqlite3
+db.sqlite3
+db_backup.sqlite3
 
 # Pycache
 backend/backend/__pycache__/
 backend/core/__pycache__/
 *.pyc
 backend/core/models/__pycache__/
+backend/__pycache__/
+core/__pycache__/
+core/models/__pycache__/
 
 # PyCharm
 .idea/
@@ -39,3 +56,11 @@ backend/core/models/__pycache__/
 
 # Virtual Environments
 backend/venv
+venv
+
+# Clean macOS dotfiles
+*.DS_Store
+
+# Heroku
+local_settings.py
+.env
