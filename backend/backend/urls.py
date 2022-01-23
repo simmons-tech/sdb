@@ -34,17 +34,11 @@ router.register(r'officers', views.Officers, 'officers')
 router.register(r'rooms', views.RoomList, 'rooms')
 router.register(r'sections', views.SectionList, 'sections')
 router.register(r'accounts', views.AccountsList, 'accounts')
-<<<<<<< HEAD
-router.register(r'meetings', views.MeetingList, 'meetings')
-router.register(r'proposals', views.ProposalList, 'proposals')
-
-=======
 router.register(r'packages', views.Packages, 'packages')
 router.register(r'desknotes', views.DeskNotes, 'desknotes')
 router.register(r'deskshifts', views.DeskShifts, 'deskshifts')
 router.register(r'deskitems', views.DeskItems, 'deskitems')
 router.register(r'loans', views.ItemLoans, 'loans')
->>>>>>> master
 
 urlpatterns = [
     path('admin/', admin.site.urls),
