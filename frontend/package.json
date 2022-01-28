@@ -17,7 +17,7 @@
     "bootstrap": "^4.4.1",
     "formik": "^2.0.8",
     "history": "^4.10.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-autocomplete": "^1.8.1",
