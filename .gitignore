@@ -56,6 +56,7 @@ core/models/__pycache__/
 
 # Virtual Environments
 backend/venv
+backend/env
 venv
 env
 
