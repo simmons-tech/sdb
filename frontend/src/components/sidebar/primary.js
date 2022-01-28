@@ -8,8 +8,10 @@ import PrimaryButton from './primaryButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons'
 import { withTheme } from 'styled-components';
+import AuthLinks from './authLinks';
 
 function SidebarPrimary(props) {
+  console.log(props);
   return (
     <div id="sidebar-primary" className={`sidebar ${props.open ? "active" : ""}`}>
       <Nav>
@@ -72,6 +74,9 @@ function SidebarPrimary(props) {
           </PrimaryButton>
         }
       </Nav>
+      <div className="auth-links">
+        <AuthLinks {...props} />
+      </div>
     </div>
   );
 }

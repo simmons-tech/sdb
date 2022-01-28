@@ -8,8 +8,10 @@ import SecondaryBackButton from './secondaryBackButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import * as ROUTES from '../../constants/routes';
+import AuthLinks from './authLinks';
 
 export default function SidebarSecondary(props) {
+  console.log(props);
 
   const loginLink = <NavItem>
     <NavLink href={ROUTES.LOGIN}>Login</NavLink>
@@ -66,9 +68,9 @@ export default function SidebarSecondary(props) {
               ))
         }
       </Nav>
-      <Nav className="foot">
-        {props.user ? signoutLink : loginLink}
-      </Nav>
+      <div className="auth-links">
+        <AuthLinks {...props} />
+      </div>
     </div>
   );
 }

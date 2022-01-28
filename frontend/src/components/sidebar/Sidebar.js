@@ -77,6 +77,7 @@ class Sidebar extends React.Component {
           headers={CATEGORIES}
           onClick={this.openSecondary}
           open={this.state.primaryOpen}
+          user={this.props.user}
           isAdmin={this.props.isAdmin}
           isDeskCaptain={this.props.isDeskCaptain}
           isDeskWorker={this.props.isDeskWorker}
