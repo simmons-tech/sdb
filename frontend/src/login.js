@@ -15,7 +15,24 @@ function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
-export function saveJwtToken(data, history) {
+const localStorageFields = [
+  "token",
+  "refresh_token",
+  "used_oidc",
+  "user",
+  "is_admin",
+  "is_desk_captain",
+  "is_desk_worker",
+]
+
+export function saveJwtToken(data, history, impersonate=false) {
+  if (impersonate) {
+    localStorageFields.forEach((field) => {
+      localStorage.setItem(`impersonate_${field}`, localStorage.getItem(field));
+    })
+    localStorage.setItem("impersonating", "true");
+  }
+
   let payload = parseJwt(data.access);
   localStorage.setItem("token", data.access);
   localStorage.setItem("refresh_token", data.refresh);
@@ -29,6 +46,14 @@ export function saveJwtToken(data, history) {
   } else {
     history.push(ROUTES.HOME);
   }
+}
+
+export function stopImpersonating() {
+  localStorageFields.forEach((field) => {
+    localStorage.setItem(field, localStorage.getItem(`impersonate_${field}`));
+    localStorage.removeItem(`impersonate_${field}`);
+  })
+  localStorage.removeItem("impersonating");
 }
 
 export async function saveOidcToken(data, history) {

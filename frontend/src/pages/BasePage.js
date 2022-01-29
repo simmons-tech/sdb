@@ -28,7 +28,6 @@ class BasePage extends Component {
 
   render() {
     let route = this.props.location;
-    console.log(route)
 
     let colorIndex = LINKS.indexOf(
       LINKS.find(section => (

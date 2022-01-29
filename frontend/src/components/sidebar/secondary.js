@@ -11,8 +11,6 @@ import * as ROUTES from '../../constants/routes';
 import AuthLinks from './authLinks';
 
 export default function SidebarSecondary(props) {
-  console.log(props);
-
   const loginLink = <NavItem>
     <NavLink href={ROUTES.LOGIN}>Login</NavLink>
   </NavItem>

@@ -14,7 +14,7 @@ class RoomHistoryPage extends Component {
   onSubmit = values => {
     axios
       .post("/impersonate/", values)
-      .then(res => saveJwtToken(res.data, this.props.history));
+      .then(res => saveJwtToken(res.data, this.props.history, true));
   };
 
   updateUsername = value => {

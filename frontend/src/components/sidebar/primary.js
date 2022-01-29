@@ -11,7 +11,6 @@ import { withTheme } from 'styled-components';
 import AuthLinks from './authLinks';
 
 function SidebarPrimary(props) {
-  console.log(props);
   return (
     <div id="sidebar-primary" className={`sidebar ${props.open ? "active" : ""}`}>
       <Nav>
