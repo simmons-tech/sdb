@@ -1,73 +1,73 @@
-import React, { useState } from "react";
-import {
-  Col,
-  Nav,
-  NavItem,
-  NavLink,
-  Row,
-  TabContent,
-  TabPane
-} from "reactstrap";
-import classnames from "classnames";
-import { withRouter } from "react-router-dom";
+import React, { Component } from "react";
 import BasePage from "../../BasePage";
-import Summaries from "./Tabs/Summaries";
+import { Jumbotron, Row, Col } from "reactstrap";
 import Account from "./Tabs/Account";
 
-const TreasuryPage = props => {
-  const [activeTab, setActiveTab] = useState(
-    props.match.params.account ? "2" : "1"
-  );
 
-  const toggle = tab => {
-    if (activeTab !== tab) setActiveTab(tab);
-  };
 
-  return (
-    <BasePage {...props}>
-      <div>
-        <Nav tabs>
-          <NavItem>
-            <NavLink
-              className={classnames({ active: activeTab === "1" })}
-              onClick={() => {
-                toggle("1");
-              }}
-            >
-              Accounts Summaries
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={classnames({ active: activeTab === "2" })}
-              onClick={() => {
-                toggle("2");
-              }}
-            >
-              Manage Account
-            </NavLink>
-          </NavItem>
-        </Nav>
-        <br />
-        <TabContent activeTab={activeTab}>
-          <TabPane tabId="1">
-            <Row>
-              <Col sm="12">
-                <Summaries />
-              </Col>
-            </Row>
-          </TabPane>
-          <TabPane tabId="2">
-            <Row>
-              <Col sm="12">
-                <Account account={props.match.params.account} />
-              </Col>
-            </Row>
-          </TabPane>
-        </TabContent>
-      </div>
-    </BasePage>
-  );
-};
+class TreasuryPage extends Component {
 
-export default withRouter(TreasuryPage);
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      main_account: [],
+      tours_account: [],
+      reserve_account: [],
+    };
+  }
+
+
+  render() {
+    return (
+      <BasePage loading={this.state.loading} header="Treasury">
+          <Jumbotron>
+          <Row className="d-flex align-items-">
+            <h2>
+              All accounts
+            </h2>
+          </Row>
+          <Row className="d-flex flex-column">
+                <div>Balance: {this.state.main_account[0]}</div>
+                <div> Unallocated: {this.state.main_account[1]}</div>
+          </Row>
+          <br></br>
+          <Row>
+            <Col>
+              <Row>
+                <h4>Main House Account</h4>
+              </Row>
+              <Row className="d-flex flex-column">
+                <div>Balance: {this.state.main_account[0]}</div>
+                <div> Unallocated: {this.state.main_account[1]}</div>
+              </Row>
+            </Col>
+            <Col>
+              <Row>
+                <h4>Tours Fund</h4>
+              </Row>
+              <Row className="d-flex flex-column">
+                <div>Balance: {this.state.tours_account[0]}</div>
+                <div> Unallocated: {this.state.tours_account[1]}</div>
+              </Row>
+            </Col>
+            <Col>
+              <Row>
+                <h4>Reserve Account</h4>
+              </Row>
+              <Row className="d-flex flex-column">
+                <div>Balance: {this.state.reserve_account[0]}</div>
+                <div> Unallocated: {this.state.reserve_account[1]}</div>
+              </Row>
+            </Col>
+          </Row>
+          </Jumbotron>
+          <Jumbotron>
+            <Account></Account>
+          </Jumbotron>
+      </BasePage>
+    );
+  }
+}
+
+export default TreasuryPage;
