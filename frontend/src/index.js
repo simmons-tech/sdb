@@ -51,6 +51,7 @@ import AboutPage from './pages/Home/AboutPage';
 import CheckoutList from './pages/Home/CheckoutList';
 import LibraryPage from './pages/Home/LibraryPage';
 import MiscPage from './pages/Home/MiscPage';
+import EventsPage from './pages/Home/EventsPage';
 import MailingListsPage from "./pages/Home/MailingListsPage";
 import NoMatchPage from './pages/NoMatchPage';
 import SignoutPage from './pages/SignoutPage';
@@ -74,6 +75,7 @@ const routing = (
           <Route exact path={ROUTES.MOVIES} component={withSession(CheckoutList)} />
           <Route exact path={ROUTES.LIBRARY} component={withSession(LibraryPage)} />
           <Route exact path={ROUTES.MISC} component={withSession(MiscPage)} />
+          <Route exact path={ROUTES.EVENTS} component={withSession(EventsPage)} />
           <Route exact path={ROUTES.LOGIN} component={withSession(LoginPage)} />
           <Route exact path={ROUTES.SIGN_UP} component={withAuthentication(SignupPage)} />
           <Route exact path={ROUTES.SIGN_OUT} component={SignoutPage} />

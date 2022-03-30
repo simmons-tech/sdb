@@ -22,6 +22,7 @@ export const LINKS = [
     { url: ROUTES.MOVIES, name: "Desk Movies List" },
     { url: ROUTES.LIBRARY, name: "Library Catalog" },
     { url: ROUTES.MISC, name: "Miscellaneous" },
+    { url: ROUTES.EVENTS, name: "Simmons Event Calendar" },
     { url: ROUTES.ABOUT, name: "About the DB" },
     { url: ROUTES.LOGIN, name: "Login", hidden: true },
   ],

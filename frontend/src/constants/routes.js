@@ -14,6 +14,7 @@ export const LOTTERIES = '/home/lotteries'
 export const MOVIES = '/home/movies'
 export const LIBRARY = '/home/library'
 export const MISC = '/home/misc'
+export const EVENTS = '/home/events'
 export const ABOUT = '/home/about'
 
 // House Gov links
