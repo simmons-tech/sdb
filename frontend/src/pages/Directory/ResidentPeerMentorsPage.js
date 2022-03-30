@@ -1,7 +1,13 @@
 import StudentGroupPage from "./StudentGroupPage";
 import React from "react";
 
-const description = (<p>TODO: add description here.</p>)
+const description = (
+  <p>
+    The Resident Peer Mentor Program (RPM) gives upperclass students an
+    opportunity to support and create community for incoming first year
+    students.
+  </p>
+);
 
 const ResidentPeerMentorsPage = () => (
   <StudentGroupPage
@@ -10,4 +16,4 @@ const ResidentPeerMentorsPage = () => (
   />
 );
 
-export default ResidentPeerMentorsPage 
+export default ResidentPeerMentorsPage;
