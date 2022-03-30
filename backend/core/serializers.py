@@ -3,7 +3,7 @@ from rest_framework_jwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import (User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup, DeskWorker,
-                     DeskCaptain, Package, DeskItem, DeskNote, DeskShift, ItemLoan)
+                     DeskCaptain, Package, DeskItem, DeskNote, DeskShift, ItemLoan, Guest, OneTimeEvent)
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -52,6 +52,7 @@ class UserSerializer(serializers.ModelSerializer):
             'title',
             'room',
             'year',
+            'guest_list_renewal_mode',
             'pk'
         )
 
@@ -258,4 +259,33 @@ class DeskShiftSerializer(serializers.ModelSerializer):
             "start_time",
             "end_time",
             "desk_worker"
+        )
+
+
+class GuestSerializer(serializers.ModelSerializer):
+    host = UserSerializer()
+
+    class Meta:
+        model = Guest
+        fields = (
+            'first_name',
+            'last_name',
+            'host',
+            'pk'
+        )
+
+
+class OneTimeEventSerializer(serializers.ModelSerializer):
+    host = UserSerializer()
+    guest_list = GuestSerializer(many=True)
+
+    class Meta:
+        model=OneTimeEvent
+        fields = (
+            'name',
+            'host',
+            'start_time',
+            'end_time',
+            'guest_list',
+            'pk'
         )

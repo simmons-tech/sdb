@@ -7,3 +7,5 @@ from .desk_item import *
 from .desk_notes import *
 from .desk_shift import *
 from .package import *
+from .guest import *
+from .one_time_event import *

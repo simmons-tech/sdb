@@ -21,6 +21,7 @@ import TreasuryPage from './pages/Admin/Treasury/TreasuryPage';
 // User Imports
 import UserPackagePage from "./pages/Home/UserPackagePage";
 import UserItemLoanPage from "./pages/Home/UserItemLoanPage";
+import UserGuestListPage from './pages/Home/UserGuestListPage';
 
 
 // Directory Imports
@@ -68,6 +69,7 @@ const routing = (
           <Route exact path={ROUTES.HOME} component={withAuthentication(HomePage)} />
           <Route exact path={ROUTES.MAILING_LISTS} component={withAuthentication(MailingListsPage)} />
           <Route exact path={ROUTES.PROFILE} component={withAuthentication(ProfilePage)} />
+          <Route exact path={ROUTES.GUEST_LIST} component={withAuthentication(UserGuestListPage)} />
           <Route exact path={ROUTES.ABOUT} component={withSession(AboutPage)} />
           <Route exact path={ROUTES.MOVIES} component={withSession(CheckoutList)} />
           <Route exact path={ROUTES.LIBRARY} component={withSession(LibraryPage)} />

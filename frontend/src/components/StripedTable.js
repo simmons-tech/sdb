@@ -4,7 +4,7 @@ import { Table } from "reactstrap"
 export default function UserTable(props) {
   return (
     <Fragment>
-      {props.rows.length} results
+      {!props?.hideRowCount ? `${props.rows.length} results` : ""}
       <Table striped bordered responsive style={{backgroundColor: "white"}}>
         <thead>
           <tr>
