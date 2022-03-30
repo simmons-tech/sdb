@@ -53,9 +53,9 @@ class DeskHome extends Component {
 
         // get all checked out items
         axios.get("/api/deskitems/out/").then(res => {
-            res.data.map(item => {
+            res.data.forEach(item => {
                 axios.get("/api/deskitems/" + item.pk + "/loans/").then(res2 => {
-                    res2.data.map(val => {
+                    res2.data.forEach(val => {
                         this.setState({
                             items:[[
                                 val.resident.display_name, 

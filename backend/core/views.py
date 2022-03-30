@@ -337,6 +337,16 @@ class UserList(viewsets.ModelViewSet):
     queryset = User.objects.exclude(hidden=True).exclude(is_active=False)
     serializer_class = UserSerializer
 
+    @action(detail=False, methods=['get'])
+    def get_logged_in(self, request):
+        user = request.user
+        return Response({
+            'user': UserSerializer(user).data,
+            'is_admin': Administrator.active_objects.filter(user=user).exists(),
+            'is_desk_worker': DeskWorker.active_objects.filter(user=user).exists(),
+            'is_desk_captain': DeskCaptain.active_objects.filter(user=user).exists()
+        })
+
     @action(detail=True, methods=['get'])
     def get_profile(self, request, pk=None):
         """

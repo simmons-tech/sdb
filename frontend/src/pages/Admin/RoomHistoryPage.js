@@ -3,7 +3,7 @@ import BasePage from "../BasePage";
 import DirectoryAutocomplete from "../../components/DirectoryAutocomplete";
 import axios from "../../axiosInstance";
 import { Form, Input, FormGroup, Button, Col, Table } from "reactstrap";
-import saveToken from "../../login";
+import { saveJwtToken } from "../../login";
 
 class RoomHistoryPage extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class RoomHistoryPage extends Component {
   onSubmit = values => {
     axios
       .post("/impersonate/", values)
-      .then(res => saveToken(res.data, this.props.history));
+      .then(res => saveJwtToken(res.data, this.props.history));
   };
 
   updateUsername = value => {

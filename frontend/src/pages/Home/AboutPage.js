@@ -25,6 +25,7 @@ class AboutPage extends Component {
               <tr>Luke Bordonaro</tr>
               <tr>Ronak Roy</tr>
               <tr>Samantha York</tr>
+              <tr>Andi Qu</tr>
             </tbody>
           </Table>
         </Jumbotron>

@@ -69,7 +69,7 @@ class RegisterPackages extends Component {
         // used to send a register all added packages. 
         // add desk_worker to the submission
         let list = []
-        this.state.added_packages.map((values) => {
+        this.state.added_packages.forEach((values) => {
             let temp = {
                 username: values[4],
                 location: values[1],

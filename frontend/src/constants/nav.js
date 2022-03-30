@@ -21,6 +21,7 @@ export const LINKS = [
     { url: ROUTES.LOTTERIES, name: "Lotteries" },
     { url: ROUTES.MOVIES, name: "Desk Movies List" },
     { url: ROUTES.LIBRARY, name: "Library Catalog" },
+    { url: ROUTES.MISC, name: "Miscellaneous" },
     { url: ROUTES.ABOUT, name: "About the DB" },
     { url: ROUTES.LOGIN, name: "Login", hidden: true },
   ],

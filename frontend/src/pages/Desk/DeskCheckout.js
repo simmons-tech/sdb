@@ -121,6 +121,7 @@ class DeskCheckout extends Component {
             searched_user: false,
             selected_user: false,
             num_available: false,
+            instruction: "Select a category of item to checkout",
             pk: false,
             page_pk: [],
             users: [],
@@ -136,6 +137,7 @@ class DeskCheckout extends Component {
             selected_user: false,
             username: "",
             display_name: "",
+            instruction: "Select a category of item to checkout",
         });
     }
 
