@@ -40,7 +40,10 @@ router.register(r'deskshifts', views.DeskShifts, 'deskshifts')
 router.register(r'deskitems', views.DeskItems, 'deskitems')
 router.register(r'loans', views.ItemLoans, 'loans')
 router.register(r'guests', views.Guests, 'guests')
-router.register(r'one_time_events', views.OneTimeEvents, 'one_time_events')
+router.register(r'onetimeevents', views.OneTimeEvents, 'onetimeevents'),
+router.register(r'lounges', views.Lounges, 'lounges')
+router.register(r'loungeannouncements', views.LoungeAnnouncements, 'loungeannouncements')
+router.register(r'loungeevents', views.LoungeEvents, 'loungeevents')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

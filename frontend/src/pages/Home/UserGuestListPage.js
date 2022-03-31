@@ -137,7 +137,7 @@ const UserGuestListPage = (props) => {
   function onEventDeletion(event) {
     // TODO: Use a modal for confirmation?
     if (window.confirm(`Remove this one-time event?`)) {
-      axios.delete(`/api/one_time_events/${event.pk}/`).then(() => {
+      axios.delete(`/api/onetimeevents/${event.pk}/`).then(() => {
         setLoading(true);
       });
     }
@@ -182,7 +182,7 @@ const UserGuestListPage = (props) => {
       );
     } else {
       axios
-        .post("/api/one_time_events/", {
+        .post("/api/onetimeevents/", {
           name: values.eventName,
           start_time: values.startTime,
           end_time: values.endTime,

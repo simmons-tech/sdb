@@ -12,12 +12,11 @@ export default class StudentGroupPage extends Component {
   componentDidMount() {
     this.setState({ loading: true });
     axios.get(this.props.endpoint).then(res => {
-      console.log(res.data)
       this.setState({
         loading: false,
         rows: res.data.map(item => [
           item.display_name,
-          item.room.number,
+          item.room?.number,
           <a href={"mailto:" + item.email}>{item.email}</a>
         ])
       });

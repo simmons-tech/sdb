@@ -9,3 +9,6 @@ from .desk_shift import *
 from .package import *
 from .guest import *
 from .one_time_event import *
+from .lounge import *
+from .lounge_event import *
+from .lounge_announcement import *

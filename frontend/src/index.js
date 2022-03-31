@@ -59,6 +59,9 @@ import SignupPage from './pages/SignupPage';
 import { history } from './routing.js';
 import * as serviceWorker from './serviceWorker';
 import theme from "./theme.js";
+import LoungeAnnouncements from './pages/Lounges/LoungeAnnouncements';
+import MyLounge from './pages/Lounges/MyLounge';
+import LoungeEvents from './pages/Lounges/LoungeEvents';
 
 
 const routing = (
@@ -104,6 +107,9 @@ const routing = (
           <Route exact path={ROUTES.DESK_ADD_ITEM} component={deskCaptainOnly(AddDeskItem)} />
           <Route exact path={ROUTES.PACKAGES} component={withAuthentication(UserPackagePage)} />
           <Route exact path={ROUTES.LOANS} component={withAuthentication(UserItemLoanPage)} />
+          <Route exact path={ROUTES.ANNOUNCEMENTS} component={withAuthentication(LoungeAnnouncements)} />
+          <Route exact path={ROUTES.MY_LOUNGE} component={withAuthentication(MyLounge)} />
+          <Route exact path={ROUTES.LOUNGE_EVENTS} component={withAuthentication(LoungeEvents)} />
           <Route component={NoMatchPage}/>
         </Switch>
       </ThemeProvider>

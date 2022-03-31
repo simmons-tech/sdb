@@ -59,3 +59,7 @@ class DeskWorker(Group):
 
 class DeskCaptain(Group):
     pass
+
+
+class SocialChair(Group):
+    pass

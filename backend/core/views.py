@@ -18,8 +18,6 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
 )
 
-from core.models import one_time_event
-
 from .exceptions import InvalidUserCSVException
 from .models import *
 from .permissions import *
@@ -534,6 +532,18 @@ class UserList(viewsets.ModelViewSet):
             'one_time_events': events_serializer.data,
         }, status=status.HTTP_200_OK)
 
+    @action(detail=True, methods=['get'])
+    def my_lounge(self, request, pk=None):
+        """
+        Gets the user's lounge.
+        """
+        user = self.get_object()
+        lounge = user.lounge
+        if lounge == None:
+            return Response(None)
+        serializer = LoungeSerializer(lounge)
+        return Response(serializer.data)
+
     def list(self, request):
         """
         Returns a list of the first 5 Users who match
@@ -999,3 +1009,60 @@ class OneTimeEvents(viewsets.ModelViewSet):
         event.save()
 
         return Response({'status': 'created'}, status=status.HTTP_201_CREATED)
+
+
+class Lounges(viewsets.ModelViewSet):
+    queryset = Lounge.objects.all()
+    serializer_class = LoungeSerializer
+
+    def get_permissions(self):
+        if self.action in ('join', 'list',):
+            permission_classes = (IsAuthenticated,)
+        else:
+            permission_classes = (IsSocialChair,)
+        return [permission() for permission in permission_classes]
+
+    @action(detail=True, methods=['post'])
+    def join(self, request, pk):
+        # TODO: Check that joining/switching lounges is still valid
+        lounge = self.get_object()
+        user = request.user.lounge
+        # Change the funds
+        # TODO: Check that these don't become negative
+        if len(user.lounge.members) == MEMBER_THRESHOLD:
+            user.lounge.budget_allocated -= MEMBER_THRESHOLD * BUDGET_PER_MEMBER
+            user.lounge.budget_remaining -= MEMBER_THRESHOLD * BUDGET_PER_MEMBER
+        elif len(user.lounge.members) > MEMBER_THRESHOLD:
+            user.lounge.budget_allocated -= BUDGET_PER_MEMBER
+            user.lounge.budget_remaining -= BUDGET_PER_MEMBER
+        user.lounge = lounge
+        if len(user.lounge.members) == MEMBER_THRESHOLD:
+            user.lounge.budget_allocated += MEMBER_THRESHOLD * BUDGET_PER_MEMBER
+            user.lounge.budget_remaining += MEMBER_THRESHOLD * BUDGET_PER_MEMBER
+        elif len(user.lounge.members) > MEMBER_THRESHOLD:
+            user.lounge.budget_allocated += BUDGET_PER_MEMBER
+            user.lounge.budget_remaining += BUDGET_PER_MEMBER
+
+
+class LoungeAnnouncements(viewsets.ModelViewSet):
+    queryset = LoungeAnnouncement.objects.all()
+    serializer_class = LoungeAnnouncementSerializer
+
+    def get_permissions(self):
+        if self.action in ('retrieve', 'list',):
+            permission_classes = (IsAuthenticated,)
+        else:
+            permission_classes = (IsSocialChair,)
+        return [permission() for permission in permission_classes]
+
+
+class LoungeEvents(viewsets.ModelViewSet):
+    queryset = LoungeEvent.objects.all()
+    serializer_class = LoungeEventSerializer
+
+    def get_permissions(self):
+        if self.action in ('retrieve', 'list', 'create',):
+            permission_classes = (IsAuthenticated,)
+        else:
+            permission_classes = (IsSocialChair,)
+        return [permission() for permission in permission_classes]

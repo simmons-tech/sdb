@@ -2,6 +2,10 @@ from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from core.models.lounge import Lounge
+from core.models.lounge_announcement import LoungeAnnouncement
+from core.models.lounge_event import LoungeEvent
+
 from .models import (User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup, DeskWorker,
                      DeskCaptain, Package, DeskItem, DeskNote, DeskShift, ItemLoan, Guest, OneTimeEvent)
 
@@ -280,7 +284,7 @@ class OneTimeEventSerializer(serializers.ModelSerializer):
     guest_list = GuestSerializer(many=True)
 
     class Meta:
-        model=OneTimeEvent
+        model = OneTimeEvent
         fields = (
             'name',
             'host',
@@ -288,4 +292,46 @@ class OneTimeEventSerializer(serializers.ModelSerializer):
             'end_time',
             'guest_list',
             'pk'
+        )
+
+
+class LoungeEventSerializer(serializers.ModelSerializer):
+    user_created = UserSerializer()
+    approvers = UserSerializer(many=True)
+    goers = UserSerializer(many=True)
+    class Meta:
+        model = LoungeEvent
+        fields = (
+            'id',
+            'date',
+            'description',
+            'cancelled',
+            'amount',
+            'approvers',
+            'goers',
+            'time_created',
+            'user_created',
+            'participants'
+        )
+
+
+class LoungeSerializer(serializers.ModelSerializer):
+    events = LoungeEventSerializer(many=True)
+    class Meta:
+        model = Lounge
+        fields = (
+            'id',
+            'name',
+            'budget_allocated',
+            'budget_remaining',
+            'events'
+        )
+
+
+class LoungeAnnouncementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LoungeAnnouncement
+        fields = (
+            'title',
+            'description'
         )

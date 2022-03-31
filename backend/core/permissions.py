@@ -1,5 +1,7 @@
 from rest_framework import permissions
 
+from core.models.groups import SocialChair
+
 from .models import Administrator, DeskWorker, DeskCaptain
 
 
@@ -31,3 +33,11 @@ class IsDeskCaptain(permissions.BasePermission):
 
     def has_permission(self, request, view):
         return DeskCaptain.active_objects.filter(user=request.user).exists()
+
+
+class IsSocialChair(permissions.BasePermission):
+    """
+    Permission for Social Chair to create and edit lounges.
+    """
+    def has_permission(self, request, view):
+        return SocialChair.active_objects.filter(user=request.user).exists()

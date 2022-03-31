@@ -4,6 +4,8 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from enumchoicefield import EnumChoiceField
+
+from core.models.lounge import Lounge
 from .room import UserRoom
 
 from ..enums import ResidentType
@@ -126,6 +128,15 @@ class User(AbstractUser):
         max_length=11,
         choices=GuestListRenewalMode.choices,
         default=GuestListRenewalMode.MONTHLY
+    )
+
+    # Lounge membership
+    lounge = models.ForeignKey(
+        Lounge,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='members'
     )
 
     REQUIRED_FIELDS = ['year', 'first_name', 'last_name']
