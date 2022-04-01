@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Jumbotron } from "reactstrap";
+import {
+  Button,
+  Card,
+  CardTitle,
+  CardBody,
+  CardText,
+  FormGroup,
+  Label,
+  CardSubtitle,
+} from "reactstrap";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
 
+import { CustomInputForm } from "../../components/CustomFormikInputs";
 import axios from "../../axiosInstance";
 import BasePage from "../BasePage";
 
@@ -10,19 +22,103 @@ const LoungeAnnouncements = (props) => {
 
   useEffect(() => {
     axios.get("/api/loungeannouncements").then((res) => {
-      setAnnouncements(res.data);
+      // Display latest announcements first
+      setAnnouncements(res.data.reverse());
       setLoading(false);
     });
-  }, []);
+  }, [loading]);
+
+  function onSubmit(values) {
+    axios
+      .post("/api/loungeannouncements/", {
+        ...values,
+      })
+      .then(() => {
+        setLoading(true);
+      });
+  }
+
+  function deleteAnnouncement(id) {
+    axios.delete(`/api/loungeannouncements/${id}`).then(() => {
+      setLoading(true);
+    });
+  }
+
+  const Schema = Yup.object().shape({
+    title: Yup.string().required("Required"),
+    description: Yup.string(),
+  });
 
   return (
     <BasePage loading={loading}>
-      <p>TODO: Something that lets social chairs post stuff</p>
+      {props.isSocialChair ? (
+        <div className="mb-3">
+          <h3>New announcement</h3>
+          <Formik
+            initialValues={{
+              title: "",
+              description: "",
+            }}
+            validationSchema={Schema}
+            onSubmit={(values) => onSubmit(values)}
+          >
+            <Form>
+              <FormGroup>
+                <Label for="title">Title</Label>
+                <Field
+                  name="title"
+                  type={"text"}
+                  id="title"
+                  component={CustomInputForm}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for="description">Description</Label>
+                <Field
+                  name="description"
+                  type={"textarea"}
+                  id="description"
+                  component={CustomInputForm}
+                />
+              </FormGroup>
+              <Button type="submit">Post announcement</Button>
+            </Form>
+          </Formik>
+          <hr />
+        </div>
+      ) : null}
       {announcements.map((announcement) => (
-        <Jumbotron>
-          <h2>{announcement.title}</h2>
-          {announcement.description}
-        </Jumbotron>
+        <Card key={announcement.id} className="mb-3">
+          <CardBody>
+            <CardTitle
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+              }}
+            >
+              <h2>{announcement.title}</h2>
+              {props.isSocialChair ? (
+                <Button
+                  color="danger"
+                  onClick={() => deleteAnnouncement(announcement.id)}
+                >
+                  Delete
+                </Button>
+              ) : null}
+            </CardTitle>
+            <CardSubtitle>
+              Posted{" "}
+              {new Date(announcement.time_posted).toLocaleString("en-US")}
+            </CardSubtitle>
+            <hr />
+            <CardText>
+              <p style={{ whiteSpace: "pre-line" }}>
+                {announcement.description}
+              </p>
+            </CardText>
+          </CardBody>
+        </Card>
       ))}
       {announcements.length === 0 ? <p>No announcements yet!</p> : null}
     </BasePage>

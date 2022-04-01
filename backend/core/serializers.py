@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from core.models.groups import SocialChair
 
 from core.models.lounge import Lounge
 from core.models.lounge_announcement import LoungeAnnouncement
@@ -18,6 +19,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['is_admin'] = Administrator.active_objects.filter(user=user).exists()
         token['is_desk_worker'] = DeskWorker.active_objects.filter(user=user).exists()
         token['is_desk_captain'] = DeskCaptain.active_objects.filter(user=user).exists()
+        token['is_social_chair'] = SocialChair.active_objects.filter(user=user).exists()
 
         return token
 
@@ -332,6 +334,8 @@ class LoungeAnnouncementSerializer(serializers.ModelSerializer):
     class Meta:
         model = LoungeAnnouncement
         fields = (
+            'id',
             'title',
-            'description'
+            'description',
+            'time_posted',
         )

@@ -92,6 +92,7 @@ def impersonate(request):
     refresh['is_admin'] = Administrator.objects.filter(user=user).exists()
     refresh['is_desk_worker'] = DeskWorker.objects.filter(user=user).exists()
     refresh['is_desk_captain'] = DeskCaptain.objects.filter(user=user).exists()
+    refresh['is_social_chair'] = SocialChair.objects.filter(user=user).exists()
     return Response({
         'refresh': str(refresh),
         'access': str(refresh.access_token),
@@ -192,6 +193,22 @@ class DeskCaptains(viewsets.ModelViewSet):
     @permission_classes([IsAdmin])
     def create(self, request):
         return updateList(request, DeskCaptain.objects)
+
+
+class SocialChairs(viewsets.ModelViewSet):
+    """
+    GET requests return a list of Users that are active Desk Captains.
+    POST requests add Desk Captains and records the order of usernames
+    given. Any usernames not in the POST request are set as inactive.
+    """
+    ids = SocialChair.active_objects.values_list('id')
+    queryset = User.objects.filter(
+        socialchair__id__in=ids).order_by("socialchair__index")
+    serializer_class = UserSerializer
+
+    @permission_classes([IsAdmin])
+    def create(self, request):
+        return updateList(request, SocialChair.objects)
 
 
 class Administrators(viewsets.ModelViewSet):
@@ -342,7 +359,8 @@ class UserList(viewsets.ModelViewSet):
             'user': UserSerializer(user).data,
             'is_admin': Administrator.active_objects.filter(user=user).exists(),
             'is_desk_worker': DeskWorker.active_objects.filter(user=user).exists(),
-            'is_desk_captain': DeskCaptain.active_objects.filter(user=user).exists()
+            'is_desk_captain': DeskCaptain.active_objects.filter(user=user).exists(),
+            'is_social_chair': SocialChair.active_objects.filter(user=user).exists()
         })
 
     @action(detail=True, methods=['get'])

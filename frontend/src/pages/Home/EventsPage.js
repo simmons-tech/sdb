@@ -13,7 +13,7 @@ const EventsPage = (props) => {
           scrolling="auto"
           width="800"
           height="600"
-          frameborder="0"
+          frameBorder="0"
         ></iframe>
       </div>
     </BasePage>

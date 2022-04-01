@@ -95,7 +95,7 @@ class CheckoutList extends Component {
                         <div>
                             <Nav tabs>
                                 {this.state.categories.map((name,index) => (
-                                    <NavItem>
+                                    <NavItem key={index}>
                                         <NavLink
                                             className={classnames({ active: this.state.page_load === index+'' })}
                                             onClick={() => this.handlePageChange(index)}

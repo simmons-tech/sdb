@@ -75,7 +75,7 @@ const routing = (
           <Route exact path={ROUTES.PROFILE} component={withAuthentication(ProfilePage)} />
           <Route exact path={ROUTES.GUEST_LIST} component={withAuthentication(UserGuestListPage)} />
           <Route exact path={ROUTES.ABOUT} component={withSession(AboutPage)} />
-          <Route exact path={ROUTES.MOVIES} component={withSession(CheckoutList)} />
+          <Route exact path={ROUTES.MOVIES} component={withAuthentication(CheckoutList)} />
           <Route exact path={ROUTES.LIBRARY} component={withSession(LibraryPage)} />
           <Route exact path={ROUTES.MISC} component={withSession(MiscPage)} />
           <Route exact path={ROUTES.EVENTS} component={withSession(EventsPage)} />

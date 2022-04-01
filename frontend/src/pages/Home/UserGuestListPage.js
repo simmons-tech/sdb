@@ -35,7 +35,7 @@ const UserGuestListPage = (props) => {
   useEffect(() => {
     // Get the renewal mode
     axios
-      .get(`/api/users/${props.user.pk}/guest_list_renewal_mode/`)
+      .get(`/api/users/${props.user?.pk}/guest_list_renewal_mode/`)
       .then((res) => {
         setRenewalMode(res.data);
       });
@@ -88,7 +88,7 @@ const UserGuestListPage = (props) => {
 
     // Get the guests
     axios
-      .get(`/api/users/guest_list?username=${props.user.username}`)
+      .get(`/api/users/guest_list?username=${props.user?.username}`)
       .then((res) => {
         setGuestList(guestListToTable(res.data.guest_list));
         setOneTimeEvents(
@@ -104,7 +104,7 @@ const UserGuestListPage = (props) => {
         );
       });
     setLoading(false);
-  }, [loading, props.user.pk]);
+  }, [loading, props.user?.pk]);
 
   function onRenewalModeSubmit(values) {
     setRenewalModeStatus("Updating...");

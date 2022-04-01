@@ -24,6 +24,7 @@ export function saveJwtToken(data, history) {
   localStorage.setItem("is_admin", payload.is_admin);
   localStorage.setItem("is_desk_captain", payload.is_desk_captain);
   localStorage.setItem("is_desk_worker", payload.is_desk_worker);
+  localStorage.setItem("is_social_chair", payload.is_social_chair);
   if (history.location.state && history.location.state.goBack) {
     history.goBack();
   } else {
@@ -42,6 +43,7 @@ export async function saveOidcToken(data, history) {
     localStorage.setItem("is_admin", res.data.is_admin);
     localStorage.setItem("is_desk_captain", res.data.is_desk_captain);
     localStorage.setItem("is_desk_worker", res.data.is_desk_worker);
+    localStorage.setItem("is_social_chair", res.data.is_social_chair);
 
     if (history.location.state && history.location.state.goBack) {
       history.goBack();
