@@ -42,9 +42,11 @@ const getNewOidcToken = (instance) => {
         },
       })
       .then((response) => {
+        console.log(response);
         resolve(response.data.access);
       })
       .catch((error) => {
+        console.log(error);
         reject(error);
       });
   });
@@ -62,7 +64,10 @@ const errorHandler = (instance, error) => {
         return Promise.reject({ ...error });
       }
 
-      if (error.response.data.code === "token_not_valid") {
+      if (
+        error.response.data.code === "token_not_valid" ||
+        error.response.data.detail?.startsWith("Invalid access token")
+      ) {
         // Try request again with new token
         return (
           localStorage.getItem("used_oidc") === "true"
@@ -98,6 +103,7 @@ const errorHandler = (instance, error) => {
             });
           })
           .catch((error) => {
+            window.location.replace(ROUTES.SIGN_OUT);
             Promise.reject(error);
           });
       }

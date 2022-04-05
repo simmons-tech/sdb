@@ -46,6 +46,7 @@ class UserSerializer(serializers.ModelSerializer):
     revealed to all logged in users with no security risks.
     """
     room = RoomSerializer()
+    lounge_pk = serializers.ReadOnlyField(source='lounge.pk')
 
     class Meta:
         model = User
@@ -59,6 +60,7 @@ class UserSerializer(serializers.ModelSerializer):
             'room',
             'year',
             'guest_list_renewal_mode',
+            'lounge_pk',
             'pk'
         )
 
@@ -300,20 +302,24 @@ class OneTimeEventSerializer(serializers.ModelSerializer):
 class LoungeEventSerializer(serializers.ModelSerializer):
     user_created = UserSerializer()
     approvers = UserSerializer(many=True)
+    disapprovers = UserSerializer(many=True)
     goers = UserSerializer(many=True)
+    lounge_pk = serializers.ReadOnlyField(source='lounge.pk')
     class Meta:
         model = LoungeEvent
         fields = (
-            'id',
+            'lounge_pk',
             'date',
             'description',
             'cancelled',
             'amount',
             'approvers',
+            'disapprovers',
             'goers',
             'time_created',
             'user_created',
-            'participants'
+            'participants',
+            'pk',
         )
 
 
@@ -322,11 +328,11 @@ class LoungeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lounge
         fields = (
-            'id',
             'name',
             'budget_allocated',
             'budget_remaining',
-            'events'
+            'events',
+            'pk',
         )
 
 
@@ -334,8 +340,8 @@ class LoungeAnnouncementSerializer(serializers.ModelSerializer):
     class Meta:
         model = LoungeAnnouncement
         fields = (
-            'id',
             'title',
             'description',
             'time_posted',
+            'pk',
         )

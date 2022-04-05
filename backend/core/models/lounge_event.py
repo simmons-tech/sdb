@@ -23,6 +23,7 @@ class LoungeEvent(models.Model):
     description = models.TextField(blank=False, null=False)
     amount = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
     approvers = models.ManyToManyField(User, related_name='approved_lounge_events', blank=True)
+    disapprovers = models.ManyToManyField(User, related_name='disapproved_lounge_events', blank=True)
     goers = models.ManyToManyField(User, related_name='going_lounge_events', blank=True)
 
     # Metadata

@@ -13,12 +13,19 @@ const LoungeEvents = (props) => {
       setEvents(res.data);
       setLoading(false);
     });
-  }, []);
+  }, [loading]);
 
   return (
     <BasePage loading={loading}>
       {events != null && events.length !== 0 ? (
-        events.map((event) => <LoungeEvent event={event} key={event.id} />)
+        events.map((event) => (
+          <LoungeEvent
+            event={event}
+            user={props.user}
+            key={event.pk}
+            setLoading={setLoading}
+          />
+        ))
       ) : (
         <p>No events yet.</p>
       )}

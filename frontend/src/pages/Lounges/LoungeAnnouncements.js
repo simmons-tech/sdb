@@ -38,8 +38,8 @@ const LoungeAnnouncements = (props) => {
       });
   }
 
-  function deleteAnnouncement(id) {
-    axios.delete(`/api/loungeannouncements/${id}`).then(() => {
+  function deleteAnnouncement(pk) {
+    axios.delete(`/api/loungeannouncements/${pk}`).then(() => {
       setLoading(true);
     });
   }
@@ -88,7 +88,7 @@ const LoungeAnnouncements = (props) => {
         </div>
       ) : null}
       {announcements.map((announcement) => (
-        <Card key={announcement.id} className="mb-3">
+        <Card key={announcement.pk} className="mb-3">
           <CardBody>
             <CardTitle
               style={{
@@ -101,7 +101,7 @@ const LoungeAnnouncements = (props) => {
               {props.isSocialChair ? (
                 <Button
                   color="danger"
-                  onClick={() => deleteAnnouncement(announcement.id)}
+                  onClick={() => deleteAnnouncement(announcement.pk)}
                 >
                   Delete
                 </Button>
@@ -112,10 +112,8 @@ const LoungeAnnouncements = (props) => {
               {new Date(announcement.time_posted).toLocaleString("en-US")}
             </CardSubtitle>
             <hr />
-            <CardText>
-              <p style={{ whiteSpace: "pre-line" }}>
-                {announcement.description}
-              </p>
+            <CardText style={{ whiteSpace: "pre-line" }}>
+              {announcement.description}
             </CardText>
           </CardBody>
         </Card>

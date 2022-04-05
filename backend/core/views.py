@@ -1084,3 +1084,22 @@ class LoungeEvents(viewsets.ModelViewSet):
         else:
             permission_classes = (IsSocialChair,)
         return [permission() for permission in permission_classes]
+
+    @action(detail=True, methods=['post'])
+    def vote(self, request, pk=None):
+        event = self.get_object()
+        user = request.user
+        if user in event.approvers.all() or user in event.disapprovers.all():
+            return Response('User has already responded to this event',
+                            status=status.HTTP_400_BAD_REQUEST)
+        if user not in event.lounge.members.all():
+            return Response('User is not in this lounge',
+                            status=status.HTTP_400_BAD_REQUEST)
+        if request.data['approved']:
+            event.approvers.add(user)
+            if request.data['going']:
+                event.goers.add(user)
+        else:
+            event.disapprovers.add(user)
+        event.save()
+        return Response(status=status.HTTP_200_OK)
