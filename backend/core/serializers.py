@@ -325,6 +325,7 @@ class LoungeEventSerializer(serializers.ModelSerializer):
 
 class LoungeSerializer(serializers.ModelSerializer):
     events = LoungeEventSerializer(many=True)
+    members = UserSerializer(many=True)
     class Meta:
         model = Lounge
         fields = (
@@ -332,6 +333,7 @@ class LoungeSerializer(serializers.ModelSerializer):
             'budget_allocated',
             'budget_remaining',
             'events',
+            'members',
             'pk',
         )
 

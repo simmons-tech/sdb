@@ -10,7 +10,7 @@ const LoungeEvents = (props) => {
 
   useEffect(() => {
     axios.get("/api/loungeevents").then((res) => {
-      setEvents(res.data);
+      setEvents(res.data.reverse());
       setLoading(false);
     });
   }, [loading]);
