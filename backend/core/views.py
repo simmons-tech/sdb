@@ -551,16 +551,30 @@ class UserList(viewsets.ModelViewSet):
         }, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['get'])
-    def my_lounge(self, request, pk=None):
+    def alerts(self, request, pk=True):
         """
-        Gets the user's lounge.
+        Gets a list of alerts to show in the alerts modal
         """
         user = self.get_object()
-        lounge = user.lounge
-        if lounge == None:
-            return Response(None)
-        serializer = LoungeSerializer(lounge)
-        return Response(serializer.data)
+        # Check that it's the user making this request
+        if user.pk != self.request.user.pk:
+            return Response(None, status=status.HTTP_401_UNAUTHORIZED)
+
+        alerts = [] # Alert strings
+        # Packages
+        if len(user.received_package.all()) != 0:
+            alerts.append(f'You have {len(user.received_package.all())} package(s) at desk')
+        # Lounges
+        settings = SocialChairSettings.get_solo()
+        if settings.lounge_signups_open:
+            alerts.append(f'Lounge signups are now open')
+        awaiting_lounge_events = user.lounge.events.filter(
+           ~Q(approvers__username__icontains=user.username) &
+           ~Q(disapprovers__username__icontains=user.username)).all()
+        if len(awaiting_lounge_events) != 0:
+            alerts.append(f'You have {len(awaiting_lounge_events)} lounge event(s) awaiting your vote')
+        # TODO: Voting
+        return Response(alerts, status=status.HTTP_200_OK)
 
     def list(self, request):
         """
@@ -1037,29 +1051,40 @@ class Lounges(viewsets.ModelViewSet):
         if self.action in ('join', 'list',):
             permission_classes = (IsAuthenticated,)
         else:
-            permission_classes = (IsSocialChair,)
+            permission_classes = (IsSocialChair | IsAdmin,)
         return [permission() for permission in permission_classes]
 
     @action(detail=True, methods=['post'])
-    def join(self, request, pk):
-        # TODO: Check that joining/switching lounges is still valid
+    def signup(self, request, pk):
+        settings = SocialChairSettings.get_solo()
+        # Check that joining/switching lounges is still valid
+        if not settings.lounge_signups_open:
+            return Response('Lounge signups are not open at this time',
+                            status=status.HTTP_403_FORBIDDEN)
+
         lounge = self.get_object()
         user = request.user.lounge
         # Change the funds
-        # TODO: Check that these don't become negative
-        if len(user.lounge.members) == MEMBER_THRESHOLD:
-            user.lounge.budget_allocated -= MEMBER_THRESHOLD * BUDGET_PER_MEMBER
-            user.lounge.budget_remaining -= MEMBER_THRESHOLD * BUDGET_PER_MEMBER
-        elif len(user.lounge.members) > MEMBER_THRESHOLD:
-            user.lounge.budget_allocated -= BUDGET_PER_MEMBER
-            user.lounge.budget_remaining -= BUDGET_PER_MEMBER
+        # TODO: Check that these don't become negative?
+        thresh = settings.member_threshold
+        val = settings.signup_value
+        if len(user.lounge.members) == thresh:
+            user.lounge.budget_allocated -= thresh * val
+            user.lounge.budget_remaining -= thresh * val
+        elif len(user.lounge.members) > thresh:
+            user.lounge.budget_allocated -= val
+            user.lounge.budget_remaining -= val
+        user.lounge.save()
         user.lounge = lounge
-        if len(user.lounge.members) == MEMBER_THRESHOLD:
-            user.lounge.budget_allocated += MEMBER_THRESHOLD * BUDGET_PER_MEMBER
-            user.lounge.budget_remaining += MEMBER_THRESHOLD * BUDGET_PER_MEMBER
-        elif len(user.lounge.members) > MEMBER_THRESHOLD:
-            user.lounge.budget_allocated += BUDGET_PER_MEMBER
-            user.lounge.budget_remaining += BUDGET_PER_MEMBER
+        if len(user.lounge.members) == thresh:
+            user.lounge.budget_allocated += thresh * val
+            user.lounge.budget_remaining += thresh * val
+        elif len(user.lounge.members) > thresh:
+            user.lounge.budget_allocated += val
+            user.lounge.budget_remaining += val
+        user.lounge.save()
+        user.save()
+        return Response(status=status.HTTP_202_ACCEPTED)
 
 
 class LoungeAnnouncements(viewsets.ModelViewSet):
@@ -1070,7 +1095,7 @@ class LoungeAnnouncements(viewsets.ModelViewSet):
         if self.action in ('retrieve', 'list',):
             permission_classes = (IsAuthenticated,)
         else:
-            permission_classes = (IsSocialChair,)
+            permission_classes = (IsSocialChair | IsAdmin,)
         return [permission() for permission in permission_classes]
 
 
@@ -1082,7 +1107,7 @@ class LoungeEvents(viewsets.ModelViewSet):
         if self.action in ('retrieve', 'list', 'create',):
             permission_classes = (IsAuthenticated,)
         else:
-            permission_classes = (IsSocialChair,)
+            permission_classes = (IsSocialChair | IsAdmin,)
         return [permission() for permission in permission_classes]
 
     @action(detail=True, methods=['post'])
@@ -1102,4 +1127,43 @@ class LoungeEvents(viewsets.ModelViewSet):
         else:
             event.disapprovers.add(user)
         event.save()
-        return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_202_ACCEPTED)
+
+    @action(detail=True, methods=['post'])
+    def finalize(self, request, pk=None):
+        event = self.get_object()
+        if event.finalized or event.cancelled:
+            return Response('This event has already been finalized or cancelled', status=status.HTTP_400_BAD_REQUEST)
+        
+        # TODO: Set values (participants, amount) and check not cancelled or finalized already
+        event.finalized = True
+        event.save()
+        return Response(status=status.HTTP_202_ACCEPTED)
+
+    @action(detail=True, methods=['post'])
+    def cancel(self, request, pk=None):
+        event = self.get_object()
+        if event.finalized or event.cancelled:
+            return Response('This event has already been finalized or cancelled', status=status.HTTP_400_BAD_REQUEST)
+        event.cancelled = True
+        event.save()
+        return Response(status=status.HTTP_202_ACCEPTED)
+
+
+class SocialChairSettingsViewset(viewsets.ModelViewSet):
+    queryset = SocialChairSettings.objects.all()
+    permission_classes = (IsSocialChair | IsAdmin,)
+    serializer_class = SocialChairSettingsSerializer
+
+    def retrieve(self, request):
+        settings = SocialChairSettings.get_solo()
+        serializer = SocialChairSettingsSerializer(settings)
+        return Response(serializer.data)
+    
+    def update(self, request):
+        settings = SocialChairSettings.get_solo()
+        settings.lounge_signups_open = request.data['lounge_signups_open']
+        settings.signup_value = request.data['signup_value']
+        settings.member_threshold = request.data['member_threshold']
+        settings.save()
+        return Response(status=status.HTTP_202_ACCEPTED)

@@ -1,0 +1,23 @@
+.alerts-modal {
+  position: fixed;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  padding: 0.5rem;
+  width: min(200px, calc(100vw - 1rem));
+  z-index: 999;
+  transition: visibility 0.5s, opacity 0.5s linear;
+}
+
+.close-button {
+  cursor: pointer;
+  margin-right: 0.25rem;
+}
+
+.alerts-modal ul {
+  margin-left: 1.25rem;
+  padding-left: 0;
+}
+
+.alerts-modal li {
+  font-size: small;
+}

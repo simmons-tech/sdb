@@ -16,7 +16,3 @@ class Lounge(models.Model):
     # Budget goes up to 10 million dollars for now
     budget_allocated = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False, default=0)
     budget_remaining = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False, default=0)    
-
-
-MEMBER_THRESHOLD = 10
-BUDGET_PER_MEMBER = 30

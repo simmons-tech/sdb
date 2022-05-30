@@ -3,12 +3,9 @@ from rest_framework_jwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from core.models.groups import SocialChair
 
-from core.models.lounge import Lounge
-from core.models.lounge_announcement import LoungeAnnouncement
-from core.models.lounge_event import LoungeEvent
-
 from .models import (User, Administrator, Officer, Room, Section, UserRoom, Account, AccountGroup, DeskWorker,
-                     DeskCaptain, Package, DeskItem, DeskNote, DeskShift, ItemLoan, Guest, OneTimeEvent)
+                     DeskCaptain, Package, DeskItem, DeskNote, DeskShift, ItemLoan, Guest, OneTimeEvent, Lounge,
+                     LoungeAnnouncement, LoungeEvent, SocialChairSettings)
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -319,6 +316,7 @@ class LoungeEventSerializer(serializers.ModelSerializer):
             'time_created',
             'user_created',
             'participants',
+            'finalized',
             'pk',
         )
 
@@ -346,4 +344,14 @@ class LoungeAnnouncementSerializer(serializers.ModelSerializer):
             'description',
             'time_posted',
             'pk',
+        )
+
+
+class SocialChairSettingsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SocialChairSettings
+        fields = (
+            'lounge_signups_open',
+            'signup_value',
+            'member_threshold'
         )

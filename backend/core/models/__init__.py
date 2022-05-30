@@ -12,3 +12,4 @@ from .one_time_event import *
 from .lounge import *
 from .lounge_event import *
 from .lounge_announcement import *
+from .social_chair_settings import *

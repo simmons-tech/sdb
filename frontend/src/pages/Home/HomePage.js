@@ -3,6 +3,8 @@ import BasePage from '../BasePage';
 import {Card, CardBody, CardTitle, CardText} from "reactstrap"
 import axios from '../../axiosInstance';
 
+import AlertsModal from "../../components/AlertsModal";
+
 const withHttp = url => !/^https?:\/\//i.test(url) ? `http://${url}` : url;
 
 class HomePage extends Component {
@@ -57,6 +59,7 @@ class HomePage extends Component {
             Only residents that have a quote or favorite item set can appear here.
           </p>
         }
+        <AlertsModal user={this.props.user}/>
       </BasePage>
     );
   }

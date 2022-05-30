@@ -38,7 +38,6 @@ const LoungeEvent = (props) => {
   }
 
   const event = props.event;
-  // TODO: Call only once
   const goers = event.goers.map((user) => user.username);
   const approvers = event.approvers.map((user) => user.username);
   const disapprovers = event.disapprovers.map((user) => user.username);

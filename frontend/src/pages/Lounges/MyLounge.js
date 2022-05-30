@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import axios from "../../axiosInstance";
-import LoungeEvent from "../../components/LoungeEvent";
 import BasePage from "../BasePage";
-import LoungeDetail from "./LoungeDetail";
+import LoungeDetail from "../../components/LoungeDetail";
 
 const MyLounge = (props) => {
   if (props.user.lounge_pk != null) {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import axios from "../../axiosInstance";
-import LoungeEvent from "../../components/LoungeEvent";
-import BasePage from "../BasePage";
+import axios from "../axiosInstance";
+import LoungeEvent from "./LoungeEvent";
+import BasePage from "../pages/BasePage";
 
 const LoungeDetail = (props) => {
   const [loading, setLoading] = useState(true);

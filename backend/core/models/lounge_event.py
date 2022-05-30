@@ -37,3 +37,4 @@ class LoungeEvent(models.Model):
         related_name='created_lounge_events'
     )
     participants = models.IntegerField(blank=False, null=False, default=0)
+    finalized = models.BooleanField(blank=False, null=False, default=False)
