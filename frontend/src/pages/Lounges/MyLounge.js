@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import BasePage from "../BasePage";
 import LoungeDetail from "../../components/LoungeDetail";

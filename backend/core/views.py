@@ -1138,6 +1138,26 @@ class LoungeEvents(viewsets.ModelViewSet):
         else:
             permission_classes = (IsSocialChair | IsAdmin,)
         return [permission() for permission in permission_classes]
+    
+    def create(self, request):
+        user = request.user
+        if user.lounge == None:
+            return Response('User is not part of a lounge yet',
+                            status=status.HTTP_403_FORBIDDEN)
+        try:
+            event = LoungeEvent.objects.create(
+                lounge=user.lounge,
+                date=request.data.pop('date'),
+                description=request.data.pop('description'),
+                amount=request.data.pop('amount'),
+                user_created=user
+            )
+            event.save()
+            return Response('Lounge event successfully created',
+                            status=status.HTTP_201_CREATED)
+        except:
+            # TODO: Check why the error happened and report back to client
+            return Response('Error creating event', status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=['post'])
     def vote(self, request, pk=None):

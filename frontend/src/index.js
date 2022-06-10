@@ -64,6 +64,7 @@ import LoungeAnnouncements from './pages/Lounges/LoungeAnnouncements';
 import MyLounge from './pages/Lounges/MyLounge';
 import LoungeEvents from './pages/Lounges/LoungeEvents';
 import CreateLounge from './pages/Lounges/CreateLounge';
+import CreateLoungeEvent from './pages/Lounges/CreateLoungeEvent';
 
 
 const routing = (
@@ -113,6 +114,7 @@ const routing = (
           <Route exact path={ROUTES.MY_LOUNGE} component={withAuthentication(MyLounge)} />
           <Route exact path={ROUTES.LOUNGE_EVENTS} component={withAuthentication(LoungeEvents)} />
           <Route exact path={ROUTES.CREATE_LOUNGE} component={socialChairOnly(CreateLounge)} />
+          <Route exact path={ROUTES.CREATE_LOUNGE_EVENT} component={withAuthentication(CreateLoungeEvent)} />
           <Route component={NoMatchPage}/>
         </Switch>
       </ThemeProvider>
