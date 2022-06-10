@@ -7,6 +7,7 @@ import * as ROUTES from './constants/routes';
 import adminOnly from './hoc/adminOnly';
 import deskOnly from "./hoc/deskOnly";
 import deskCaptainOnly from "./hoc/deskCaptainOnly";
+import socialChairOnly from './hoc/socialChairOnly';
 import withAuthentication from './hoc/withAuthentication';
 import withSession from "./hoc/withSession";
 import './index.css';
@@ -62,6 +63,7 @@ import theme from "./theme.js";
 import LoungeAnnouncements from './pages/Lounges/LoungeAnnouncements';
 import MyLounge from './pages/Lounges/MyLounge';
 import LoungeEvents from './pages/Lounges/LoungeEvents';
+import CreateLounge from './pages/Lounges/CreateLounge';
 
 
 const routing = (
@@ -110,6 +112,7 @@ const routing = (
           <Route exact path={ROUTES.ANNOUNCEMENTS} component={withAuthentication(LoungeAnnouncements)} />
           <Route exact path={ROUTES.MY_LOUNGE} component={withAuthentication(MyLounge)} />
           <Route exact path={ROUTES.LOUNGE_EVENTS} component={withAuthentication(LoungeEvents)} />
+          <Route exact path={ROUTES.CREATE_LOUNGE} component={socialChairOnly(CreateLounge)} />
           <Route component={NoMatchPage}/>
         </Switch>
       </ThemeProvider>

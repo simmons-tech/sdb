@@ -1,4 +1,5 @@
 from django.contrib import admin
+from solo.admin import SingletonModelAdmin
 
 from .models import *
 
@@ -24,4 +25,4 @@ admin.site.register(OneTimeEvent)
 admin.site.register(Lounge)
 admin.site.register(LoungeEvent)
 admin.site.register(LoungeAnnouncement)
-admin.site.register(SocialChairSettings)
+admin.site.register(SocialChairSettings, SingletonModelAdmin)

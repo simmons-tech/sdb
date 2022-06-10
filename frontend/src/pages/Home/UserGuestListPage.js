@@ -104,7 +104,7 @@ const UserGuestListPage = (props) => {
         );
       });
     setLoading(false);
-  }, [loading, props.user?.pk]);
+  }, [loading, props.user]);
 
   function onRenewalModeSubmit(values) {
     setRenewalModeStatus("Updating...");

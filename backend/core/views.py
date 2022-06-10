@@ -1053,6 +1053,35 @@ class Lounges(viewsets.ModelViewSet):
         else:
             permission_classes = (IsSocialChair | IsAdmin,)
         return [permission() for permission in permission_classes]
+    
+    def create(self, request):
+        # Check that no such lounge exists already
+        if Lounge.objects.filter(id=request.data['id']):
+            return Response({
+                'message': 'A lounge with this ID already exists!',
+                'status': 'danger'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            first_contact = User.objects.get(username=request.data.pop('first_contact'))
+            second_contact = User.objects.get(username=request.data.pop('second_contact'))
+            lounge = Lounge.objects.create(
+                id=request.data.pop('id'),
+                name=request.data.pop('name'),
+                first_contact=first_contact,
+                second_contact=second_contact
+            )
+            lounge.save()
+
+            return Response({
+                'message': 'Lounge successfully created!',
+                'status': 'success'
+            }, status=status.HTTP_201_CREATED)
+        except:
+            return Response({
+                'message': 'There was an error creating this lounge',
+                'status': 'danger'
+            }, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=['post'])
     def signup(self, request, pk):
