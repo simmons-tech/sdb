@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card } from "reactstrap";
+import { Toast, ToastHeader, ToastBody } from "reactstrap";
 
 import axios from "../axiosInstance";
 import "./AlertsModal.css";
@@ -30,21 +30,18 @@ const AlertsModal = (props) => {
   }
 
   return (
-    <Card
-      className="alerts-modal"
-      style={{ visibility: showModal ? "visible" : "hidden", opacity: showModal ? 1 : 0 }}
-    >
-      <div style={{ display: "flex", justifyContent: "end" }}>
-        <span className="close-button" onClick={closeModal}>
-          ×
-        </span>
-      </div>
-      <ul>
-        {alerts.map((alert) => (
-          <li>{alert}</li>
-        ))}
-      </ul>
-    </Card>
+    <Toast isOpen={showModal} className="alerts-modal">
+      <ToastHeader toggle={closeModal}>
+        <strong>Alerts</strong>
+      </ToastHeader>
+      <ToastBody>
+        <ul>
+          {alerts.map((alert) => (
+            <li>{alert}</li>
+          ))}
+        </ul>
+      </ToastBody>
+    </Toast>
   );
 };
 
